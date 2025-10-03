@@ -1,16 +1,68 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="#">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/style.css">
-    <meta name="description" content="Hey hey! Guess who just popped in to brighten your day—yep, it’s me!">
-    <meta name="keywords" content="Bamoo,ichiko,个人主页,个人网站">
-    <title></title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="#">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="description" content="Hey hey! Guess who just popped in to brighten your day—yep, it’s me!">
+  <meta name="keywords" content="Bamoo,ichiko,个人主页,个人网站">
+  <title></title>
+  <style>
+    /* 首屏极简加载占位 */
+    #boot-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, .35);
+      backdrop-filter: blur(6px)
+    }
+
+    #boot-loading .bl-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px
+    }
+
+    #boot-loading .bl-icon {
+      width: 56px;
+      height: 56px;
+      animation: bl-rotate 1s linear infinite;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .25))
+    }
+
+    #boot-loading .bl-text {
+      color: #eaeaea;
+      font-size: 14px;
+      letter-spacing: .5px
+    }
+
+    @keyframes bl-rotate {
+      from {
+        transform: rotate(0)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="boot-loading" role="status" aria-live="polite">
+    <div class="bl-wrap">
+      <img class="bl-icon" src="/img/loader.svg" alt="loading" />
+      <div class="bl-text">初期化中…</div>
+    </div>
+  </div>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>

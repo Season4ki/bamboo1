@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="pa-0 tab2">
-        <v-tabs v-model="tab" :items="tabs" align-tabs="center" height="25" slider-color=var(--mjc-vcard-color)>
+        <v-tabs v-model="tab" :items="tabs" align-tabs="center" height="25" slider-color=var(--bamboo1-vcard-color)>
             <template v-slot:tab="{ item }">
                 <v-tab :prepend-icon="item.icon" :text="item.text" :value="item.value" class="text-none"></v-tab>
             </template>
@@ -17,7 +17,7 @@
                                         <template v-slot:activator="{ props }">
                                             <v-btn variant="tonal" v-bind="props"
                                                 :density="smAndDown ? 'compact' : 'default'">
-                                                <v-icon>mdi-arrow-down</v-icon>
+                                                <v-icon>mdi-arrow-down-bold-outline</v-icon>
                                             </v-btn>
                                         </template>
                                         <v-card class="d-flex flex-column">
@@ -140,12 +140,12 @@ export default {
             tab: null,
             tabs: [
                 {
-                    icon: 'mdi-panorama-variant-outline',
+                    icon: 'mdi-panorama-outline',
                     text: '静止画',
                     value: 'tab-1',
                 },
                 {
-                    icon: 'mdi-video-input-svideo',
+                    icon: 'mdi-video-high-definition',
                     text: '動く壁紙',
                     value: 'tab-2',
                 },
@@ -205,21 +205,21 @@ export default {
                 this.snackbar = true;
                 return;
             }
-            let mjcdatabackground = this.getCookie("mjcdatabackground");
+            let bamboo1databackground = this.getCookie("bamboo1databackground");
             delete this.radios.loaded;
             if (this.type == 'mobile') {
                 this.background.mobile.type = this.tab === 'tab-1' ? 'pic' : 'video';
                 this.background.mobile.datainfo = this.radios;
-                if (mjcdatabackground) {
-                    this.background.pc = mjcdatabackground.pc;
+                if (bamboo1databackground) {
+                    this.background.pc = bamboo1databackground.pc;
                 } else {
                     this.background.pc = this.configdata.background.pc;
                 }
             } else {
                 this.background.pc.type = this.tab === 'tab-1' ? 'pic' : 'video';
                 this.background.pc.datainfo = this.radios;
-                if (mjcdatabackground) {
-                    this.background.mobile = mjcdatabackground.mobile;
+                if (bamboo1databackground) {
+                    this.background.mobile = bamboo1databackground.mobile;
                 } else {
                     this.background.mobile = this.configdata.background.mobile;
                 }
@@ -228,7 +228,7 @@ export default {
             this.loading2 = true
             setTimeout(() => {
                 this.loading = false;
-                this.setCookie('mjcdatabackground', this.background, 0.005);
+                this.setCookie('bamboo1databackground', this.background, 0.005);
                 location.reload();
             }, 800)
         },
@@ -236,7 +236,7 @@ export default {
             this.loading1 = true
             setTimeout(() => {
                 this.loading = false;
-                this.eraseCookie('mjcdatabackground');
+                this.eraseCookie('bamboo1databackground');
                 location.reload();
             }, 800)
         },
@@ -327,15 +327,15 @@ video {
 }
 
 .selectedStyle {
-    border: 2px solid var(--mjc-vcard-color);
+    border: 2px solid var(--bamboo1-vcard-color);
 
     box-shadow: 0 0 10px rgba(25, 118, 210, 0.5), ;
 }
 
 .selected-item {
-    border-color: var(--mjc-vcard-color);
+    border-color: var(--bamboo1-vcard-color);
     /* 选中时的边框颜色 */
-    box-shadow: 0 0 10px var(--mjc-vcard-color);
+    box-shadow: 0 0 10px var(--bamboo1-vcard-color);
     /* 选中时的阴影 */
 }
 </style>

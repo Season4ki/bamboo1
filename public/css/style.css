@@ -6,18 +6,18 @@
 
 @font-face {
     font-family: "digitalfont";
-    src: url("../fonts/Digital-Play-Italic-St-1.ttf");
+    src: url("../fonts/DS-DIGI.TTF");
     font-display: swap;
 }
 
 :root {
     /*
-    --mjc-background-image-url
-    --mjc-welcomtitle-color ;
-    --mjc-vcard-color
-    --mjc-brightness
-    --mjc-blur 
-    --mjc-blur
+    --bamboo1-background-image-url
+    --bamboo1-welcomtitle-color ;
+    --bamboo1-vcard-color
+    --bamboo1-brightness
+    --bamboo1-blur 
+    --bamboo1-blur
     */
 }
 

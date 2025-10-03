@@ -1,5 +1,5 @@
 <template>
-    <div class="mjc-typewriter">
+    <div class="bamboo1-typewriter">
         <span class="qm">❝</span>
         <span ref="text" class="msg"></span>
         <span class="qm">❞</span>
@@ -31,7 +31,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.mjc-typewriter {
+.bamboo1-typewriter {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -81,9 +81,13 @@ onMounted(() => {
 }
 
 @media (max-width: 960px) {
-    .mjc-typewriter {
+    .bamboo1-typewriter {
         flex-direction: column;
         gap: 0.2em;
+        padding: 1rem 0;
+        /* 增加上下内边距，防止被其他元素遮挡 */
+        margin: 1rem 0;
+        /* 增加上下外边距 */
     }
 
     .msg,

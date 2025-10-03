@@ -1,7 +1,7 @@
 .v-card {
-    backdrop-filter: blur(var(--mjc-blur));
+    backdrop-filter: blur(var(--bamboo1-blur));
     border-radius: 5%;
-    color: var(--mjc-vcard-color);
+    color: var(--bamboo1-vcard-color);
 }
 
 .vapp-fullscreen-background {
@@ -14,20 +14,54 @@
 
     .floating-switch-container {
         position: fixed;
-        right: 0;
-        z-index: 99;
+        right: -28px;
+        top: 50%;
+        transform: translateY(-50%) scale(1.5);
+        z-index: 999;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        opacity: 0.9;
     }
+
+    .floating-switch-container:hover {
+        right: 10px;
+        opacity: 1;
+    }
+
 
     .floating-switch {
-        transform: translateX(53%);
-        /* 初始状态下隐藏大部分 */
-        transition: transform 0.3s ease;
+        opacity: 0.9;
     }
 
-    .floating-switch:hover {
-        transform: translateX(0);
-        /* 悬停时完全展开 */
+    .label-hide.selected {
+        color: #00ffff;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        transform: scale(1.1);
     }
+
+    .label-show.selected {
+        color: #ff6b6b;
+        text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+        transform: scale(1.1);
+    }
+
+    .sleek-toggle:hover {
+        transform: scale(1.02);
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow:
+            0 0 30px rgba(0, 255, 255, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .sleek-toggle.active {
+        background: rgba(0, 0, 0, 0.9);
+        border: 2px solid rgba(255, 107, 107, 0.6);
+        box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+        transform: scale(1.1);
+        width: 70px;
+        height: 160px;
+        padding: 20px 10px;
+    }
+
 
     /* 调整视频元素的样式，使其全屏作为背景 */
     .video-bg {
@@ -43,7 +77,7 @@
         object-fit: cover;
         margin: auto;
         background-clip: padding-box;
-        filter: brightness(var(--mjc-brightness));
+        filter: brightness(var(--bamboo1-brightness));
     }
 
     .loading {
@@ -69,7 +103,7 @@
         opacity: 0
     }
 
-    .mjc-left {
+    .bamboo1-left {
         height: 100vh;
         display: flex;
         flex-direction: column;
@@ -79,7 +113,7 @@
         &-welcome {
             margin-top: 20px;
             width: 100%;
-            color: var(--mjc-welcomtitle-color);
+            color: var(--bamboo1-welcomtitle-color);
             padding: 0 2rem;
             font-family: "myfont";
         }
@@ -102,7 +136,7 @@
                 overflow: hidden;
             }
 
-            .mjc-spin {
+            .bamboo1-spin {
                 animation: spin 6s linear infinite;
             }
 
@@ -140,7 +174,7 @@
         }
 
         &-socialIconsContainer {
-            .mjc-social-bticon:hover {
+            .bamboo1-social-bticon:hover {
                 transform: scale(1.2);
             }
         }
@@ -149,13 +183,14 @@
     .clock-font {
         font-family: "digitalfont";
         font-weight: 800;
+        font-size: 1.5rem;
     }
 }
 
 /* 添加一个::before伪元素降低背景图片的亮度，而不会影响background元素的其他内容 */
 .vapp-fullscreen-background::before {
     content: "";
-    background-image: var(--mjc-background-image-url);
+    background-image: var(--bamboo1-background-image-url);
     transition: background-image 0.8s ease;
     background-size: cover;
     background-position: center;
@@ -164,5 +199,5 @@
     height: 100%;
     z-index: -1;
     /* 调整亮度值  */
-    filter: brightness(var(--mjc-brightness));
+    filter: brightness(var(--bamboo1-brightness));
 }

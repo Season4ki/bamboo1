@@ -48,7 +48,7 @@ export function dataConsole() {
         |  .-----------------.  |  |     +---------+      | 
         |  |                 |  |  |     | -==----'|      | 
         |  |  I LOVE YOU!    |  |  |     |         |      | 
-        |  |  FROM %cmjc.top%c |  |  |/----|'---=    |      | 
+        |  |  FROM %cbamboo1.top%c |  |  |/----|'---=    |      | 
         |  |  Copyright ©    |  |  |   ,/|==== ooo |      ; 
         |  |      ${new Date().getFullYear()}       |  |  |  // |(((( [33]|    ,"  
         |  ·-----------------'  |," .;'| |((((     |  ,"    

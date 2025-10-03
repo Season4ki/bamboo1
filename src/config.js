@@ -1,14 +1,14 @@
 const config = {
   //网页元数据
   metaData: {
-    title: 'mjc.1 homepage',
+    title: 'bamboo1.1 homepage',
     description: 'ようこそ、私のソウルソサエティへ',
-    keywords: 'mjc,no.1,个人主页,个人网站',
+    keywords: 'bamboo1,no.1,个人主页,个人网站',
     icon: '/favicon.ico'   //网页图标，支持外链
   },
 
   avatar: "/img/avatar.jpg", // 头像
-  welcometitle: "Hi,I'm mjc. Welcome to my Soul Society.", // 标题
+  welcometitle: "Hi,I'm bamboo.1. Welcome to my Soul Society.", // 标题
 
   // 颜色配置
   color: {
@@ -26,9 +26,9 @@ const config = {
     "pc": {   //pc端
       "type": "video",   //"pic":静态壁纸;"video":动态壁纸
       "datainfo": {
-        "title": "星见雅01",
-        "preview": "/img/wallpaper/dynamic/星见雅01/hoshimi-01-pre.mp4",
-        "url": "/img/wallpaper/dynamic/星见雅01/hoshimi-01.mp4"    //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"
+        "title": "流光萤火",
+        "preview": "/img/wallpaper/dynamic/流光萤火/firefly-pre.mp4",
+        "url": "/img/wallpaper/dynamic/流光萤火/firefly.mp4"    //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"
       },
     },
     "mobile": {   //移动端
@@ -43,15 +43,15 @@ const config = {
   },
 
   //极坐标图数据
-  polarChart: {
+  radarChart: {
     skills: ['Vue.js', 'React', 'JavaScript', 'Node', 'Java', 'Python', 'linux', 'Html', 'MySQL', 'CSS', 'AWS'],
     skillPoints: [85, 78, 88, 90, 80, 78, 85, 65, 82, 78, 70],
   },
 
   //社交按钮
   socialPlatformIcons: [
-    { icon: "mdi-github", link: "https://www.github.com/" },
     { icon: "mdi-email", link: "mailto:" },
+    { icon: "mdi-github", link: "https://www.github.com/" },
     { icon: "mdi-qqchat", link: "https://im.qq.com/" },
     { icon: "mdi-wechat", link: "https://wx.qq.com/" },
     { icon: "mdi-youtube", link: "https://www.youtube.com" },
@@ -80,6 +80,10 @@ const config = {
       { "title": "露西01", "preview": "/img/wallpaper/static/露西01/Lucy-01-pre.webp", "url": "/img/wallpaper/static/露西01/Lucy-01.jpg" },
       { "title": "腐草为萤", "preview": "/img/wallpaper/static/腐草为萤/image-pre.webp", "url": "/img/wallpaper/static/腐草为萤/image.png" },
       { "title": "腐草为萤", "preview": "/img/wallpaper/static/腐草为萤/image2-pre.webp", "url": "/img/wallpaper/static/腐草为萤/image2.jpeg" },
+      { "title": "蕾赛01", "preview": "/img/wallpaper/static/蕾赛01/Reze-01-pre.webp", "url": "/img/wallpaper/static/蕾赛01/Reze-01.jpg" },
+      { "title": "守岸人01", "preview": "/img/wallpaper/static/守岸人01/shorekeeper-01-pre.webp", "url": "/img/wallpaper/static/守岸人01/shorekeeper-01.webp" },
+      { "title": "今汐01", "preview": "/img/wallpaper/static/今汐01/jinxi-01-pre.webp", "url": "/img/wallpaper/static/今汐01/jinxi-01.webp" },
+
       // { "title": "jswcMaMj", "preview": "https://file.uhsea.com/2503/76a4f03e8654d6e66bbbc7e8149c2fe33M.png", "url": "https://file.uhsea.com/2503/5b8a20a5f2b269659911c9485d0d0c3f0F.png" },
 
 
@@ -131,7 +135,6 @@ const config = {
         "preview": "/img/wallpaper/dynamic/芙宁娜01/Furina-01-pre.mp4",
         "url": "/img/wallpaper/dynamic/芙宁娜01/Furina-01.mp4"
       },
-
     ],
     videoMobile: [
       // {
@@ -154,13 +157,13 @@ const config = {
 
   //项目卡片 其中 字段"show"控制初始卡片的text是否展开
   projectcards: [
-    { go: "\u3000ジャンプ!", img: "/img/school.jpg", title: "中央情報専門学校", subtitle: "1,000 miles of quiet longing", text: "If you see this line, I've managed to get your attention.", url: "https://www.ccmc.ac.jp/", show: false },
+    { go: "\u3000ジャンプ!", img: "/img/nightcity.jpg", title: "Project 1", subtitle: "1,000 miles of quiet longing", text: "If you see this line, I've managed to get your attention.", url: "https://www.ccmc.ac.jp/", show: false },
     { go: "\u3000ジャンプ!", img: "/img/nightcity.jpg", title: "Project 2", subtitle: "2,000 miles of drifting shadows", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
     { go: "\u3000ジャンプ!", img: "/img/nightcity.jpg", title: "Project 3", subtitle: "3,000 miles of forgotten dreams", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
     { go: "\u3000ジャンプ!", img: "/img/nightcity.jpg", title: "Project 4", subtitle: "4,000 miles of fading light", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false }
   ],
 
-  statement: ["备案号：XXICP备123456789号", "Copyright © 2025 mjc.1"],
+  statement: ["备案号：XXICP备123456789号", "Copyright © 2025 bamboo1.1"],
 }
 
 export default config

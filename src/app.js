@@ -1,9 +1,10 @@
-import homeright from '../src/components/hoemright.vue';
+import homeright from '../src/components/homeseting.vue';
 import typewriter from './components/typewriter.vue'
 import tab2 from './components/tabs/tab2.vue';
 import tab3 from './components/tabs/tab3.vue';
-import polarchart from './components/polarchart.vue';
+import radarChart from './components/radarChart.vue';
 import LyricsBox from './components/LyricsBox.vue';
+import PageLoading from './components/PageLoading.vue';
 import config from './config.js';
 import { getCookie } from './utils/cookieUtils.js';
 import { setMeta, getFormattedTime, getFormattedDate, dataConsole } from './utils/common.js';
@@ -11,7 +12,7 @@ import { useDisplay } from 'vuetify'
 
 export default {
   components: {
-    tab2, tab3, homeright, typewriter, polarchart, LyricsBox
+    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading
   },
   setup() {
     const { xs, sm, md } = useDisplay();
@@ -20,6 +21,7 @@ export default {
   data() {
     return {
       isloading: false,
+      isAppBootLoading: true,
       isClearScreen: false,
       formattedTime: "",
       formattedDate: "",
@@ -44,18 +46,20 @@ export default {
       showLyricsBox: false,
       currentLyrics: '',
       lyricsTimer: null, // 歌词更新定时器
+      syncTimer: null, // APlayer状态同步定时器
+      currentPlayTime: 0, // 当前播放时间
 
       projectcards: null,
       tab: null,
       tabs: [
         {
-          icon: 'mdi-wallpaper',
+          icon: 'mdi-postage-stamp',
           text: '背景プレビュー',
           value: 'tab-2',
           component: "tab2",
         },
         {
-          icon: 'mdi-music-circle-outline',
+          icon: 'mdi-music',
           text: '音楽再生',
           value: 'tab-3',
           component: "tab3",
@@ -122,11 +126,13 @@ export default {
       this.formattedDate = this.getFormattedDate(new Date());
       setTimeout(() => {
         this.isloading = false;
+        this.isAppBootLoading = false;
       }, "500");
     }).catch((err) => {
       console.error('背景の読み込みに失敗しました:', err);
       setTimeout(() => {
         this.isloading = false;
+        this.isAppBootLoading = false;
       }, "100");
     });
 
@@ -141,9 +147,14 @@ export default {
   beforeDestroy() {
     if (this.$refs.audioPlayer) {
       this.$refs.audioPlayer.removeEventListener('ended', this.nextTrack);
+      if (this.audioTimeUpdateHandler) {
+        this.$refs.audioPlayer.removeEventListener('timeupdate', this.audioTimeUpdateHandler);
+      }
     }
     // 清理歌词监听定时器
     this.stopLyricsMonitoring();
+    // 清理状态同步定时器
+    this.stopSyncTimer();
   },
 
   watch: {
@@ -162,11 +173,20 @@ export default {
     audioLoading(val) {
       if (!this.useAPlayer) {
         this.isPlaying = !val;
+        console.log('audioLoading 改变了 isPlaying 状态为:', !val);
       }
     },
     // 监听 playlistIndex 变化，更新头像播放器显示
     playlistIndex(newIndex) {
       this.updateAvatarPlayerInfo(newIndex);
+    },
+    // 添加 isPlaying 监控
+    isPlaying(newVal, oldVal) {
+      console.log('isPlaying 状态变化:', {
+        从: oldVal,
+        到: newVal,
+        时间戳: Date.now()
+      });
     }
   },
 
@@ -176,52 +196,63 @@ export default {
     },
     audioPlayer() {
       return this.$refs.audioPlayer;
+    },
+    currentTime() {
+      return this.currentPlayTime;
     }
   },
 
   methods: {
     getCookie, setMeta, getFormattedTime, getFormattedDate, dataConsole,
 
+    onBootMaskRemoved() {
+      // 保险清理：若 index.html 注入的占位层仍在，移除之
+      const boot = document.getElementById('boot-loading');
+      if (boot && boot.parentElement) {
+        try { boot.parentElement.removeChild(boot); } catch (_) { }
+      }
+    },
+
     setMainProperty(imageurl) {
       const root = document.documentElement;
-      let mjcdata = this.getCookie("mjcdata");
-      if (mjcdata) {
-        root.style.setProperty('--mjc-welcomtitle-color', `${mjcdata.color.welcometitlecolor}`);
-        root.style.setProperty('--mjc-vcard-color', `${mjcdata.color.themecolor}`);
-        root.style.setProperty('--mjc-brightness', `${mjcdata.brightness}%`);
-        root.style.setProperty('--mjc-blur', `${mjcdata.blur}px`);
+      let bamboo1data = this.getCookie("bamboo1data");
+      if (bamboo1data) {
+        root.style.setProperty('--bamboo1-welcomtitle-color', `${bamboo1data.color.welcometitlecolor}`);
+        root.style.setProperty('--bamboo1-vcard-color', `${bamboo1data.color.themecolor}`);
+        root.style.setProperty('--bamboo1-brightness', `${bamboo1data.brightness}%`);
+        root.style.setProperty('--bamboo1-blur', `${bamboo1data.blur}px`);
       } else {
-        root.style.setProperty('--mjc-welcomtitle-color', `${this.configdata.color.welcometitlecolor}`);
-        root.style.setProperty('--mjc-vcard-color', `${this.configdata.color.themecolor}`);
-        root.style.setProperty('--mjc-brightness', `${this.configdata.brightness}%`);
-        root.style.setProperty('--mjc-blur', `${this.configdata.blur}px`);
+        root.style.setProperty('--bamboo1-welcomtitle-color', `${this.configdata.color.welcometitlecolor}`);
+        root.style.setProperty('--bamboo1-vcard-color', `${this.configdata.color.themecolor}`);
+        root.style.setProperty('--bamboo1-brightness', `${this.configdata.brightness}%`);
+        root.style.setProperty('--bamboo1-blur', `${this.configdata.blur}px`);
       }
 
-      let mjcdatabackground = this.getCookie("mjcdatabackground");
+      let bamboo1databackground = this.getCookie("bamboo1databackground");
       const { xs } = useDisplay();
-      if (mjcdatabackground) {
+      if (bamboo1databackground) {
         if (xs.value) {
-          if (mjcdatabackground.mobile.type == "pic") {
-            root.style.setProperty('--mjc-background-image-url', `url('${mjcdatabackground.mobile.datainfo.url}')`);
-            imageurl = mjcdatabackground.mobile.datainfo.url;
+          if (bamboo1databackground.mobile.type == "pic") {
+            root.style.setProperty('--bamboo1-background-image-url', `url('${bamboo1databackground.mobile.datainfo.url}')`);
+            imageurl = bamboo1databackground.mobile.datainfo.url;
             return imageurl;
           } else {
-            this.videosrc = mjcdatabackground.mobile.datainfo.url;
+            this.videosrc = bamboo1databackground.mobile.datainfo.url;
           }
         } else {
-          if (mjcdatabackground.pc.type == "pic") {
-            root.style.setProperty('--mjc-background-image-url', `url('${mjcdatabackground.pc.datainfo.url}')`);
-            imageurl = mjcdatabackground.pc.datainfo.url;
+          if (bamboo1databackground.pc.type == "pic") {
+            root.style.setProperty('--bamboo1-background-image-url', `url('${bamboo1databackground.pc.datainfo.url}')`);
+            imageurl = bamboo1databackground.pc.datainfo.url;
             return imageurl;
           } else {
-            this.videosrc = mjcdatabackground.pc.datainfo.url;
+            this.videosrc = bamboo1databackground.pc.datainfo.url;
           }
         }
 
       } else {
         if (xs.value) {
           if (this.configdata.background.mobile.type == "pic") {
-            root.style.setProperty('--mjc-background-image-url', `url('${this.configdata.background.mobile.datainfo.url}')`);
+            root.style.setProperty('--bamboo1-background-image-url', `url('${this.configdata.background.mobile.datainfo.url}')`);
             imageurl = this.configdata.background.mobile.datainfo.url;
             return imageurl;
           } else {
@@ -229,7 +260,7 @@ export default {
           }
         } else {
           if (this.configdata.background.pc.type == "pic") {
-            root.style.setProperty('--mjc-background-image-url', `url('${this.configdata.background.pc.datainfo.url}')`);
+            root.style.setProperty('--bamboo1-background-image-url', `url('${this.configdata.background.pc.datainfo.url}')`);
             imageurl = this.configdata.background.pc.datainfo.url;
             return imageurl;
           } else {
@@ -276,17 +307,26 @@ export default {
     setupAudioListener() {
       if (this.$refs.audioPlayer) {
         this.$refs.audioPlayer.addEventListener('ended', this.nextTrack);
+        // 添加时间更新监听器
+        this.audioTimeUpdateHandler = () => {
+          if (!this.useAPlayer && this.isPlaying) {
+            this.currentPlayTime = this.$refs.audioPlayer.currentTime || 0;
+          }
+        };
+        this.$refs.audioPlayer.addEventListener('timeupdate', this.audioTimeUpdateHandler);
       }
     },
 
     // 新增：更新头像播放器的歌曲信息显示
     updateAvatarPlayerInfo(index) {
       if (this.musicinfo && this.musicinfo[index]) {
+        // 现在主要依赖Vue的响应式绑定，但保留DOM操作作为备用
         this.$nextTick(() => {
-          if (this.$refs.audiotitle) {
+          // 主要更新逻辑已经通过Vue绑定处理，这里只是确保同步
+          if (this.$refs.audiotitle && this.$refs.audiotitle.innerText !== this.musicinfo[index].title) {
             this.$refs.audiotitle.innerText = this.musicinfo[index].title;
           }
-          if (this.$refs.audioauthor) {
+          if (this.$refs.audioauthor && this.$refs.audioauthor.innerText !== this.musicinfo[index].author) {
             this.$refs.audioauthor.innerText = this.musicinfo[index].author;
           }
         });
@@ -295,13 +335,38 @@ export default {
 
     // 播放控制方法 - 同时支持原生播放器和 APlayer
     togglePlay() {
+      console.log('togglePlay 被调用，当前状态:', {
+        useAPlayer: this.useAPlayer,
+        isPlaying: this.isPlaying,
+        aplayerPaused: this.aplayerInstance ? this.aplayerInstance.audio.paused : 'N/A'
+      });
+
       if (this.useAPlayer && this.aplayerInstance) {
-        // 使用 APlayer 时，先暂停原生播放器
+        // 使用 APlayer 时，先暂停原生播放器（如果在播放）
         if (this.$refs.audioPlayer && !this.$refs.audioPlayer.paused) {
+          console.log('暂停原生播放器');
           this.$refs.audioPlayer.pause();
-          this.isPlaying = false;
         }
+
+        // 记录操作前的状态
+        const wasPlaying = !this.aplayerInstance.audio.paused;
+        console.log('调用 APlayer toggle，操作前状态:', wasPlaying ? '播放' : '暂停');
+
+        // 直接切换 APlayer 的播放状态
         this.aplayerInstance.toggle();
+
+        // 短暂延迟后检查状态同步
+        this.$nextTick(() => {
+          const currentlyPlaying = !this.aplayerInstance.audio.paused;
+          console.log('APlayer toggle 完成，当前状态:', currentlyPlaying ? '播放' : '暂停');
+
+          // 如果状态没有正确同步，强制同步
+          if (this.isPlaying !== currentlyPlaying) {
+            console.log('检测到状态不同步，强制同步:', currentlyPlaying);
+            this.isPlaying = currentlyPlaying;
+            this.$forceUpdate();
+          }
+        });
       } else {
         // 使用原生播放器时，先暂停 APlayer（如果存在且正在播放）
         if (this.aplayerInstance && !this.aplayerInstance.audio.paused) {
@@ -320,7 +385,26 @@ export default {
       if (this.useAPlayer && this.aplayerInstance) {
         // 使用 APlayer - 直接调用 skipBack
         this.aplayerInstance.skipBack();
-        // 不需要手动更新 playlistIndex，会通过 emit 事件更新
+        // 立即同步状态，确保头像播放器信息更新
+        // 使用多个时间点检查状态，确保同步成功
+        setTimeout(() => {
+          if (this.aplayerInstance && this.aplayerInstance.list) {
+            const currentIndex = this.aplayerInstance.list.index;
+            this.playlistIndex = currentIndex;
+            this.updateAvatarPlayerInfo(currentIndex);
+          }
+        }, 50);
+
+        // 备用检查，防止第一次同步失败
+        setTimeout(() => {
+          if (this.aplayerInstance && this.aplayerInstance.list) {
+            const currentIndex = this.aplayerInstance.list.index;
+            if (currentIndex !== this.playlistIndex) {
+              this.playlistIndex = currentIndex;
+              this.updateAvatarPlayerInfo(currentIndex);
+            }
+          }
+        }, 200);
       } else {
         // 使用原生播放器
         this.playlistIndex = this.playlistIndex > 0 ? this.playlistIndex - 1 : this.musicinfo.length - 1;
@@ -332,7 +416,26 @@ export default {
       if (this.useAPlayer && this.aplayerInstance) {
         // 使用 APlayer - 直接调用 skipForward
         this.aplayerInstance.skipForward();
-        // 不需要手动更新 playlistIndex，会通过 emit 事件更新
+        // 立即同步状态，确保头像播放器信息更新
+        // 使用多个时间点检查状态，确保同步成功
+        setTimeout(() => {
+          if (this.aplayerInstance && this.aplayerInstance.list) {
+            const currentIndex = this.aplayerInstance.list.index;
+            this.playlistIndex = currentIndex;
+            this.updateAvatarPlayerInfo(currentIndex);
+          }
+        }, 50);
+
+        // 备用检查，防止第一次同步失败
+        setTimeout(() => {
+          if (this.aplayerInstance && this.aplayerInstance.list) {
+            const currentIndex = this.aplayerInstance.list.index;
+            if (currentIndex !== this.playlistIndex) {
+              this.playlistIndex = currentIndex;
+              this.updateAvatarPlayerInfo(currentIndex);
+            }
+          }
+        }, 200);
       } else {
         // 使用原生播放器
         this.playlistIndex = this.playlistIndex < this.musicinfo.length - 1 ? this.playlistIndex + 1 : 0;
@@ -356,7 +459,24 @@ export default {
     },
 
     updateIsPlaying(isPlaying) {
+      console.log('updateIsPlaying 被调用:', {
+        旧状态: this.isPlaying,
+        新状态: isPlaying,
+        useAPlayer: this.useAPlayer,
+        时间戳: Date.now()
+      });
+
+      // 直接更新状态，确保头像播放器 UI 同步
       this.isPlaying = isPlaying;
+
+      // 强制更新，确保 Vue 检测到状态变化
+      this.$forceUpdate();
+
+      console.log('updateIsPlaying 完成，当前 isPlaying:', this.isPlaying);
+    },
+
+    updateCurrentTime(time) {
+      this.currentPlayTime = time;
     },
 
     updateLyrics(lyrics) {
@@ -368,12 +488,17 @@ export default {
       this.aplayerInstance = aplayer;
       this.useAPlayer = true;
 
-      // 不要暂停原生播放器，让它继续播放
-      // 也不要修改 isPlaying 状态
-      // 让用户可以选择使用哪个播放器
+      // 如果原生播放器正在播放，需要暂停它，避免两个播放器同时播放
+      if (this.$refs.audioPlayer && !this.$refs.audioPlayer.paused) {
+        console.log('APlayer准备就绪，暂停原生播放器避免冲突');
+        this.$refs.audioPlayer.pause();
+      }
 
       // 更新头像播放器显示为当前播放的歌曲
       this.updateAvatarPlayerInfo(this.playlistIndex);
+
+      // 启动状态同步定时器，确保头像播放器信息与APlayer保持同步
+      this.startSyncTimer();
 
       // 如果歌词盒子已经显示，启动歌词监听
       if (this.showLyricsBox) {
@@ -387,6 +512,8 @@ export default {
     onAPlayerDestroy() {
       // 停止歌词监听
       this.stopLyricsMonitoring();
+      // 停止状态同步定时器
+      this.stopSyncTimer();
 
       this.aplayerInstance = null;
       this.useAPlayer = false;
@@ -415,8 +542,23 @@ export default {
 
     // APlayer 开始播放时暂停原生播放器
     onAPlayerPlay() {
+      console.log('APlayer 开始播放，暂停原生播放器');
       if (this.$refs.audioPlayer && !this.$refs.audioPlayer.paused) {
         this.$refs.audioPlayer.pause();
+      }
+      // 确保播放状态正确
+      if (!this.isPlaying) {
+        console.log('onAPlayerPlay 设置 isPlaying = true');
+        this.isPlaying = true;
+      }
+    },
+
+    // APlayer 暂停时确保状态同步
+    onAPlayerPause() {
+      console.log('APlayer 暂停，确保状态同步');
+      // 确保暂停状态正确
+      if (this.isPlaying) {
+        console.log('onAPlayerPause 设置 isPlaying = false');
         this.isPlaying = false;
       }
     },
@@ -515,6 +657,38 @@ export default {
     closeLyricsBox() {
       this.showLyricsBox = false;
       this.stopLyricsMonitoring();
+    },
+
+    // 启动APlayer状态同步定时器
+    startSyncTimer() {
+      if (this.aplayerInstance && this.useAPlayer) {
+        // 清除之前的定时器
+        this.stopSyncTimer();
+
+        // 创建状态同步定时器，每秒检查一次状态
+        this.syncTimer = setInterval(() => {
+          if (this.aplayerInstance && this.aplayerInstance.list) {
+            const currentIndex = this.aplayerInstance.list.index;
+            // 只有当索引真的发生变化时才更新
+            if (currentIndex !== this.playlistIndex) {
+              console.log('同步定时器检测到索引变化:', this.playlistIndex, '->', currentIndex);
+              this.playlistIndex = currentIndex;
+              this.updateAvatarPlayerInfo(currentIndex);
+            }
+          }
+        }, 1000);
+
+        console.log('开始APlayer状态同步监听');
+      }
+    },
+
+    // 停止APlayer状态同步定时器
+    stopSyncTimer() {
+      if (this.syncTimer) {
+        clearInterval(this.syncTimer);
+        this.syncTimer = null;
+        console.log('停止APlayer状态同步监听');
+      }
     },
   }
 };
