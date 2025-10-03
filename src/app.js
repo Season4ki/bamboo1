@@ -5,6 +5,7 @@ import tab3 from './components/tabs/tab3.vue';
 import radarChart from './components/radarChart.vue';
 import LyricsBox from './components/LyricsBox.vue';
 import PageLoading from './components/PageLoading.vue';
+import WeatherChart from './components/WeatherChart.vue';
 import config from './config.js';
 import { getCookie } from './utils/cookieUtils.js';
 import { setMeta, getFormattedTime, getFormattedDate, dataConsole } from './utils/common.js';
@@ -12,7 +13,7 @@ import { useDisplay } from 'vuetify'
 
 export default {
   components: {
-    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading
+    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart
   },
   setup() {
     const { xs, sm, md } = useDisplay();

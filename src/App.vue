@@ -62,6 +62,12 @@
             <radarChart :style="xs || sm ? { 'height': '210px' } : { 'height': '270px' }" />
           </div>
 
+          <!-- 天气组件 -->
+          <div class="bamboo1-left-weather"
+            :style="xs || sm ? { 'margin': '1rem 0.5rem' } : { 'margin': '1.5rem 1rem' }">
+            <WeatherChart :style="xs || sm ? { 'max-width': '280px' } : { 'max-width': '320px' }" />
+          </div>
+
           <v-container class="bamboo1-left-socialIconsContainer">
             <v-row align="center" justify="center">
               <v-col class="pa-1" cols="auto" v-for="item in socialPlatformIcons">
