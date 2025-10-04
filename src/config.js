@@ -7,9 +7,9 @@ const config = {
     icon: '/favicon.ico'   //网页图标，支持外链
   },
 
-  // 新增: 天气相关配置
+  // 天气相关配置  输入你的 OpenWeatherMap API Key
   weather: {
-    apiKey: 'ff252793e358bd233013c2a09149b34d', // 输入你的 OpenWeatherMap API Key
+    apiKey: 'ff252793e358bd233013c2a09149b34d',
     defaultCity: 'Tokyo'
   },
 
@@ -30,25 +30,27 @@ const config = {
   // 默认背景壁纸
   background: {
     "pc": {   //pc端
-      "type": "video",   //"pic":静态壁纸;"video":动态壁纸
+      //"type": "video",   //"pic":静态壁纸;"video":动态壁纸
+      "type": "pic",
       "datainfo": {
         "title": "流光萤火",
         "preview": "/img/wallpaper/dynamic/流光萤火/firefly-pre.mp4",
-        "url": "/img/wallpaper/dynamic/流光萤火/firefly.mp4"    //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"
+        "url": "https://t.mwm.moe/pc"
+        //"url": "/img/wallpaper/dynamic/流光萤火/firefly.mp4"    //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"
       },
     },
     "mobile": {   //移动端
       "type": "pic",
       "datainfo": {
         "title": "0001",
-        "preview": "/img/wallpaper/static-mobile/0001/image-pre.webp",
-        "url": "/img/wallpaper/static-mobile/0001/image.png"  //同理，随机移动端壁纸："url":"https://t.mwm.moe/mp"
+        "preview": "https://t.mwm.moe/mp",
+        "url": "https://t.mwm.moe/mp"  //同理，随机移动端壁纸："url":"https://t.mwm.moe/mp"
       }
     }
 
   },
 
-  //极坐标图数据
+  //雷达图数据
   radarChart: {
     skills: ['Vue.js', 'React', 'JavaScript', 'Node', 'Java', 'Python', 'linux', 'Html', 'MySQL', 'CSS', 'AWS'],
     skillPoints: [85, 78, 88, 90, 80, 78, 85, 65, 82, 78, 70],
@@ -97,13 +99,7 @@ const config = {
     ],
     picMobile: [
       { "title": "0001", "preview": "/img/wallpaper/static-mobile/0001/image-pre.webp", "url": "/img/wallpaper/static-mobile/0001/image.png" },
-      // { "title": "0002", "preview": "/img/wallpaper/static-mobile/0002/image-pre.webp", "url": "/img/wallpaper/static-mobile/0002/image.png" },
-      // { "title": "0003", "preview": "/img/wallpaper/static-mobile/0003/image-pre.webp", "url": "/img/wallpaper/static-mobile/0003/image.png" },
-      // { "title": "0004", "preview": "/img/wallpaper/static-mobile/0004/image-pre.webp", "url": "/img/wallpaper/static-mobile/0004/image.png" },
-      // { "title": "DfNHPPcc", "preview": "https://file.uhsea.com/2503/e3510f4d0286e37b828f74494230f0efM2.png", "url": "https://file.uhsea.com/2503/97b50adb3d4cd6f1a4132f6d3e8c98483T.png" },
-      // { "title": "WIOlrGSy", "preview": "https://file.uhsea.com/2503/99162abfe07e18cfe6182ca3458561ef3A.png", "url": "https://file.uhsea.com/2503/609532b992163117db9b341dde87b78f3C.png" },
-      // { "title": "cZZwzhis", "preview": "https://file.uhsea.com/2503/cf558fa1989c07726778c60be47b9928K8.png", "url": "https://file.uhsea.com/2503/e27b91f1604f73d0444c807024ef7c9fI3.png" },
-      // { "title": "aANKZHPX", "preview": "https://file.uhsea.com/2503/0aa1cb875c8c7c20afd1aa72530294350K.png", "url": "https://file.uhsea.com/2503/b09b65e20e176cb0d22dbc319981b5b45L.png" },
+
     ],
     video: [
       {
@@ -143,21 +139,7 @@ const config = {
       },
     ],
     videoMobile: [
-      // {
-      //   "title": "幻觉镇-gaako_illust",
-      //   "preview": "/img/wallpaper/dynamic-mobile/幻觉镇-gaako_illust/Hallucination_town-pre.mp4",
-      //   "url": "/img/wallpaper/dynamic-mobile/幻觉镇-gaako_illust/Hallucination_town.mp4"
-      // },
-      // {
-      //   "title": "chuva",
-      //   "preview": "/img/wallpaper/dynamic-mobile/chuva/chuva-pre.mp4",
-      //   "url": "/img/wallpaper/dynamic-mobile/chuva/chuva.mp4"
-      // },
-      // {
-      //   "title": "Doodle-小猫女仆降临",
-      //   "preview": "/img/wallpaper/dynamic-mobile/Doodle-小猫女仆降临/d12-pre.mp4",
-      //   "url": "/img/wallpaper/dynamic-mobile/Doodle-小猫女仆降临/d12.mp4"
-      // },
+
     ],
   },
 
