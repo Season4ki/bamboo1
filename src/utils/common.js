@@ -40,25 +40,6 @@ export function getFormattedDate(currentDate) {
 }
 
 export function dataConsole() {
-  console.log(`%c                                                             
-                ,----------------,              ,---------, 
-           ,-----------------------,          ,"        ,"| 
-         ,"                      ,"|        ,"        ,"  | 
-        +-----------------------+  |      ,"        ,"    | 
-        |  .-----------------.  |  |     +---------+      | 
-        |  |                 |  |  |     | -==----'|      | 
-        |  |  I LOVE YOU!    |  |  |     |         |      | 
-        |  |  FROM %cbamboo1.top%c |  |  |/----|'---=    |      | 
-        |  |  Copyright ©    |  |  |   ,/|==== ooo |      ; 
-        |  |      ${new Date().getFullYear()}       |  |  |  // |(((( [33]|    ,"  
-        |  ·-----------------'  |," .;'| |((((     |  ,"    
-        +-----------------------+  ;;  | |         |,"      
-           /_)______________(_/  //'   | +---------+        
-      ___________________________/___  ',                   
-     /  oooooooooooooooo  .o.  oooo /,   \,"-----------      
-    / ==ooooooooooooooo==.o.  ooo= //   ,'\--{)B     ,"      
-   /_==__==========__==_ooo__ooo=_/'   /___________,"       
-   '-----------------------------'                          
-`, 'background-color:#CFFFFB', 'background-color:#CFFFFB;color: #0045FE;', 'background-color:#CFFFFB');
+  console.log('デバッグ情報');
 
 }

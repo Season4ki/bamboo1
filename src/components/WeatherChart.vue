@@ -126,6 +126,7 @@
 <script>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { Chart, registerables } from 'chart.js'
+import config from '../config.js'
 
 Chart.register(...registerables)
 
@@ -148,8 +149,13 @@ export default {
     const locationName = ref('東京の天気') // 現在位置名称
     const currentCoords = ref(null) // 現在座標
 
-    const API_KEY = 'ff252793e358bd233013c2a09149b34d'
-    const DEFAULT_CITY = 'Tokyo' // デフォルト都市（バックアップ方案）
+    // 取得来源优先级: config.weather.apiKey -> 環境変数(VITE_WEATHER_API_KEY) -> window.__APP_CONFIG__ -> (未设置时使用 mock)
+    const API_KEY = (config?.weather?.apiKey || import.meta.env.VITE_WEATHER_API_KEY || (window?.__APP_CONFIG__?.weather?.apiKey) || '').trim()
+    const DEFAULT_CITY = (window?.__APP_CONFIG__?.weather?.defaultCity) || config?.weather?.defaultCity || 'Tokyo' // デフォルト都市
+
+    if (!API_KEY) {
+      console.warn('[WeatherChart] APIキーが未設定です。config.weather.apiKey または VITE_WEATHER_API_KEY を設定してください。未設定の場合はモックデータにフォールバックします。')
+    }
 
     // 天気データを取得
     const fetchWeatherData = async (coords = null, city = null) => {

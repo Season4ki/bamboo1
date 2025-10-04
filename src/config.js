@@ -7,6 +7,12 @@ const config = {
     icon: '/favicon.ico'   //网页图标，支持外链
   },
 
+  // 新增: 天气相关配置
+  weather: {
+    apiKey: 'ff252793e358bd233013c2a09149b34d', // 输入你的 OpenWeatherMap API Key
+    defaultCity: 'Tokyo'
+  },
+
   avatar: "/img/avatar.jpg", // 头像
   welcometitle: "Hi,I'm bamboo.1. Welcome to my Soul Society.", // 标题
 
