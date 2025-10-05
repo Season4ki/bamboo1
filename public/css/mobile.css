@@ -1,9 +1,9 @@
 @media (max-width: 960px) {
-  .bamboo1-left-avatar .musicplayer-text {
+  .Animated-Avatar-Player .musicplayer-text {
     font-size: 10px !important;
   }
 
-  .bamboo1-left-socialIconsContainer .setting {
+  .socialIconsContainer .setting {
     transform: scale(0.8);
     position: fixed;
     right: 5px;

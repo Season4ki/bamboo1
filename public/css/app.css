@@ -82,7 +82,7 @@
   justify-content: space-around;
 }
 
-.vapp-fullscreen-background .bamboo1-left-welcome {
+.vapp-fullscreen-background .welcome-title {
   margin-top: 20px;
   width: 100%;
   color: #FFFFFF;
@@ -90,7 +90,7 @@
   font-family: "myfont";
 }
 
-.vapp-fullscreen-background .bamboo1-left-avatar .musicplayer {
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -100,14 +100,14 @@
   align-items: center;
 }
 
-.vapp-fullscreen-background .bamboo1-left-avatar .musicplayer-text {
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer-text {
   position: absolute;
   font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.vapp-fullscreen-background .bamboo1-left-avatar .bamboo1-spin {
+.vapp-fullscreen-background .Animated-Avatar-Player .bamboo1-spin {
   animation: spin 6s linear infinite;
 }
 
@@ -121,7 +121,7 @@
   }
 }
 
-.vapp-fullscreen-background .bamboo1-left-avatar .fade-in {
+.vapp-fullscreen-background .Animated-Avatar-Player .fade-in {
   animation: fadeIn .6s ease;
 }
 

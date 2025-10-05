@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <div :style="xs || sm ? { 'display': 'none' } : { 'font-size': '4rem' }" class="bamboo1-left-welcome">{{
+      <div :style="xs || sm ? { 'display': 'none' } : { 'font-size': '4rem' }" class="welcome-title">{{
         configdata.welcometitle }}</div>
     </div>
     <div>

@@ -13,13 +13,13 @@
 
     <div v-show="!isloading && !isClearScreen"
       :style="xs || sm ? { 'overflow-y': 'auto', 'overflow-x': 'hidden' } : {}">
-      <v-row style="display: flex; flex-direction: row-reverse;">
+      <v-row style="display: flex;flex-direction: row-reverse;">
         <v-col cols="12" md="4" lg="3" class="bamboo1-left" align="center">
-          <div :style="xs || sm ? { 'font-size': '3.1rem' } : { 'display': 'none' }" class="bamboo1-left-welcome">{{
+          <div :style="xs || sm ? { 'font-size': '3.1rem' } : { 'display': 'none' }" class="welcome-title">{{
             configdata.welcometitle }}</div>
 
           <!-- 头像播放器 - 保持原有功能，现在与 APlayer 同步 -->
-          <v-avatar class="bamboo1-left-avatar" :size="xs || sm ? 120 : 140"
+          <v-avatar class="Animated-Avatar-Player" :size="xs || sm ? 120 : 140"
             :style="xs || sm ? { 'margin-top': '0' } : { 'margin-top': '2rem' }" @mouseenter="musicplayershow(1)"
             @mouseleave="musicplayershow(0)">
             <v-img :class="{ 'bamboo1-spin': isPlaying }" alt="bamboo1" :src=configdata.avatar></v-img>
@@ -54,25 +54,22 @@
             </transition>
           </v-avatar>
 
-          <v-card class="ma-5 pa-2 bamboo1-left-card" variant="tonal" :max-width="xs ? 270 : 300"
-            style="text-align: center;">
-          </v-card>
 
-          <div class="bamboo1-left-chart">
+
+          <div class="radarchart-css">
             <radarChart :style="xs || sm ? { 'height': '210px' } : { 'height': '270px' }" />
           </div>
 
           <!-- 天气组件 -->
-          <div class="bamboo1-left-weather"
-            :style="xs || sm ? { 'margin': '1rem 0.5rem' } : { 'margin': '1.5rem 1rem' }">
+          <div class="weather-css" :style="xs || sm ? { 'margin': '1rem 0.5rem' } : { 'margin': '1.5rem 1rem' }">
             <WeatherChart :style="xs || sm ? { 'max-width': '280px' } : { 'max-width': '320px' }" />
           </div>
 
-          <v-container class="bamboo1-left-socialIconsContainer">
+          <v-container class="socialIconsContainer">
             <v-row align="center" justify="center">
               <v-col class="pa-1" cols="auto" v-for="item in socialPlatformIcons">
-                <v-btn :size="xs ? 25 : 33" variant="tonal" color="#FFFFFF"
-                  class="ma-1 bamboo1-social-bticon" icon :href="item.link" target="_blank">
+                <v-btn :size="xs ? 25 : 33" variant="tonal" color="#FFFFFF" class="ma-1 bamboo1-social-bticon" icon
+                  :href="item.link" target="_blank">
                   <v-icon :icon=item.icon :size="xs ? 20 : 25" class="social-bticon-icon"></v-icon></v-btn>
               </v-col>
             </v-row>
@@ -81,14 +78,13 @@
               <v-col class="ma-1" cols="auto">
                 <v-speed-dial :location="xs || sm ? 'top center' : 'right center'" transition="slide-y-transition">
                   <template v-slot:activator="{ props: activatorProps }">
-                    <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal"
-                      v-bind="activatorProps" rounded="0" icon="mdi-wrench-cog"></v-fab>
+                    <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
+                      rounded="0" icon="mdi-wrench-cog"></v-fab>
                   </template>
                   <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
                     size="31" color="#FFFFFF"></v-btn>
 
-                  <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31"
-                    color="#FFFFFF"></v-btn>
+                  <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
                 </v-speed-dial>
               </v-col>
             </v-row>
