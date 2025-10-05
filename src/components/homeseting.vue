@@ -24,40 +24,67 @@
       </v-row>
 
       <v-chip class="mt-3 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
-        size="large"
-        style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
+        size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
         @click="toggleMode">
         <transition name="fade" mode="out-in">
           <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
         </transition>
       </v-chip>
-      <!-- 项目卡片区域 -->
+      <!-- 项目卡片区域 - 重新设计 -->
       <transition name="slide-fade" mode="out-in">
-        <v-container v-show="!showNewsMode" key="projects">
-          <v-row>
-            <v-col v-for="(item, key) in projectcards" cols="6" md="8" lg="3" :style="[
-              xs ? { padding: '6px' } : {},
-              {
-                borderRadius: '50%',
-                overflow: 'hidden',
-                aspectRatio: '1 / 1'   // 保持正方形，然后通过圆角变椭圆
-              }
-            ]">
-              <v-card class="">
-                <v-img aspect-ratio="1.7778" :src="item.img" cover :style="{ opacity: 0.8 }"></v-img>
-                <v-card-title
-                  :style="xs ? { fontSize: '0.9rem', padding: '0.15rem 0.5rem' } : { fontSize: '1.1rem', padding: '0.2rem 0.8rem' }">
-                  {{ item.title }}
-                </v-card-title>
-                <v-card-subtitle
-                  :style="xs ? { fontSize: '0.6rem', padding: '0.1rem 0.5rem' } : { fontSize: '0.8rem', padding: '0.15rem 0.6rem' }">
-                  {{ item.subtitle }}
-                </v-card-subtitle>
-                <v-card-actions
-                  :style="xs || sm || md ? { padding: '0', minHeight: '0', height: '2.5rem' } : { minHeight: '0', height: '2.8rem' }">
-                  <v-btn :href="item.url" target="_blank" :text="item.go"></v-btn>
-                  <v-spacer></v-spacer>
+        <v-container v-show="!showNewsMode" key="projects" fluid class="pa-4">
+          <v-row justify="center" class="g-4">
+            <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3" class="d-flex">
+              <v-card class="project-card-new flex-grow-1" elevation="12" rounded="xl" hover>
+                <!-- 卡片头部图片区域 -->
+                <div class="card-header" @click="window.open(item.url, '_blank')">
+                  <v-img :src="item.img" height="150" cover class="card-image">
 
+                    <!-- 悬浮时显示的跳转提示 -->
+                    <div class="card-overlay">
+                      <v-btn icon size="large" color="white" variant="elevated" class="jump-btn">
+                        <v-icon size="24">mdi-arrow-top-right</v-icon>
+                      </v-btn>
+                      <p class="overlay-text mt-2">点击访问项目</p>
+                    </div>
+                  </v-img>
+                </div>
+
+                <!-- 卡片内容区域 -->
+                <v-card-item class="card-content">
+                  <div class="d-flex justify-space-between align-start mb-2">
+                    <div class="flex-grow-1">
+                      <v-card-title class="project-title pa-0 mb-1">
+                        {{ item.title }}
+                      </v-card-title>
+                      <v-card-subtitle class="project-subtitle pa-0 text-medium-emphasis">
+                        {{ item.subtitle }}
+                      </v-card-subtitle>
+                    </div>
+
+                    <!-- 详情切换按钮 -->
+                    <v-btn icon variant="text" size="small" @click="item.show = !item.show" class="info-toggle-btn">
+                      <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                    </v-btn>
+                  </div>
+
+                  <!-- 展开的详细内容 -->
+                  <v-expand-transition>
+                    <div v-show="item.show" class="project-details">
+                      <v-divider class="my-3"></v-divider>
+                      <p class="project-description text-body-2 mb-3">{{ item.text }}</p>
+
+
+                    </div>
+                  </v-expand-transition>
+                </v-card-item>
+
+                <!-- 卡片底部操作区 -->
+                <v-card-actions class="card-actions px-3 pb-3">
+                  <v-btn :href="item.url" target="_blank" variant="outlined" rounded="pill" size="small"
+                    class="action-btn-transparent flex-grow-1" prepend-icon="mdi-rocket-launch">
+                    {{ item.go }}
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -167,7 +194,189 @@ export default {
   max-width: 100% !important;
 }
 
-/* 响应式优化 */
+/* ======= 重新设计的项目卡片样式 ======= */
+
+/* 主卡片样式 */
+.project-card-new {
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.project-card-new:hover {
+  transform: translateY(-8px);
+  border-color: rgba(139, 69, 255, 0.4);
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 40px rgba(139, 69, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 卡片头部图片区域 */
+.card-header {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card-image {
+  transition: transform 0.4s ease;
+}
+
+.card-header:hover .card-image {
+  transform: scale(1.05);
+}
+
+/* 项目类型标签 */
+.card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(139, 69, 255, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 2;
+}
+
+/* 悬浮覆盖层 */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.card-header:hover .card-overlay {
+  opacity: 1;
+}
+
+.jump-btn {
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.card-header:hover .jump-btn {
+  transform: scale(1);
+}
+
+.overlay-text {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+/* 卡片内容区域 */
+.card-content {
+  padding: 16px !important;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.project-title {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  line-height: 1.3;
+}
+
+.project-subtitle {
+  font-size: 0.8rem !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  line-height: 1.4;
+}
+
+/* 详情切换按钮 */
+.info-toggle-btn {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.info-toggle-btn:hover {
+  opacity: 1;
+}
+
+/* 项目详情区域 */
+.project-details {
+  animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+/* 技术栈标签 */
+.tech-stack .v-chip {
+  margin: 2px;
+  backdrop-filter: blur(10px);
+}
+
+/* 卡片操作区域 */
+.card-actions {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn-transparent {
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0.5px;
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.action-btn-transparent:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+/* 分隔线样式 */
+.project-card-new .v-divider {
+  border-color: rgba(255, 255, 255, 0.15);
+  opacity: 0.6;
+}
+
+/* 响应式设计 */
 @media (max-width: 960px) {
   .mode-toggle-chip {
     font-size: 0.875rem;
@@ -184,5 +393,114 @@ export default {
   .news-container-wrapper {
     padding: 0 8px !important;
   }
+
+  .card-header {
+    height: 130px;
+  }
+
+  .card-image {
+    height: 130px !important;
+  }
+
+  .project-title {
+    font-size: 1rem !important;
+  }
+
+  .project-subtitle {
+    font-size: 0.75rem !important;
+  }
+
+  .card-content {
+    padding: 12px !important;
+  }
+
+  .card-actions {
+    padding: 8px 12px !important;
+  }
+
+  .g-4>.v-col {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .project-card-new {
+    margin-bottom: 16px;
+  }
+
+  .card-badge {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+
+  .project-title {
+    font-size: 1rem !important;
+  }
+
+  .overlay-text {
+    font-size: 0.8rem;
+  }
+
+  .g-4>.v-col {
+    padding: 6px;
+  }
+}
+
+/* 网格间距 */
+.g-4>.v-col {
+  padding: 12px;
+}
+
+/* 卡片进入动画 */
+.project-card-new {
+  animation: cardSlideIn 0.6s ease-out;
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 玻璃边框效果 */
+.project-card-new::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(139, 69, 255, 0.2) 25%,
+      rgba(59, 130, 246, 0.2) 50%,
+      rgba(255, 255, 255, 0.1) 100%);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.project-card-new:hover::before {
+  opacity: 1;
+}
+
+/* 工具提示样式 */
+.v-tooltip .v-overlay__content {
+  background: rgba(0, 0, 0, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  padding: 8px 12px;
 }
 </style>
