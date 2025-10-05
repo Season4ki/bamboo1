@@ -10,16 +10,11 @@
           <typewriter class="ma-3 d-flex align-center justify-center"
             :style="xs || sm ? { 'min-height': '150px' } : { 'min-height': '200px' }"></typewriter>
         </v-col>
-        <v-col cols="12" md="3" align="center"
-          :style="xs || sm ? { 'margin-top': '1rem' } : { 'margin-top': '-200px' }">
-          <v-card class="ma-3" hover>
-            <template v-slot:title>
-              <span class="bamboo1-card-title clock-font">{{ formattedTime }}</span>
-            </template>
-            <template v-slot:subtitle>
-              <span style="font-weight: bold;">{{ formattedDate }}</span>
-            </template>
-          </v-card>
+        <v-col cols="12" md="4" class="d-flex justify-center">
+          <div class="time-card">
+            <div class="time-display">{{ formattedTime }}</div>
+            <div class="date-display">{{ formattedDate }}</div>
+          </div>
         </v-col>
       </v-row>
 
@@ -192,6 +187,97 @@ export default {
 .news-container-wrapper {
   padding: 0 !important;
   max-width: 100% !important;
+}
+
+/* ======= 简洁透明时间卡片样式 ======= */
+
+.time-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  max-width: 240px;
+}
+
+.time-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.time-display {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  font-family: 'digitalfont', 'Courier New', monospace;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  min-width: 140px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.date-display {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-family: 'digitalfont', 'Courier New', monospace;
+}
+
+/* 响应式时间卡片 */
+@media (max-width: 960px) {
+  .time-card {
+    padding: 16px;
+    max-width: 200px;
+    min-width: 160px;
+    margin: 0 auto;
+  }
+
+  .time-display {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+  }
+
+  .date-display {
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .time-card {
+    padding: 12px;
+    max-width: 180px;
+    min-width: 140px;
+  }
+
+  .time-display {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    min-width: 100px;
+  }
+
+  .date-display {
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
 }
 
 /* ======= 重新设计的项目卡片样式 ======= */

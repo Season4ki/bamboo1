@@ -11,11 +11,7 @@
     z-index: 99999;
   }
 
-  /* 移动端时间卡片优化 */
-  .bamboo1-card-title.clock-font {
-    font-size: 1.5rem !important;
-    /* 在手机端缩小时间字体 */
-  }
+
 
   /* 确保时间卡片在移动端有合适的边距 */
   .v-card {
