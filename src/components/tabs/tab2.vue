@@ -280,7 +280,7 @@ export default {
 }
 </script>
 <style scoped>
-@import url(/css/mobile.less);
+@import url(/css/mobile.css);
 </style>
 <style scoped>
 video {

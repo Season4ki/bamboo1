@@ -113,8 +113,8 @@ export default {
 </script>
 
 <style scoped>
-@import url(/css/app.less);
-@import url(/css/mobile.less);
+@import url(/css/app.css);
+@import url(/css/mobile.css);
 
 /* 按钮切换动画 */
 .mode-toggle-chip {

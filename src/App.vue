@@ -142,6 +142,6 @@
 
 <script src="./app.js"></script>
 <style scoped>
-@import url(/css/app.less);
-@import url(/css/mobile.less);
+@import url(/css/app.css);
+@import url(/css/mobile.css);
 </style>
