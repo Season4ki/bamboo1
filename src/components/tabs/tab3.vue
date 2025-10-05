@@ -221,7 +221,7 @@ export default {
         container: this.$refs.aplayerContainer,
         audio: this.aplayerList,
         autoplay: false,
-        theme: '#FFFFFF',
+        theme: getComputedStyle(document.documentElement).getPropertyValue('--bamboo1-vcard-color').trim() || '#b7daff',
         loop: 'all',
         order: 'list',
         preload: 'auto',

@@ -128,7 +128,7 @@ export default {
       console.log('点击了项目卡片:', item);
       console.log('URL:', item.url);
       console.log('Title:', item.title);
-      
+
       if (item.url) {
         window.open(item.url, '_blank');
       } else {

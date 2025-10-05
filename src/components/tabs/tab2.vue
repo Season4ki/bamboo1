@@ -283,9 +283,12 @@ export default {
 @import url(/css/mobile.css);
 </style>
 <style scoped>
+/* ======= 基础组件样式 ======= */
+
 video {
     pointer-events: none;
-    border-radius: 0.5rem;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .itemText {
@@ -293,6 +296,9 @@ video {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .loading-spinner {
@@ -300,42 +306,320 @@ video {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 16px;
+    backdrop-filter: blur(10px);
 }
 
 .video-container {
     position: relative;
     display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .scroll-container {
-    max-height: 300px;
+    max-height: 320px;
     overflow-y: auto;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* 覆盖全局的滚动条样式 */
+/* ======= Vuetify风格的现代化样式 ======= */
+
+/* 主容器样式 */
+.tab2 {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* 选项卡样式 */
+.tab2 .v-tabs {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tab2 .v-tab {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab2 .v-tab:hover {
+    color: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tab2 .v-tab--selected {
+    color: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* 标题区域样式 */
+.itemText {
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 下拉菜单按钮样式 */
+.tab2 .v-btn[variant="tonal"] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.tab2 .v-btn[variant="tonal"]:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+/* 卡片菜单样式 */
+.tab2 .v-card {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.tab2 .v-card .v-btn {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 8px;
+    margin: 4px;
+    transition: all 0.3s ease;
+}
+
+.tab2 .v-card .v-btn:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #FFFFFF !important;
+    transform: translateX(4px);
+}
+
+/* 滚动容器样式 */
+.scroll-container {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 现代化滚动条样式 */
 .scroll-container::-webkit-scrollbar {
-    width: 5px;
-    /* 设置滚动条宽度 */
+    width: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
 }
 
 .scroll-container::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* 设置滚动条颜色 */
-    border-radius: 4px;
-    /* 设置滚动条圆角 */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    transition: background 0.3s ease;
 }
 
-.selectedStyle {
-    border: 2px solid #FFFFFF;
-
-    box-shadow: 0 0 10px rgba(25, 118, 210, 0.5), ;
+.scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 
+/* 图片和视频容器样式 */
+.tab2 .v-img,
+.video-container {
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.tab2 .v-img:hover,
+.video-container:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 选中状态样式 */
 .selected-item {
-    border-color: #FFFFFF;
-    /* 选中时的边框颜色 */
-    box-shadow: 0 0 10px #FFFFFF;
-    /* 选中时的阴影 */
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow:
+        0 0 20px rgba(255, 255, 255, 0.4),
+        0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(-2px) scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* 视频样式 */
+video {
+    pointer-events: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.video-container {
+    position: relative;
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 加载动画样式 */
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.loading-spinner .v-progress-circular {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 分页器样式 */
+.tab2 .v-pagination {
+    margin-top: 16px;
+}
+
+.tab2 .v-pagination .v-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 0 2px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.tab2 .v-pagination .v-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+.tab2 .v-pagination .v-btn--active {
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* 底部提示文字样式 */
+.tab2+div span {
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* 底部按钮区域样式 */
+.tab2~.d-flex .v-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 80px;
+}
+
+.tab2~.d-flex .v-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+}
+
+.tab2~.d-flex .v-btn:active {
+    transform: translateY(0);
+}
+
+/* Snackbar 样式 */
+.v-snackbar {
+    backdrop-filter: blur(20px) !important;
+}
+
+.v-snackbar .v-snackbar__content {
+    background: rgba(33, 150, 243, 0.9) !important;
+    color: #FFFFFF !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    box-shadow: 0 8px 32px rgba(33, 150, 243, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 600px) {
+    .tab2 {
+        margin: 8px;
+        padding: 12px;
+    }
+
+    .scroll-container {
+        max-height: 280px;
+        padding: 6px;
+    }
+
+    .tab2 .v-img,
+    .video-container {
+        border-radius: 8px;
+    }
+
+    .selected-item {
+        transform: translateY(-1px) scale(1.03);
+    }
+}
+
+/* 进入动画 */
+.tab2 .v-tabs-window-item {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>
