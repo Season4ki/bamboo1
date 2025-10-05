@@ -149,7 +149,8 @@ const config = {
     { go: "ジャンプ!", img: "/img/school.jpg", title: "Project 1", subtitle: "1,000 miles of quiet longing", text: "If you see this line, I've managed to get your attention.", url: "https://www.ccmc.ac.jp/", show: false },
     { go: "ジャンプ!", img: "/img/nightcity.jpg", title: "Project 2", subtitle: "2,000 miles of drifting shadows", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
     { go: "ジャンプ!", img: "/img/nightcity.jpg", title: "Project 3", subtitle: "3,000 miles of forgotten dreams", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
-    { go: "ジャンプ!", img: "/img/nightcity.jpg", title: "Project 4", subtitle: "4,000 miles of fading light", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false }
+    { go: "ジャンプ!", img: "/img/nightcity.jpg", title: "Project 4", subtitle: "4,000 miles of fading light", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
+
   ],
 
   statement: ["备案号：XXICP备123456789号", "Copyright © 2025 bamboo1.1"],

@@ -32,12 +32,13 @@
             <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3" class="d-flex">
               <v-card class="project-card-new flex-grow-1" elevation="12" rounded="xl" hover>
                 <!-- 卡片头部图片区域 -->
-                <div class="card-header" @click="window.open(item.url, '_blank')">
+                <div class="card-header" @click="handleCardClick(item)">
                   <v-img :src="item.img" height="150" cover class="card-image">
 
                     <!-- 悬浮时显示的跳转提示 -->
                     <div class="card-overlay">
-                      <v-btn icon size="large" color="white" variant="elevated" class="jump-btn">
+                      <v-btn icon size="large" color="white" variant="elevated" class="jump-btn"
+                        @click.stop="handleCardClick(item)">
                         <v-icon size="24">mdi-arrow-top-right</v-icon>
                       </v-btn>
                       <p class="overlay-text mt-2">点击访问项目</p>
@@ -123,6 +124,17 @@ export default {
     return { xs, sm, md, showNewsMode, toggleMode };
   },
   methods: {
+    handleCardClick(item) {
+      console.log('点击了项目卡片:', item);
+      console.log('URL:', item.url);
+      console.log('Title:', item.title);
+      
+      if (item.url) {
+        window.open(item.url, '_blank');
+      } else {
+        console.error('URL 为空或未定义');
+      }
+    },
     projectcardsShow(key) {
       for (let i = 0; i < this.projectcards.length; i++) {
         if (i != key) {
