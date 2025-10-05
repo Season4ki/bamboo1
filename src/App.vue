@@ -71,7 +71,7 @@
           <v-container class="bamboo1-left-socialIconsContainer">
             <v-row align="center" justify="center">
               <v-col class="pa-1" cols="auto" v-for="item in socialPlatformIcons">
-                <v-btn :size="xs ? 25 : 33" variant="tonal" color="var(--bamboo1-vcard-color)"
+                <v-btn :size="xs ? 25 : 33" variant="tonal" color="#FFFFFF"
                   class="ma-1 bamboo1-social-bticon" icon :href="item.link" target="_blank">
                   <v-icon :icon=item.icon :size="xs ? 20 : 25" class="social-bticon-icon"></v-icon></v-btn>
               </v-col>
@@ -81,14 +81,14 @@
               <v-col class="ma-1" cols="auto">
                 <v-speed-dial :location="xs || sm ? 'top center' : 'right center'" transition="slide-y-transition">
                   <template v-slot:activator="{ props: activatorProps }">
-                    <v-fab style="width: 2.5rem;height: 2.5rem;" color="var(--bamboo1-vcard-color)" variant="tonal"
+                    <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal"
                       v-bind="activatorProps" rounded="0" icon="mdi-wrench-cog"></v-fab>
                   </template>
                   <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
-                    size="31" color="var(--bamboo1-vcard-color)"></v-btn>
+                    size="31" color="#FFFFFF"></v-btn>
 
                   <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31"
-                    color="var(--bamboo1-vcard-color)"></v-btn>
+                    color="#FFFFFF"></v-btn>
                 </v-speed-dial>
               </v-col>
             </v-row>
@@ -104,7 +104,7 @@
 
     <v-dialog v-model="dialog1" width="1000" heihght="700">
       <v-card elevation="3" style="backdrop-filter: blur(10px);">
-        <v-tabs v-model="tab" :items="tabs" align-tabs="center" height="60" slider-color=var(--bamboo1-vcard-color)>
+        <v-tabs v-model="tab" :items="tabs" align-tabs="center" height="60" slider-color="#FFFFFF">
           <template v-slot:tab="{ item }">
             <v-tab :prepend-icon="item.icon" :text="item.text" :value="item.value" class="text-none"></v-tab>
           </template>

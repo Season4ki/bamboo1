@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="pa-0 tab2">
-        <v-tabs v-model="tab" :items="tabs" align-tabs="center" height="25" slider-color=var(--bamboo1-vcard-color)>
+        <v-tabs v-model="tab" :items="tabs" align-tabs="center" height="25" slider-color="#FFFFFF">
             <template v-slot:tab="{ item }">
                 <v-tab :prepend-icon="item.icon" :text="item.text" :value="item.value" class="text-none"></v-tab>
             </template>
@@ -327,15 +327,15 @@ video {
 }
 
 .selectedStyle {
-    border: 2px solid var(--bamboo1-vcard-color);
+    border: 2px solid #FFFFFF;
 
     box-shadow: 0 0 10px rgba(25, 118, 210, 0.5), ;
 }
 
 .selected-item {
-    border-color: var(--bamboo1-vcard-color);
+    border-color: #FFFFFF;
     /* 选中时的边框颜色 */
-    box-shadow: 0 0 10px var(--bamboo1-vcard-color);
+    box-shadow: 0 0 10px #FFFFFF;
     /* 选中时的阴影 */
 }
 </style>

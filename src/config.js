@@ -28,17 +28,6 @@ const config = {
   avatar: "/img/avatar.jpg", // 头像
   welcometitle: "Hi,I'm bamboo.1. Welcome to my Soul Society.", // 标题
 
-  // 颜色配置
-  color: {
-    themecolor: "#FFFFFF", // 主题颜色，推荐趋于亮白可带有轻微色调，例： #D1FFEC
-    welcometitlecolor: "#FFFFFF", // 标题颜色 例： #7BFFC9
-  },
-
-  brightness: 85, // 背景亮度 --%
-  blur: 5, // 毛玻璃模糊效果
-
-
-
   // 默认背景壁纸
   background: {
     "pc": {   //pc端

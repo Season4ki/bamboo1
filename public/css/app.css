@@ -1,7 +1,7 @@
 .v-card {
-  backdrop-filter: blur(var(--bamboo1-blur));
+  backdrop-filter: blur(5px);
   border-radius: 5%;
-  color: var(--bamboo1-vcard-color);
+  color: #FFFFFF;
 }
 
 .vapp-fullscreen-background {
@@ -76,7 +76,7 @@
   object-fit: cover;
   margin: auto;
   background-clip: padding-box;
-  filter: brightness(var(--bamboo1-brightness));
+  filter: brightness(85%);
 }
 
 .vapp-fullscreen-background .loading {
@@ -113,7 +113,7 @@
 .vapp-fullscreen-background .bamboo1-left-welcome {
   margin-top: 20px;
   width: 100%;
-  color: var(--bamboo1-welcomtitle-color);
+  color: #FFFFFF;
   padding: 0 2rem;
   font-family: "myfont";
 }
@@ -193,5 +193,5 @@
   height: 100%;
   z-index: -1;
   /* 调整亮度值  */
-  filter: brightness(var(--bamboo1-brightness));
+  filter: brightness(85%);
 }

@@ -46,7 +46,7 @@
 ```css
 .bamboo1-left-welcome {
     margin-top: 20px;
-    color: var(--bamboo1-welcomtitle-color);
+    color: #FFFFFF;
 }
 
 .bamboo1-left-avatar .musicplayer {
@@ -58,7 +58,8 @@
 ### 保留的功能特性
 
 ✅ **完全保留的样式特性**：
-- CSS变量 (`var(--bamboo1-*)`)
+- 必要的CSS变量 (`var(--bamboo1-vcard-color)`, `var(--bamboo1-brightness)`, `var(--bamboo1-blur)`)
+- 固定颜色值 (欢迎标题使用固定的白色 `#FFFFFF`)
 - 动画和关键帧 (`@keyframes`)
 - 伪元素 (`::before`, `:hover`)
 - 媒体查询 (`@media`)

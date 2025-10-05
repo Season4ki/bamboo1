@@ -216,18 +216,7 @@ export default {
 
     setMainProperty(imageurl) {
       const root = document.documentElement;
-      let bamboo1data = this.getCookie("bamboo1data");
-      if (bamboo1data) {
-        root.style.setProperty('--bamboo1-welcomtitle-color', `${bamboo1data.color.welcometitlecolor}`);
-        root.style.setProperty('--bamboo1-vcard-color', `${bamboo1data.color.themecolor}`);
-        root.style.setProperty('--bamboo1-brightness', `${bamboo1data.brightness}%`);
-        root.style.setProperty('--bamboo1-blur', `${bamboo1data.blur}px`);
-      } else {
-        root.style.setProperty('--bamboo1-welcomtitle-color', `${this.configdata.color.welcometitlecolor}`);
-        root.style.setProperty('--bamboo1-vcard-color', `${this.configdata.color.themecolor}`);
-        root.style.setProperty('--bamboo1-brightness', `${this.configdata.brightness}%`);
-        root.style.setProperty('--bamboo1-blur', `${this.configdata.blur}px`);
-      }
+      // 只保留背景图片URL的动态设置，其他样式使用固定值
 
       let bamboo1databackground = this.getCookie("bamboo1databackground");
       const { xs } = useDisplay();

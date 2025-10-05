@@ -10,16 +10,9 @@
     font-display: swap;
 }
 
-:root {
-    /*
-    --bamboo1-background-image-url
-    --bamboo1-welcomtitle-color ;
-    --bamboo1-vcard-color
-    --bamboo1-brightness
-    --bamboo1-blur 
-    --bamboo1-blur
-    */
-}
+/* CSS变量：只保留背景图片URL动态设置
+   --bamboo1-background-image-url
+*/
 
 /* 设置滚动条样式 */
 ::-webkit-scrollbar {

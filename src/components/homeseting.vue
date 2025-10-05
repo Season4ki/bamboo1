@@ -25,7 +25,7 @@
 
       <v-chip class="mt-3 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
         size="large"
-        style="color: var(--bamboo1-vcard-color); border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
+        style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
         @click="toggleMode">
         <transition name="fade" mode="out-in">
           <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
