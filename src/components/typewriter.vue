@@ -7,26 +7,35 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import TypeIt from 'typeit';
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import Typed from 'typed.js';
 import config from '../config.js';
 
 const text = ref(null);
+let typed = null;
 
 onMounted(() => {
     let configdata = import.meta.env.VITE_CONFIG
         ? JSON.parse(import.meta.env.VITE_CONFIG)
         : config;
 
-    new TypeIt(text.value, {
+    typed = new Typed(text.value, {
         strings: configdata.typeWriterStrings,
-        cursorChar: "<span class='cursorChar'>▌</span>",
-        speed: 120,
-        lifeLike: true,
-        cursor: true,
-        breakLines: false,
+        typeSpeed: 120,
+        backSpeed: 60,
+        backDelay: 2000,
+        startDelay: 500,
         loop: true,
-    }).go();
+        showCursor: true,
+        cursorChar: '▌',
+        autoInsertCss: false,
+    });
+});
+
+onBeforeUnmount(() => {
+    if (typed) {
+        typed.destroy();
+    }
 });
 </script>
 
@@ -51,11 +60,12 @@ onMounted(() => {
     letter-spacing: 3px;
 }
 
-.msg ::v-deep(.cursorChar) {
+.msg ::v-deep(.typed-cursor) {
     color: #ffdd55;
     animation: blink 1s infinite;
     margin-left: 3px;
     font-size: 30px;
+    font-weight: 100;
 }
 
 @keyframes blink {

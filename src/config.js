@@ -13,6 +13,18 @@ const config = {
     defaultCity: 'Tokyo'
   },
 
+  // 新闻相关配置  输入你的 NewsData.io API Key
+  news: {
+    apiKey: 'pub_afe616564d5843a5af76c5e4af882a2c', // 请在 https://newsdata.io/ 注册并获取API Key，留空将使用模拟数据
+    language: 'ja,en', // 新闻语言：日语优先，英语备选 (支持: 'ja', 'en', 'ja,en', 'en,ja' 等)
+    category: 'top', // 新闻分类：推荐使用 'top' 获得更多日语内容，也可选择 'technology,science', 'business' 等
+    size: 10, // 获取新闻数量
+    // 智能降级策略：当首选语言无新闻时，是否自动尝试其他语言和分类
+    enableSmartFallback: true,
+    // 首选日语新闻源（如果可用）
+    preferJapanese: true
+  },
+
   avatar: "/img/avatar.jpg", // 头像
   welcometitle: "Hi,I'm bamboo.1. Welcome to my Soul Society.", // 标题
 
