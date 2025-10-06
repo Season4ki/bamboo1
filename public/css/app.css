@@ -90,6 +90,33 @@
   font-family: "myfont";
 }
 
+/* ===== Vuetify风格头像播放器样式 ===== */
+
+/* 头像容器 - 添加玻璃态效果 */
+.vapp-fullscreen-background .Animated-Avatar-Player {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 8px 25px rgba(255, 255, 255, 0.15));
+}
+
+/* 头像图片 - 现代化边框和效果 */
+.vapp-fullscreen-background .Animated-Avatar-Player .v-img {
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player:hover .v-img {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 12px 48px rgba(255, 255, 255, 0.1);
+}
+
+/* 音乐播放器控制面板 - Vuetify玻璃态设计 */
 .vapp-fullscreen-background .Animated-Avatar-Player .musicplayer {
   position: absolute;
   width: 100%;
@@ -98,20 +125,82 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.02);
+}
+
+/* 歌曲信息文字 - 现代化排版 */
 .vapp-fullscreen-background .Animated-Avatar-Player .musicplayer-text {
   position: absolute;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 80%;
+  transition: all 0.3s ease;
 }
 
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer-text:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* 播放按钮组 - Vuetify Material Design 3 风格 */
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 播放按钮特殊样式 */
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn:nth-child(3) {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* 头像旋转动画 - 更流畅的效果 */
 .vapp-fullscreen-background .Animated-Avatar-Player .bamboo1-spin {
-  animation: spin 6s linear infinite;
+  animation: modernSpin 8s linear infinite;
 }
 
-@keyframes spin {
+@keyframes modernSpin {
   0% {
     transform: rotate(0deg);
   }
@@ -121,8 +210,48 @@
   }
 }
 
+/* 控制面板淡入动画 - 更现代的效果 */
 .vapp-fullscreen-background .Animated-Avatar-Player .fade-in {
-  animation: fadeIn .6s ease;
+  animation: materialFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes materialFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 按钮发光动画 */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* 加载动画容器 */
+.vapp-fullscreen-background .Animated-Avatar-Player .loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
+  border-radius: 50%;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 @keyframes fadeIn {

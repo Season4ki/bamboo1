@@ -7,11 +7,11 @@
           <v-icon color="white" size="28">mdi-newspaper</v-icon>
         </v-avatar>
 
-        <div class="flex-grow-1">
-          <h2 class="text-h5 font-weight-bold text-white mb-1 news-main-title">
+        <div class="flex-grow-1 news-title-container">
+          <h2 class="text-h6 font-weight-bold text-white mb-1 news-main-title">
             Latest News
           </h2>
-          <p class="text-subtitle-1 text-grey-lighten-2 mb-0 news-subtitle">
+          <p class="text-body-2 text-grey-lighten-2 mb-0 news-subtitle">
             最新科技資訊 • Latest Technology News
           </p>
         </div>
@@ -426,6 +426,11 @@ onMounted(() => {
   font-weight: 500;
 }
 
+.news-title-container {
+  max-width: 300px;
+  flex-shrink: 1;
+}
+
 .news-item-card {
   background: rgba(255, 255, 255, 0.08) !important;
   /* 新闻卡片透明 */
@@ -532,7 +537,11 @@ onMounted(() => {
   }
 
   .news-header h2 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+  }
+
+  .news-title-container {
+    max-width: 250px;
   }
 
   .news-item-card:hover {

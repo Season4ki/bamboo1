@@ -1,6 +1,27 @@
 @media (max-width: 960px) {
-  .Animated-Avatar-Player .musicplayer-text {
+
+  /* 移动端头像播放器优化 */
+  .vapp-fullscreen-background .Animated-Avatar-Player {
+    transform: none !important;
+    /* 移动端禁用悬浮缩放 */
+  }
+
+  .vapp-fullscreen-background .Animated-Avatar-Player .musicplayer-text {
     font-size: 10px !important;
+    padding: 2px 8px !important;
+    border-radius: 8px !important;
+    max-width: 70% !important;
+  }
+
+  .vapp-fullscreen-background .Animated-Avatar-Player .v-btn {
+    min-width: unset !important;
+    width: auto !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .vapp-fullscreen-background .Animated-Avatar-Player .musicplayer {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px) !important;
   }
 
   .socialIconsContainer .setting {
@@ -10,8 +31,6 @@
     bottom: 5px;
     z-index: 99999;
   }
-
-
 
   /* 确保时间卡片在移动端有合适的边距 */
   .v-card {
