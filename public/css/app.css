@@ -387,3 +387,18 @@
 .time-card:hover::after {
   opacity: 0.7;
 }
+
+/* 右上角浮动按钮样式 */
+.fab-top-right {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+@media (max-width: 600px) {
+  .fab-top-right {
+    top: 15px;
+    right: 15px;
+  }
+}

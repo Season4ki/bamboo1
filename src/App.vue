@@ -74,20 +74,18 @@
             </v-col>
           </v-row>
 
-          <!-- 设置按钮 -->
-          <v-row align="center" justify="center" class="mt-2">
-            <v-col cols="auto">
-              <v-speed-dial location="top center" transition="slide-y-transition">
-                <template v-slot:activator="{ props: activatorProps }">
-                  <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
-                    rounded="0" icon="mdi-wrench-cog"></v-fab>
-                </template>
-                <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
-                  size="31" color="#FFFFFF"></v-btn>
-                <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
-              </v-speed-dial>
-            </v-col>
-          </v-row>
+          <!-- 设置按钮 - 移动到右上角 -->
+          <div class="fab-top-right">
+            <v-speed-dial location="bottom center" transition="slide-y-transition">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
+                  rounded="0" icon="mdi-wrench-cog"></v-fab>
+              </template>
+              <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
+                size="31" color="#FFFFFF"></v-btn>
+              <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
+            </v-speed-dial>
+          </div>
         </v-container>
 
         <!-- 6. 打字机 -->
@@ -187,19 +185,18 @@
               </v-col>
             </v-row>
 
-            <v-row align="center" justify="center" class="setting">
-              <v-col class="ma-1" cols="auto">
-                <v-speed-dial location="right center" transition="slide-y-transition">
-                  <template v-slot:activator="{ props: activatorProps }">
-                    <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
-                      rounded="0" icon="mdi-wrench-cog"></v-fab>
-                  </template>
-                  <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
-                    size="31" color="#FFFFFF"></v-btn>
-                  <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
-                </v-speed-dial>
-              </v-col>
-            </v-row>
+            <!-- 设置按钮 - 移动到右上角 -->
+            <div class="fab-top-right">
+              <v-speed-dial location="bottom center" transition="slide-y-transition">
+                <template v-slot:activator="{ props: activatorProps }">
+                  <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
+                    rounded="0" icon="mdi-wrench-cog"></v-fab>
+                </template>
+                <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
+                  size="31" color="#FFFFFF"></v-btn>
+                <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
+              </v-speed-dial>
+            </div>
           </v-container>
         </v-col>
       </v-row>
