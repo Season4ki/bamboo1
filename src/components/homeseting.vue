@@ -1,100 +1,149 @@
 <template>
   <div>
-    <div>
-      <div :style="xs || sm ? { 'display': 'none' } : { 'font-size': '4rem' }" class="welcome-title">{{
-        configdata.welcometitle }}</div>
-    </div>
-    <div>
-      <v-row align="center">
-        <v-col cols="12" md="8">
-          <typewriter class="ma-3 d-flex align-center justify-center"
-            :style="xs || sm ? { 'min-height': '150px' } : { 'min-height': '200px' }"></typewriter>
-        </v-col>
-        <v-col cols="12" md="4" class="d-flex justify-center">
-          <div class="time-card">
-            <div class="time-display">{{ formattedTime }}</div>
-            <div class="date-display">{{ formattedDate }}</div>
-          </div>
-        </v-col>
-      </v-row>
-
-      <v-chip class="mt-3 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
-        size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
-        @click="toggleMode">
-        <transition name="fade" mode="out-in">
-          <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
-        </transition>
-      </v-chip>
-      <!-- 项目卡片区域 - 重新设计 -->
-      <transition name="slide-fade" mode="out-in">
-        <v-container v-show="!showNewsMode" key="projects" fluid class="pa-4">
-          <v-row justify="center" class="g-4">
-            <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3" class="d-flex">
-              <v-card class="project-card-new flex-grow-1" elevation="12" rounded="xl" hover>
+    <!-- 如果是移动端模式，只显示项目卡片内容，其他内容已在App.vue中处理 -->
+    <div v-if="mobileMode">
+      <!-- 项目卡片或新闻组件 - 移动端版本 -->
+      <div v-if="!showNewsMode" key="projects">
+        <v-container fluid class="pa-2">
+          <v-row justify="center" class="g-3">
+            <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" class="d-flex">
+              <v-card class="project-card-new flex-grow-1" elevation="8" rounded="lg" hover>
                 <!-- 卡片头部图片区域 -->
                 <div class="card-header" @click="handleCardClick(item)">
-                  <v-img :src="item.img" height="150" cover class="card-image">
-
+                  <v-img :src="item.img" height="120" cover class="card-image">
                     <!-- 悬浮时显示的跳转提示 -->
                     <div class="card-overlay">
-                      <v-btn icon size="large" color="white" variant="elevated" class="jump-btn"
+                      <v-btn icon size="small" color="white" variant="elevated" class="jump-btn"
                         @click.stop="handleCardClick(item)">
-                        <v-icon size="24">mdi-arrow-top-right</v-icon>
+                        <v-icon size="20">mdi-arrow-top-right</v-icon>
                       </v-btn>
-                      <p class="overlay-text mt-2">点击访问项目</p>
+                      <p class="overlay-text mt-1">点击访问项目</p>
                     </div>
                   </v-img>
                 </div>
 
                 <!-- 卡片内容区域 -->
-                <v-card-item class="card-content">
-                  <div class="d-flex justify-space-between align-start mb-2">
-                    <div class="flex-grow-1">
-                      <v-card-title class="project-title pa-0 mb-1">
-                        {{ item.title }}
-                      </v-card-title>
-                      <v-card-subtitle class="project-subtitle pa-0 text-medium-emphasis">
-                        {{ item.subtitle }}
-                      </v-card-subtitle>
-                    </div>
+                <v-card-item class="card-content pa-3">
+                  <v-card-title class="card-title text-subtitle-1">{{ item.title }}</v-card-title>
+                  <v-card-subtitle class="card-subtitle text-caption">{{ item.subtitle }}</v-card-subtitle>
+                  <div class="card-description text-caption mt-2">{{ item.description }}</div>
 
-                    <!-- 详情切换按钮 -->
-                    <v-btn icon variant="text" size="small" @click="item.show = !item.show" class="info-toggle-btn">
-                      <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                    </v-btn>
+                  <!-- 技术标签 -->
+                  <div class="tech-tags mt-2">
+                    <v-chip v-for="(tech, index) in item.tech" :key="index" size="x-small" variant="outlined"
+                      color="primary" class="ma-1">
+                      {{ tech }}
+                    </v-chip>
                   </div>
-
-                  <!-- 展开的详细内容 -->
-                  <v-expand-transition>
-                    <div v-show="item.show" class="project-details">
-                      <v-divider class="my-3"></v-divider>
-                      <p class="project-description text-body-2 mb-3">{{ item.text }}</p>
-
-
-                    </div>
-                  </v-expand-transition>
                 </v-card-item>
-
-                <!-- 卡片底部操作区 -->
-                <v-card-actions class="card-actions px-3 pb-3">
-                  <v-btn :href="item.url" target="_blank" variant="outlined" rounded="pill" size="small"
-                    class="action-btn-transparent flex-grow-1" prepend-icon="mdi-rocket-launch">
-                    {{ item.go }}
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-col>
           </v-row>
         </v-container>
-      </transition>
+      </div>
 
-      <!-- 新闻组件区域 -->
-      <transition name="slide-fade" mode="out-in">
-        <v-container v-show="showNewsMode" class="mt-4 news-container-wrapper" key="news" fluid>
-          <NewsComponent />
-        </v-container>
-      </transition>
+      <!-- 新闻组件 - 移动端版本 -->
+      <div v-if="showNewsMode" key="news" class="pa-2">
+        <NewsComponent />
+      </div>
+    </div>
 
+    <!-- 桌面端布局保持原样 -->
+    <div v-else>
+      <div>
+        <div :style="xs || sm ? { 'display': 'none' } : { 'font-size': '4rem' }" class="welcome-title">{{
+          configdata.welcometitle }}</div>
+      </div>
+      <div>
+        <v-row align="center">
+          <v-col cols="12" md="8">
+            <typewriter class="ma-3 d-flex align-center justify-center"
+              :style="xs || sm ? { 'min-height': '150px' } : { 'min-height': '200px' }"></typewriter>
+          </v-col>
+          <v-col cols="12" md="4" class="d-flex justify-center">
+            <div class="time-card">
+              <div class="time-display">{{ formattedTime }}</div>
+              <div class="date-display">{{ formattedDate }}</div>
+            </div>
+          </v-col>
+        </v-row>
+
+        <v-chip class="mt-3 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
+          size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
+          @click="$emit('toggleMode')">
+          <transition name="fade" mode="out-in">
+            <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
+          </transition>
+        </v-chip>
+        <!-- 项目卡片区域 - 重新设计 -->
+        <transition name="slide-fade" mode="out-in">
+          <v-container v-if="!showNewsMode" key="projects" fluid class="pa-4">
+            <v-row justify="center" class="g-4">
+              <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3" class="d-flex">
+                <v-card class="project-card-new flex-grow-1" elevation="12" rounded="xl" hover>
+                  <!-- 卡片头部图片区域 -->
+                  <div class="card-header" @click="handleCardClick(item)">
+                    <v-img :src="item.img" height="150" cover class="card-image">
+
+                      <!-- 悬浮时显示的跳转提示 -->
+                      <div class="card-overlay">
+                        <v-btn icon size="large" color="white" variant="elevated" class="jump-btn"
+                          @click.stop="handleCardClick(item)">
+                          <v-icon size="24">mdi-arrow-top-right</v-icon>
+                        </v-btn>
+                        <p class="overlay-text mt-2">点击访问项目</p>
+                      </div>
+                    </v-img>
+                  </div>
+
+                  <!-- 卡片内容区域 -->
+                  <v-card-item class="card-content">
+                    <div class="d-flex justify-space-between align-start mb-2">
+                      <div class="flex-grow-1">
+                        <v-card-title class="project-title pa-0 mb-1">
+                          {{ item.title }}
+                        </v-card-title>
+                        <v-card-subtitle class="project-subtitle pa-0 text-medium-emphasis">
+                          {{ item.subtitle }}
+                        </v-card-subtitle>
+                      </div>
+
+                      <!-- 详情切换按钮 -->
+                      <v-btn icon variant="text" size="small" @click="item.show = !item.show" class="info-toggle-btn">
+                        <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                      </v-btn>
+                    </div>
+
+                    <!-- 展开的详细内容 -->
+                    <v-expand-transition>
+                      <div v-show="item.show" class="project-details">
+                        <v-divider class="my-3"></v-divider>
+                        <p class="project-description text-body-2 mb-3">{{ item.text }}</p>
+                      </div>
+                    </v-expand-transition>
+                  </v-card-item>
+
+                  <!-- 卡片底部操作区 -->
+                  <v-card-actions class="card-actions px-3 pb-3">
+                    <v-btn :href="item.url" target="_blank" variant="outlined" rounded="pill" size="small"
+                      class="action-btn-transparent flex-grow-1" prepend-icon="mdi-rocket-launch">
+                      {{ item.go }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
+        </transition>
+
+        <!-- 新闻组件区域 -->
+        <transition name="slide-fade" mode="out-in">
+          <v-container v-if="showNewsMode" class="mt-4 news-container-wrapper" key="news" fluid>
+            <NewsComponent />
+          </v-container>
+        </transition>
+
+      </div>
     </div>
   </div>
 </template>
@@ -110,18 +159,10 @@ export default {
     typewriter,
     NewsComponent,
   },
-  props: ['configdata', 'formattedTime', 'formattedDate', 'projectcards'],
+  props: ['configdata', 'formattedTime', 'formattedDate', 'projectcards', 'mobileMode', 'showNewsMode'],
   setup() {
-
     const { xs, sm, md } = useDisplay();
-    const showNewsMode = ref(false); // false: 显示项目卡片, true: 显示新闻组件
-
-    // 切换模式的函数
-    const toggleMode = () => {
-      showNewsMode.value = !showNewsMode.value;
-    };
-
-    return { xs, sm, md, showNewsMode, toggleMode };
+    return { xs, sm, md };
   },
   methods: {
     handleCardClick(item) {

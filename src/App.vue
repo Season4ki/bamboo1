@@ -13,21 +13,126 @@
 
     <div v-show="!isloading && !isClearScreen"
       :style="xs || sm ? { 'overflow-y': 'auto', 'overflow-x': 'hidden' } : {}">
-      <v-row style="display: flex;">
-        <v-col cols="12" md="8" lg="9" style="height: 100vh;" :style="xs || sm ? {} : { 'overflow': 'auto' }">
-          <homeleft :configdata=configdata :formattedTime=formattedTime :formattedDate=formattedDate
-            :projectcards=projectcards></homeleft>
+
+      <!-- 移动端专用布局 -->
+      <div v-if="xs || sm" class="mobile-layout">
+        <!-- 1. 欢迎标题 -->
+        <div class="mobile-welcome-title">{{ configdata.welcometitle }}</div>
+
+        <!-- 2. 头像播放器 -->
+        <v-avatar class="mobile-avatar-player" :size="120" @mouseenter="musicplayershow(1)"
+          @mouseleave="musicplayershow(0)">
+          <v-img :class="{ 'bamboo1-spin': isPlaying }" alt="bamboo1" :src="configdata.avatar"></v-img>
+
+          <!-- 头像播放器控制面板 -->
+          <transition name="fade">
+            <v-card v-show="ismusicplayer" class="mobile-musicplayer" variant="tonal">
+              <div v-if="audioLoading && !useAPlayer" class="loading-spinner">
+                <v-progress-circular indeterminate></v-progress-circular>
+              </div>
+              <span ref="audiotitle" class="musicplayer-text" style="top: 1.6rem;font-weight: bolder;">{{
+                currentSong?.title || musicinfo?.[0]?.title }}</span>
+              <span ref="audioauthor" class="musicplayer-text" style="bottom: 1.4rem;">{{ currentSong?.author ||
+                musicinfo?.[0]?.author }}</span>
+
+              <!-- 原生音频元素 -->
+              <audio v-show="false" ref="audioPlayer" :src="currentSong?.url || musicinfo?.[0]?.url"
+                @waiting="onWaiting" @canplay="onCanPlay"></audio>
+
+              <!-- 控制按钮 -->
+              <v-btn :size="22" color="#999999" icon @click="previousTrack()">
+                <v-icon>mdi-skip-previous</v-icon>
+              </v-btn>
+              <v-btn :size="35" color="#999999" icon @click="togglePlay()">
+                <v-icon>{{ isPlaying ? 'mdi-pause' : 'mdi-play' }}</v-icon>
+              </v-btn>
+              <v-btn :size="22" color="#999999" icon @click="nextTrack()">
+                <v-icon>mdi-skip-next</v-icon>
+              </v-btn>
+            </v-card>
+          </transition>
+        </v-avatar>
+
+        <!-- 3. 雷达图 -->
+        <div class="mobile-radar-chart">
+          <radarChart :style="{ 'height': '230px', 'max-width': '320px', 'width': '100%' }" />
+        </div>
+
+        <!-- 4. 天气组件 -->
+        <div class="mobile-weather">
+          <WeatherChart :style="{ 'max-width': '320px', 'width': '100%' }" />
+        </div>
+
+        <!-- 5. 社交图标 -->
+        <v-container class="mobile-social-icons">
+          <v-row align="center" justify="center">
+            <v-col class="pa-1" cols="auto" v-for="item in socialPlatformIcons" :key="item.link">
+              <v-btn :size="25" variant="tonal" color="#FFFFFF" class="ma-1 bamboo1-social-bticon" icon
+                :href="item.link" target="_blank">
+                <v-icon :icon="item.icon" :size="20" class="social-bticon-icon"></v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+
+          <!-- 设置按钮 -->
+          <v-row align="center" justify="center" class="mt-2">
+            <v-col cols="auto">
+              <v-speed-dial location="top center" transition="slide-y-transition">
+                <template v-slot:activator="{ props: activatorProps }">
+                  <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
+                    rounded="0" icon="mdi-wrench-cog"></v-fab>
+                </template>
+                <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
+                  size="31" color="#FFFFFF"></v-btn>
+                <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
+              </v-speed-dial>
+            </v-col>
+          </v-row>
+        </v-container>
+
+        <!-- 6. 打字机 -->
+        <div class="mobile-typewriter">
+          <typewriter class="d-flex align-center justify-center" :style="{ 'min-height': '150px' }"></typewriter>
+        </div>
+
+        <!-- 7. 时间卡片 -->
+        <div class="mobile-time-card">
+          <div class="time-card">
+            <div class="time-display">{{ formattedTime }}</div>
+            <div class="date-display">{{ formattedDate }}</div>
+          </div>
+        </div>
+
+        <!-- 8. 项目卡片 -->
+        <div class="mobile-projects">
+          <v-chip class="mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
+            size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
+            @click="toggleMode">
+            <transition name="fade" mode="out-in">
+              <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
+            </transition>
+          </v-chip>
+
+          <!-- 项目卡片内容将通过子组件处理 -->
+          <homeright :configdata="configdata" :formattedTime="formattedTime" :formattedDate="formattedDate"
+            :projectcards="projectcards" :mobileMode="true" :showNewsMode="showNewsMode"></homeright>
+        </div>
+      </div>
+
+      <!-- 桌面端布局（保持现有） -->
+      <v-row v-else style="display: flex;">
+        <v-col cols="12" md="8" lg="9" style="height: 100vh;" :style="{ 'overflow': 'auto' }">
+          <homeright :configdata="configdata" :formattedTime="formattedTime" :formattedDate="formattedDate"
+            :projectcards="projectcards" :showNewsMode="showNewsMode" @toggleMode="toggleMode"></homeright>
         </v-col>
 
         <v-col cols="12" md="4" lg="3" class="bamboo1-right" align="center">
-          <div :style="xs || sm ? { 'font-size': '3.1rem' } : { 'display': 'none' }" class="welcome-title">{{
-            configdata.welcometitle }}</div>
+          <div :style="{ 'display': 'none' }" class="welcome-title">{{ configdata.welcometitle }}</div>
 
-          <!-- 头像播放器 - 保持原有功能，现在与 APlayer 同步 -->
-          <v-avatar class="Animated-Avatar-Player" :size="xs || sm ? 120 : 140"
-            :style="xs || sm ? { 'margin-top': '0' } : { 'margin-top': '2rem' }" @mouseenter="musicplayershow(1)"
-            @mouseleave="musicplayershow(0)">
-            <v-img :class="{ 'bamboo1-spin': isPlaying }" alt="bamboo1" :src=configdata.avatar></v-img>
+          <!-- 头像播放器 - 桌面版 -->
+          <v-avatar class="Animated-Avatar-Player" :size="140" :style="{ 'margin-top': '2rem' }"
+            @mouseenter="musicplayershow(1)" @mouseleave="musicplayershow(0)">
+            <v-img :class="{ 'bamboo1-spin': isPlaying }" alt="bamboo1" :src="configdata.avatar"></v-img>
 
             <!-- 头像播放器控制面板 -->
             <transition name="fade">
@@ -40,55 +145,52 @@
                 <span ref="audioauthor" class="musicplayer-text" style="bottom: 1.4rem;">{{ currentSong?.author ||
                   musicinfo?.[0]?.author }}</span>
 
-                <!-- 原生音频元素 - 当没有使用 APlayer 时播放 -->
+                <!-- 原生音频元素 -->
                 <audio v-show="false" ref="audioPlayer" :src="currentSong?.url || musicinfo?.[0]?.url"
-                  @waiting="onWaiting" @canplay="onCanPlay">
-                </audio>
+                  @waiting="onWaiting" @canplay="onCanPlay"></audio>
 
-                <!-- 控制按钮 - 现在会同步控制 APlayer -->
-                <v-btn :size="xs || sm ? 22 : 30" color="#999999" icon @click="previousTrack()">
+                <!-- 控制按钮 -->
+                <v-btn :size="30" color="#999999" icon @click="previousTrack()">
                   <v-icon>mdi-skip-previous</v-icon>
                 </v-btn>
-                <v-btn :size="xs || sm ? 35 : 48" color="#999999" icon @click="togglePlay()">
+                <v-btn :size="48" color="#999999" icon @click="togglePlay()">
                   <v-icon>{{ isPlaying ? 'mdi-pause' : 'mdi-play' }}</v-icon>
                 </v-btn>
-                <v-btn :size="xs || sm ? 22 : 30" color="#999999" icon @click="nextTrack()">
+                <v-btn :size="30" color="#999999" icon @click="nextTrack()">
                   <v-icon>mdi-skip-next</v-icon>
                 </v-btn>
               </v-card>
             </transition>
           </v-avatar>
 
-
-
           <div class="radarchart-css">
-            <radarChart :style="xs || sm ? { 'height': '210px' } : { 'height': '270px' }" />
+            <radarChart :style="{ 'height': '270px' }" />
           </div>
 
           <!-- 天气组件 -->
-          <div class="weather-css" :style="xs || sm ? { 'margin': '1rem 0.5rem' } : { 'margin': '1.5rem 1rem' }">
-            <WeatherChart :style="xs || sm ? { 'max-width': '280px' } : { 'max-width': '320px' }" />
+          <div class="weather-css" :style="{ 'margin': '1.5rem 1rem' }">
+            <WeatherChart :style="{ 'max-width': '320px' }" />
           </div>
 
           <v-container class="socialIconsContainer">
             <v-row align="center" justify="center">
-              <v-col class="pa-1" cols="auto" v-for="item in socialPlatformIcons">
-                <v-btn :size="xs ? 25 : 33" variant="tonal" color="#FFFFFF" class="ma-1 bamboo1-social-bticon" icon
+              <v-col class="pa-1" cols="auto" v-for="item in socialPlatformIcons" :key="item.link">
+                <v-btn :size="33" variant="tonal" color="#FFFFFF" class="ma-1 bamboo1-social-bticon" icon
                   :href="item.link" target="_blank">
-                  <v-icon :icon=item.icon :size="xs ? 20 : 25" class="social-bticon-icon"></v-icon></v-btn>
+                  <v-icon :icon="item.icon" :size="25" class="social-bticon-icon"></v-icon>
+                </v-btn>
               </v-col>
             </v-row>
 
             <v-row align="center" justify="center" class="setting">
               <v-col class="ma-1" cols="auto">
-                <v-speed-dial :location="xs || sm ? 'top center' : 'right center'" transition="slide-y-transition">
+                <v-speed-dial location="right center" transition="slide-y-transition">
                   <template v-slot:activator="{ props: activatorProps }">
                     <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
                       rounded="0" icon="mdi-wrench-cog"></v-fab>
                   </template>
                   <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
                     size="31" color="#FFFFFF"></v-btn>
-
                   <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
                 </v-speed-dial>
               </v-col>

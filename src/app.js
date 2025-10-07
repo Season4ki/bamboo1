@@ -1,4 +1,4 @@
-import homeleft from '../src/components/homeseting.vue';
+import homeright from '../src/components/homeseting.vue';
 import typewriter from './components/typewriter.vue'
 import tab2 from './components/tabs/tab2.vue';
 import tab3 from './components/tabs/tab3.vue';
@@ -13,7 +13,7 @@ import { useDisplay } from 'vuetify'
 
 export default {
   components: {
-    tab2, tab3, homeleft, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart
+    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart
   },
   setup() {
     const { xs, sm, md } = useDisplay();
@@ -49,6 +49,9 @@ export default {
       lyricsTimer: null, // 歌词更新定时器
       syncTimer: null, // APlayer状态同步定时器
       currentPlayTime: 0, // 当前播放时间
+
+      // 新闻模式切换
+      showNewsMode: false, // false: 显示项目卡片, true: 显示新闻组件
 
       projectcards: null,
       tab: null,
@@ -679,6 +682,11 @@ export default {
         this.syncTimer = null;
         console.log('停止APlayer状态同步监听');
       }
+    },
+
+    // 切换新闻/项目模式
+    toggleMode() {
+      this.showNewsMode = !this.showNewsMode;
     },
   }
 };
