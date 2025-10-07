@@ -6,38 +6,22 @@
       <div v-if="!showNewsMode" key="projects">
         <v-container fluid class="pa-2">
           <v-row justify="center" class="g-3">
-            <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" class="d-flex align-stretch">
-              <v-card class="project-card-new flex-grow-1" elevation="8" rounded="lg" hover
-                :class="{ 'card-expanded': item.show }">
-                <!-- 卡片头部图片区域 -->
-                <div class="card-header" @click="handleCardClick(item)">
-                  <v-img :src="item.img" height="120" cover class="card-image">
-                    <!-- 悬浮时显示的跳转提示 -->
-                    <div class="card-overlay">
-                      <v-btn icon size="small" color="white" variant="elevated" class="jump-btn"
-                        @click.stop="handleCardClick(item)">
-                        <v-icon size="20">mdi-arrow-top-right</v-icon>
-                      </v-btn>
-                      <p class="overlay-text mt-1">プロジェクトにアクセス</p>
-                    </div>
-                  </v-img>
+            <v-col v-for="(item, key) in projectcards" :key="key" cols="6" class="d-flex align-stretch">
+              <!-- 简化项目卡片 - 移动端 -->
+              <div class="simple-project-card mobile-card" @click="handleCardClick(item)">
+                <!-- 上方图片 -->
+                <div class="card-image-container mobile-image">
+                  <v-img :src="item.img" height="100" width="100" cover class="card-image rounded"></v-img>
                 </div>
 
-                <!-- 卡片内容区域 -->
-                <v-card-item class="card-content pa-3">
-                  <v-card-title class="card-title text-subtitle-1">{{ item.title }}</v-card-title>
-                  <v-card-subtitle class="card-subtitle text-caption">{{ item.subtitle }}</v-card-subtitle>
-                  <div class="card-description text-caption mt-2">{{ item.description }}</div>
-
-                  <!-- 技术标签 -->
-                  <div class="tech-tags mt-2">
-                    <v-chip v-for="(tech, index) in item.tech" :key="index" size="x-small" variant="outlined"
-                      color="primary" class="ma-1">
-                      {{ tech }}
-                    </v-chip>
-                  </div>
-                </v-card-item>
-              </v-card>
+                <!-- 下方内容 -->
+                <div class="card-content-container mobile-content">
+                  <!-- 中间标题 -->
+                  <div class="card-title">{{ item.title }}</div>
+                  <!-- 下方副标题 -->
+                  <div class="card-subtitle">{{ item.subtitle }}</div>
+                </div>
+              </div>
             </v-col>
           </v-row>
         </v-container>
@@ -70,7 +54,7 @@
           </v-col>
         </v-row>
 
-        <v-chip class="mt-3 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
+        <v-chip class="mt-12 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
           size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
           @click="$emit('toggleMode')">
           <transition name="fade" mode="out-in">
@@ -80,65 +64,27 @@
             {{ showNewsMode ? 'プロジェクトに切り替え' : 'ニュースに切り替え' }}
           </v-tooltip>
         </v-chip>
-        <!-- 项目卡片区域 - 重新设计 -->
+        <!-- 项目卡片区域 - 简化版设计 -->
         <transition name="slide-fade" mode="out-in">
-          <v-container v-if="!showNewsMode" key="projects" fluid class="pa-4">
+          <v-container v-if="!showNewsMode" key="projects" fluid class="pa-4 mt-12">
             <v-row justify="center" class="g-4">
               <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3"
                 class="d-flex align-stretch">
-                <v-card class="project-card-new flex-grow-1" elevation="12" rounded="xl" hover
-                  :class="{ 'card-expanded': item.show }">
-                  <!-- 卡片头部图片区域 -->
-                  <div class="card-header" @click="handleCardClick(item)">
-                    <v-img :src="item.img" height="150" cover class="card-image">
-
-                      <!-- 悬浮时显示的跳转提示 -->
-                      <div class="card-overlay">
-                        <v-btn icon size="large" color="white" variant="elevated" class="jump-btn"
-                          @click.stop="handleCardClick(item)">
-                          <v-icon size="24">mdi-arrow-top-right</v-icon>
-                        </v-btn>
-                        <p class="overlay-text mt-2">プロジェクトにアクセス</p>
-                      </div>
-                    </v-img>
+                <!-- 简化项目卡片 -->
+                <div class="simple-project-card" @click="handleCardClick(item)">
+                  <!-- 左侧图片 -->
+                  <div class="card-image-container">
+                    <v-img :src="item.img" height="100" width="100" cover class="card-image rounded"></v-img>
                   </div>
 
-                  <!-- 卡片内容区域 -->
-                  <v-card-item class="card-content">
-                    <div class="d-flex justify-space-between align-start mb-2">
-                      <div class="flex-grow-1">
-                        <v-card-title class="project-title pa-0 mb-1">
-                          {{ item.title }}
-                        </v-card-title>
-                        <v-card-subtitle class="project-subtitle pa-0 text-medium-emphasis">
-                          {{ item.subtitle }}
-                        </v-card-subtitle>
-                      </div>
-
-                      <!-- 详情切换按钮 -->
-                      <v-btn icon variant="text" size="small" @click="toggleProjectDetails(key)"
-                        class="info-toggle-btn">
-                        <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                      </v-btn>
-                    </div>
-
-                    <!-- 展开的详细内容 -->
-                    <v-expand-transition>
-                      <div v-show="item.show" class="project-details">
-                        <v-divider class="my-3"></v-divider>
-                        <p class="project-description text-body-2 mb-3">{{ item.text }}</p>
-                      </div>
-                    </v-expand-transition>
-                  </v-card-item>
-
-                  <!-- 卡片底部操作区 -->
-                  <v-card-actions class="card-actions px-3 pb-3">
-                    <v-btn :href="item.url" target="_blank" variant="outlined" rounded="pill" size="small"
-                      class="action-btn-transparent flex-grow-1" prepend-icon="mdi-rocket-launch">
-                      {{ item.go }}
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
+                  <!-- 右侧内容 -->
+                  <div class="card-content-container">
+                    <!-- 右上标题 -->
+                    <div class="card-title">{{ item.title }}</div>
+                    <!-- 右下副标题 -->
+                    <div class="card-subtitle">{{ item.subtitle }}</div>
+                  </div>
+                </div>
               </v-col>
             </v-row>
           </v-container>
@@ -146,7 +92,7 @@
 
         <!-- 新闻组件区域 -->
         <transition name="slide-fade" mode="out-in">
-          <v-container v-if="showNewsMode" class="mt-4 news-container-wrapper" key="news" fluid>
+          <v-container v-if="showNewsMode" class="mt-12 news-container-wrapper" key="news" fluid>
             <NewsComponent />
           </v-container>
         </transition>
@@ -182,24 +128,6 @@ export default {
         window.open(item.url, '_blank');
       } else {
         console.error('URL 为空或未定义');
-      }
-    },
-    toggleProjectDetails(index) {
-      // 切换指定项目的展开状态
-      this.projectcards[index].show = !this.projectcards[index].show;
-
-      // 确保其他项目都是收起状态
-      this.projectcards.forEach((item, i) => {
-        if (i !== index) {
-          item.show = false;
-        }
-      });
-    },
-    projectcardsShow(key) {
-      for (let i = 0; i < this.projectcards.length; i++) {
-        if (i != key) {
-          this.projectcards[i].show = false;
-        }
       }
     }
   }
@@ -264,7 +192,7 @@ export default {
 /* ======= 简洁透明时间卡片样式 ======= */
 
 .time-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent;
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
@@ -276,7 +204,7 @@ export default {
 }
 
 .time-card:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
@@ -352,323 +280,130 @@ export default {
   }
 }
 
-/* ======= 重新设计的项目卡片样式 ======= */
+/* ======= 简化项目卡片样式 ======= */
 
-/* 主卡片样式 */
-.project-card-new {
-  border: 2px solid transparent;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  position: relative;
-  height: fit-content;
-  /* 确保卡片高度根据内容调整 */
-  align-self: flex-start;
-  /* 防止其他卡片跟着变高 */
-}
-
-.project-card-new:hover {
-  transform: translateY(-8px);
-  border-color: rgba(139, 69, 255, 0.4);
-  box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.25),
-    0 0 40px rgba(139, 69, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-/* 展开状态的卡片样式 */
-.card-expanded {
-  align-self: flex-start !important;
-  height: auto !important;
-}
-
-/* 卡片头部图片区域 */
-.card-header {
-  position: relative;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.card-image {
-  transition: transform 0.4s ease;
-}
-
-.card-header:hover .card-image {
-  transform: scale(1.05);
-}
-
-/* 项目类型标签 */
-.card-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: rgba(139, 69, 255, 0.9);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
+.simple-project-card {
   display: flex;
   align-items: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  z-index: 2;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  min-height: 100px;
 }
 
-/* 悬浮覆盖层 */
-.card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+.simple-project-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-image-container {
+  flex-shrink: 0;
+}
+
+.card-content-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(5px);
+  justify-content: space-between;
+  height: 80px;
+  padding: 4px 0;
 }
 
-.card-header:hover .card-overlay {
-  opacity: 1;
-}
-
-.jump-btn {
-  transform: scale(0.8);
-  transition: transform 0.3s ease;
-}
-
-.card-header:hover .jump-btn {
-  transform: scale(1);
-}
-
-.overlay-text {
-  color: white;
+.card-title {
   font-size: 0.9rem;
-  font-weight: 500;
-  margin: 0;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.3;
+  margin-bottom: auto;
+}
+
+.card-subtitle {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+  margin-top: auto;
+}
+
+/* 移动端样式调整 */
+.mobile-card {
+  min-height: 140px;
+  gap: 12px;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
-/* 卡片内容区域 */
-.card-content {
-  padding: 16px !important;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+.mobile-card .mobile-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
 }
 
-.project-title {
-  font-size: 1.1rem !important;
-  font-weight: 700 !important;
-  color: #FFFFFF !important;
+.mobile-card .mobile-content {
+  width: 100%;
+  height: auto;
+  padding: 0;
+  align-items: center;
+  text-align: center;
+}
+
+.mobile-card .card-content-container {
+  height: auto;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.mobile-card .card-title {
+  font-size: 1.0rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.mobile-card .card-subtitle {
+  font-size: 0.8rem;
   line-height: 1.3;
-}
-
-.project-subtitle {
-  font-size: 0.8rem !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  line-height: 1.4;
-}
-
-/* 详情切换按钮 */
-.info-toggle-btn {
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-}
-
-.info-toggle-btn:hover {
-  opacity: 1;
-}
-
-/* 项目详情区域 */
-.project-details {
-  animation: fadeInUp 0.3s ease;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.project-description {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
-}
-
-/* 技术栈标签 */
-.tech-stack .v-chip {
-  margin: 2px;
-  backdrop-filter: blur(10px);
-}
-
-/* 卡片操作区域 */
-.card-actions {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(15px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.action-btn-transparent {
-  font-weight: 600 !important;
-  text-transform: none !important;
-  letter-spacing: 0.5px;
-  background: transparent !important;
-  color: rgba(255, 255, 255, 0.9) !important;
-  border: 2px solid rgba(255, 255, 255, 0.3) !important;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.action-btn-transparent:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
-  color: #FFFFFF !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-}
-
-/* 分隔线样式 */
-.project-card-new .v-divider {
-  border-color: rgba(255, 255, 255, 0.15);
-  opacity: 0.6;
+  margin-top: 6px;
+  text-align: center;
 }
 
 /* 响应式设计 */
-@media (max-width: 960px) {
-  .mode-toggle-chip {
-    font-size: 0.875rem;
-  }
-
-  .slide-fade-enter-from {
-    transform: translateY(15px);
-  }
-
-  .slide-fade-leave-to {
-    transform: translateY(-15px);
-  }
-
-  .news-container-wrapper {
-    padding: 0 8px !important;
-  }
-
-  .card-header {
-    height: 130px;
-  }
-
-  .card-image {
-    height: 130px !important;
-  }
-
-  .project-title {
-    font-size: 1rem !important;
-  }
-
-  .project-subtitle {
-    font-size: 0.75rem !important;
-  }
-
-  .card-content {
-    padding: 12px !important;
-  }
-
-  .card-actions {
-    padding: 8px 12px !important;
-  }
-
-  .g-4>.v-col {
-    padding: 8px;
-  }
-}
-
 @media (max-width: 600px) {
-  .project-card-new {
-    margin-bottom: 16px;
+  .simple-project-card {
+    padding: 16px;
+    gap: 12px;
   }
 
-  .card-badge {
-    padding: 4px 8px;
-    font-size: 0.7rem;
+  .mobile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  .project-title {
-    font-size: 1rem !important;
+  .mobile-card .card-title {
+    font-size: 1.0rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
   }
 
-  .overlay-text {
+  .mobile-card .card-subtitle {
     font-size: 0.8rem;
+    line-height: 1.3;
+    text-align: center;
   }
-
-  .g-4>.v-col {
-    padding: 6px;
-  }
-}
-
-/* 网格间距 */
-.g-4>.v-col {
-  padding: 12px;
-}
-
-/* 卡片进入动画 */
-.project-card-new {
-  animation: cardSlideIn 0.6s ease-out;
-}
-
-@keyframes cardSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 玻璃边框效果 */
-.project-card-new::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  padding: 2px;
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(139, 69, 255, 0.2) 25%,
-      rgba(59, 130, 246, 0.2) 50%,
-      rgba(255, 255, 255, 0.1) 100%);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.project-card-new:hover::before {
-  opacity: 1;
-}
-
-/* 工具提示样式 */
-.v-tooltip .v-overlay__content {
-  background: rgba(0, 0, 0, 0.9) !important;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  font-size: 0.8rem;
-  padding: 8px 12px;
 }
 </style>
