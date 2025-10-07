@@ -101,25 +101,6 @@
       <v-btn @click="fetchWeatherData" color="primary" class="mt-2">再試行</v-btn>
     </v-card-text>
 
-    <!-- 5日間予報カード - 展開時のみ表示 -->
-    <v-card-text v-if="forecastData.length > 0 && isExpanded">
-      <v-divider class="mb-3"></v-divider>
-      <div class="forecast-title mb-2">5日間予報</div>
-      <v-row class="forecast-cards">
-        <v-col v-for="forecast in forecastData" :key="forecast.dt" cols="auto">
-          <v-card class="forecast-card" variant="outlined" width="120">
-            <v-card-text class="text-center pa-2">
-              <div class="forecast-day">{{ forecast.day }}</div>
-              <v-img :src="`https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`"
-                :alt="forecast.weather[0].description" width="40" height="40" class="mx-auto mb-1"></v-img>
-              <div class="forecast-temp">{{ Math.round(forecast.main.temp_max) }}°/{{ Math.round(forecast.main.temp_min)
-              }}°</div>
-              <div class="forecast-desc">{{ forecast.weather[0].main }}</div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-card-text>
   </v-card>
 </template>
 
@@ -140,7 +121,6 @@ export default {
       forecast: []
     })
     const chartData = ref(null)
-    const forecastData = ref([])
     const loading = ref(true)
     const error = ref(null)
     const refreshTimer = ref(null)
@@ -217,9 +197,6 @@ export default {
 
         // チャートデータを処理
         processChartData(weatherData.value.forecast)
-
-        // 5日間予報データを処理
-        processForecastData(weatherData.value.forecast)
 
         console.log('天気データ処理完了')
 
@@ -302,9 +279,6 @@ export default {
 
       // チャートデータを処理
       processChartData(mockForecast)
-
-      // 5日間予報データを処理
-      processForecastData(mockDaily)
 
       console.log('サンプルデータの読み込み完了')
     }
@@ -429,46 +403,6 @@ export default {
 
       nextTick(() => {
         createChart()
-      })
-    }
-
-    // 5日間予報データを処理
-    const processForecastData = (forecastList) => {
-      const dailyData = {}
-
-      // 日別にデータをグループ化
-      forecastList.forEach(item => {
-        const date = new Date(item.dt * 1000)
-        const dateKey = date.toDateString()
-
-        if (!dailyData[dateKey]) {
-          dailyData[dateKey] = {
-            temps: [],
-            weather: item.weather[0],
-            dt: item.dt
-          }
-        }
-
-        dailyData[dateKey].temps.push(item.main.temp)
-      })
-
-      // 前5日間のデータを取得
-      const days = Object.keys(dailyData).slice(0, 5)
-
-      forecastData.value = days.map(dateKey => {
-        const data = dailyData[dateKey]
-        const date = new Date(data.dt * 1000)
-        const dayNames = ['日曜', '月曜', '火曜', '水曜', '木曜', '金曜', '土曜']
-
-        return {
-          dt: data.dt,
-          day: date.getDate() === new Date().getDate() ? '今日' : dayNames[date.getDay()],
-          weather: [data.weather],
-          main: {
-            temp_max: Math.max(...data.temps),
-            temp_min: Math.min(...data.temps)
-          }
-        }
       })
     }
 
@@ -614,7 +548,6 @@ export default {
       chartCanvas,
       weatherData,
       chartData,
-      forecastData,
       loading,
       error,
       isExpanded,
@@ -721,40 +654,6 @@ export default {
   position: relative;
 }
 
-.forecast-title {
-  font-weight: bold;
-  color: white;
-}
-
-.forecast-cards {
-  overflow-x: auto;
-  flex-wrap: nowrap;
-}
-
-.forecast-card {
-  min-width: 120px;
-  margin-right: 0.5rem;
-}
-
-.forecast-day {
-  font-size: 0.8rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-  color: white;
-}
-
-.forecast-temp {
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-  color: white;
-}
-
-.forecast-desc {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
 /* モバイル適応 */
 @media (max-width: 768px) {
   .temperature {
@@ -763,14 +662,6 @@ export default {
 
   .chart-container {
     height: 160px;
-  }
-
-  .forecast-cards {
-    padding: 0 0.5rem;
-  }
-
-  .forecast-card {
-    min-width: 100px;
   }
 }
 </style>
