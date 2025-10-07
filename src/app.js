@@ -8,7 +8,7 @@ import PageLoading from './components/PageLoading.vue';
 import WeatherChart from './components/WeatherChart.vue';
 import config from './config.js';
 import { getCookie } from './utils/cookieUtils.js';
-import { setMeta, getFormattedTime, getFormattedDate, dataConsole } from './utils/common.js';
+import { setMeta, getFormattedTime, getFormattedDate, } from './utils/common.js';
 import { useDisplay } from 'vuetify'
 
 export default {
@@ -80,7 +80,7 @@ export default {
     this.socialPlatformIcons = this.configdata.socialPlatformIcons;
     this.isloading = true;
     let imageurl = "";
-    this.dataConsole();
+
     this.setMeta(this.configdata.metaData.title, this.configdata.metaData.description, this.configdata.metaData.keywords, this.configdata.metaData.icon);
 
     imageurl = this.setMainProperty(imageurl);
@@ -207,7 +207,7 @@ export default {
   },
 
   methods: {
-    getCookie, setMeta, getFormattedTime, getFormattedDate, dataConsole,
+    getCookie, setMeta, getFormattedTime, getFormattedDate,
 
     onBootMaskRemoved() {
       // 保险清理：若 index.html 注入的占位层仍在，移除之

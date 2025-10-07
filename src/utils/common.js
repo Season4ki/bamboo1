@@ -38,8 +38,3 @@ export function getFormattedDate(currentDate) {
 
   return `${year} 年 ${month} 月 ${day} 日 ${weekday}`;
 }
-
-export function dataConsole() {
-  console.log('デバッグ情報');
-
-}

@@ -46,33 +46,39 @@ This project incorporates the following open source libraries:
    Copyright (c) 2019-present, Yuxi (Evan) You and Vite contributors
    https://github.com/vitejs/vite
 
-6. Material Design Icons (Apache License 2.0)
+6. Material Design Icons (@mdi/font) (Apache License 2.0)
    Copyright (c) 2014, Austin Andrews
    https://github.com/Templarian/MaterialDesign
 
-7. Less (Apache License 2.0)
-   Copyright (c) 2009-2017 Alexis Sellier & The Core Less Team
-   https://github.com/less/less.js
-
-8. vue-chartjs (MIT License)
-   Copyright (c) 2016 Jakub Juszczak
-   https://github.com/apertureless/vue-chartjs
-
 ================================================================================
 
-THIRD PARTY NOTICES:
+THIRD PARTY SERVICES AND APIS:
 
 This project may include or reference external APIs and services:
 
 - OpenWeatherMap API: Used for weather data services
   Terms of Service: https://openweathermap.org/terms
 
-- MetingJS: Referenced for music player functionality
+- NewsData.io API: Used for news data services
+  Terms of Service: https://newsdata.io/terms
+
+- MetingJS API: Referenced for music player functionality (comment only)
   License: MIT License
   https://github.com/metowolf/MetingJS
 
 - External wallpaper APIs (t.mwm.moe): Used for background images
   Please check respective terms of service
+
+================================================================================
+
+FONTS:
+
+This project includes the following font files:
+
+- Blacknorthdemo.otf: Used for custom typography
+- DS-DIGI.TTF: Used for digital display styling
+
+Please ensure proper licensing for any font files used in production.
 
 ================================================================================
 
