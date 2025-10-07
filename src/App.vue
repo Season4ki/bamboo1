@@ -20,8 +20,8 @@
         <div class="mobile-welcome-title">{{ configdata.welcometitle }}</div>
 
         <!-- 2. 头像播放器 -->
-        <v-avatar class="mobile-avatar-player" :size="120" @click="toggleMusicPlayer()" 
-          @mouseenter="musicplayershow(1)" @mouseleave="musicplayershow(0)">
+        <v-avatar class="mobile-avatar-player" :size="120" @click="toggleMusicPlayer()" @mouseenter="musicplayershow(1)"
+          @mouseleave="musicplayershow(0)">
           <v-img :class="{ 'bamboo1-spin': isPlaying }" alt="bamboo1" :src="configdata.avatar"></v-img>
 
           <!-- 头像播放器控制面板 -->
@@ -95,9 +95,9 @@
           <typewriter class="d-flex align-center justify-center" :style="{ 'min-height': '150px' }"></typewriter>
         </div>
 
-        <!-- 7. 时间卡片 -->
+        <!-- 7. 时间卡片 - 移动端（无闹钟功能） -->
         <div class="mobile-time-card">
-          <div class="time-card">
+          <div class="time-card mobile-time-only">
             <div class="time-display">{{ formattedTime }}</div>
             <div class="date-display">{{ formattedDate }}</div>
           </div>
@@ -111,6 +111,9 @@
             <transition name="fade" mode="out-in">
               <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
             </transition>
+            <v-tooltip activator="parent" location="bottom">
+              {{ showNewsMode ? 'プロジェクトに切り替え' : 'ニュースに切り替え' }}
+            </v-tooltip>
           </v-chip>
 
           <!-- 项目卡片内容将通过子组件处理 -->
@@ -123,7 +126,9 @@
       <v-row v-else style="display: flex;">
         <v-col cols="12" md="8" lg="9" style="height: 100vh;" :style="{ 'overflow': 'auto' }">
           <homeright :configdata="configdata" :formattedTime="formattedTime" :formattedDate="formattedDate"
-            :projectcards="projectcards" :showNewsMode="showNewsMode" @toggleMode="toggleMode"></homeright>
+            :projectcards="projectcards" :showNewsMode="showNewsMode" @toggleMode="toggleMode"
+            @openAlarm="openAlarmDialog">
+          </homeright>
         </v-col>
 
         <v-col cols="12" md="4" lg="3" class="bamboo1-right" align="center">
@@ -234,6 +239,9 @@
 
     <!-- 可拖拽的歌词盒子 -->
     <LyricsBox :visible="showLyricsBox" :lyrics="currentLyrics" :is-mobile="xs || sm" @close="closeLyricsBox" />
+
+    <!-- 闹钟组件 - 仅桌面端 -->
+    <AlarmClock v-if="!(xs || sm)" v-model="showAlarmDialog" :config="configdata" @alarm-set="onAlarmSet" />
 
   </v-app>
 </template>

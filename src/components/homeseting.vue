@@ -6,8 +6,9 @@
       <div v-if="!showNewsMode" key="projects">
         <v-container fluid class="pa-2">
           <v-row justify="center" class="g-3">
-            <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" class="d-flex">
-              <v-card class="project-card-new flex-grow-1" elevation="8" rounded="lg" hover>
+            <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" class="d-flex align-stretch">
+              <v-card class="project-card-new flex-grow-1" elevation="8" rounded="lg" hover
+                :class="{ 'card-expanded': item.show }">
                 <!-- 卡片头部图片区域 -->
                 <div class="card-header" @click="handleCardClick(item)">
                   <v-img :src="item.img" height="120" cover class="card-image">
@@ -17,7 +18,7 @@
                         @click.stop="handleCardClick(item)">
                         <v-icon size="20">mdi-arrow-top-right</v-icon>
                       </v-btn>
-                      <p class="overlay-text mt-1">点击访问项目</p>
+                      <p class="overlay-text mt-1">プロジェクトにアクセス</p>
                     </div>
                   </v-img>
                 </div>
@@ -61,9 +62,10 @@
               :style="xs || sm ? { 'min-height': '150px' } : { 'min-height': '200px' }"></typewriter>
           </v-col>
           <v-col cols="12" md="4" class="d-flex justify-center">
-            <div class="time-card">
+            <div class="time-card" @click="$emit('openAlarm')">
               <div class="time-display">{{ formattedTime }}</div>
               <div class="date-display">{{ formattedDate }}</div>
+              <div class="alarm-hint">クリックしてアラーム設定</div>
             </div>
           </v-col>
         </v-row>
@@ -74,13 +76,18 @@
           <transition name="fade" mode="out-in">
             <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
           </transition>
+          <v-tooltip activator="parent" location="bottom">
+            {{ showNewsMode ? 'プロジェクトに切り替え' : 'ニュースに切り替え' }}
+          </v-tooltip>
         </v-chip>
         <!-- 项目卡片区域 - 重新设计 -->
         <transition name="slide-fade" mode="out-in">
           <v-container v-if="!showNewsMode" key="projects" fluid class="pa-4">
             <v-row justify="center" class="g-4">
-              <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3" class="d-flex">
-                <v-card class="project-card-new flex-grow-1" elevation="12" rounded="xl" hover>
+              <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3"
+                class="d-flex align-stretch">
+                <v-card class="project-card-new flex-grow-1" elevation="12" rounded="xl" hover
+                  :class="{ 'card-expanded': item.show }">
                   <!-- 卡片头部图片区域 -->
                   <div class="card-header" @click="handleCardClick(item)">
                     <v-img :src="item.img" height="150" cover class="card-image">
@@ -91,7 +98,7 @@
                           @click.stop="handleCardClick(item)">
                           <v-icon size="24">mdi-arrow-top-right</v-icon>
                         </v-btn>
-                        <p class="overlay-text mt-2">点击访问项目</p>
+                        <p class="overlay-text mt-2">プロジェクトにアクセス</p>
                       </div>
                     </v-img>
                   </div>
@@ -109,7 +116,8 @@
                       </div>
 
                       <!-- 详情切换按钮 -->
-                      <v-btn icon variant="text" size="small" @click="item.show = !item.show" class="info-toggle-btn">
+                      <v-btn icon variant="text" size="small" @click="toggleProjectDetails(key)"
+                        class="info-toggle-btn">
                         <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                       </v-btn>
                     </div>
@@ -175,6 +183,17 @@ export default {
       } else {
         console.error('URL 为空或未定义');
       }
+    },
+    toggleProjectDetails(index) {
+      // 切换指定项目的展开状态
+      this.projectcards[index].show = !this.projectcards[index].show;
+
+      // 确保其他项目都是收起状态
+      this.projectcards.forEach((item, i) => {
+        if (i !== index) {
+          item.show = false;
+        }
+      });
     },
     projectcardsShow(key) {
       for (let i = 0; i < this.projectcards.length; i++) {
@@ -343,6 +362,10 @@ export default {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   position: relative;
+  height: fit-content;
+  /* 确保卡片高度根据内容调整 */
+  align-self: flex-start;
+  /* 防止其他卡片跟着变高 */
 }
 
 .project-card-new:hover {
@@ -352,6 +375,12 @@ export default {
     0 25px 50px rgba(0, 0, 0, 0.25),
     0 0 40px rgba(139, 69, 255, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 展开状态的卡片样式 */
+.card-expanded {
+  align-self: flex-start !important;
+  height: auto !important;
 }
 
 /* 卡片头部图片区域 */

@@ -6,6 +6,7 @@ import radarChart from './components/radarChart.vue';
 import LyricsBox from './components/LyricsBox.vue';
 import PageLoading from './components/PageLoading.vue';
 import WeatherChart from './components/WeatherChart.vue';
+import AlarmClock from './components/AlarmClock.vue';
 import config from './config.js';
 import { getCookie } from './utils/cookieUtils.js';
 import { setMeta, getFormattedTime, getFormattedDate, } from './utils/common.js';
@@ -13,7 +14,7 @@ import { useDisplay } from 'vuetify'
 
 export default {
   components: {
-    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart
+    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart, AlarmClock
   },
   setup() {
     const { xs, sm, md } = useDisplay();
@@ -38,6 +39,9 @@ export default {
       lyrics: {},
       socialPlatformIcons: null,
       isExpanded: false,
+
+      // 闹钟相关状态
+      showAlarmDialog: false,
 
       // APlayer 实例引用
       aplayerInstance: null,
@@ -692,6 +696,22 @@ export default {
     // 切换新闻/项目模式
     toggleMode() {
       this.showNewsMode = !this.showNewsMode;
+    },
+
+    // 打开闹钟设置对话框
+    openAlarmDialog() {
+      this.showAlarmDialog = true;
+    },
+
+    // 关闭闹钟设置对话框
+    closeAlarmDialog() {
+      this.showAlarmDialog = false;
+    },
+
+    // 闹钟设置完成回调
+    onAlarmSet(alarm) {
+      console.log('闹钟已设置:', alarm);
+      // 可以在这里添加通知或其他逻辑
     },
   }
 };

@@ -26,7 +26,7 @@ const config = {
   },
 
   avatar: "/img/avatar.jpg", // 头像
-  welcometitle: "Hi,I'm bamboo.1. Welcome to my Soul Society.", // 标题
+  welcometitle: "I'm bamboo.1. Welcome to my Soul Society.", // 标题
 
   // 默认背景壁纸
   background: {
@@ -142,6 +142,20 @@ const config = {
     videoMobile: [
 
     ],
+  },
+
+  // 闹钟配置
+  alarm: {
+    // 音乐文件夹路径 - 放在public/audio/文件夹中
+    musicFolderPath: 'public/audio/',
+    // 用户自定义音乐文件 - 请根据实际放置的文件添加
+    userMusicFiles: [
+      { name: '🎵 漂泊的终点(守岸人主题钢琴曲)', path: '/audio/漂泊的终点(守岸人主题钢琴曲)-1.3鸣潮OST★★.mp3' },
+      // 继续添加您的音乐文件，例如：
+      // { name: '🎵 您的音乐文件名', path: '/audio/您的音乐文件.mp3' },
+    ],
+    // 说明：请将您的音频文件（mp3, wav, ogg格式）放入public/audio/文件夹中
+    // 然后在上面的 userMusicFiles 数组中添加对应的配置
   },
 
   //项目卡片 其中 字段"show"控制初始卡片的text是否展开

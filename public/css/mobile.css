@@ -311,6 +311,18 @@
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    /* 移动端时间卡片 - 移除闹钟交互 */
+    cursor: default !important;
+    pointer-events: none !important;
+  }
+
+  /* 移动端时间卡片 - 确保没有闹钟提示和图标 */
+  .mobile-time-card .time-card::after {
+    display: none !important;
+  }
+
+  .mobile-time-card .alarm-hint {
+    display: none !important;
   }
 
   .mobile-time-card .time-display {
@@ -563,6 +575,16 @@
     .mobile-time-card .time-card {
       padding: 0.8rem;
       max-width: 200px;
+    }
+
+    /* 移动端时间卡片 - 移除所有闹钟相关样式 */
+    .mobile-time-card .mobile-time-only {
+      cursor: default !important;
+      pointer-events: none !important;
+    }
+
+    .mobile-time-card .mobile-time-only::after {
+      display: none !important;
     }
 
     .mobile-time-card .time-display {

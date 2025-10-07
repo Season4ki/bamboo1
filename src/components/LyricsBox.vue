@@ -2,40 +2,40 @@
   <div v-show="visible" ref="lyricsBox" class="subtitle-lyrics-box" :style="boxStyle" @mousedown="startDrag"
     @touchstart="startDrag">
 
-    <!-- 歌词文字 -->
+    <!-- 歌詞テキスト -->
     <div class="lyrics-subtitle-text" :style="textStyle" @dblclick="toggleSettings">
-      {{ lyrics || '暂无歌词' }}
+      {{ lyrics || '歌詞なし' }}
     </div>
 
-    <!-- 设置面板 -->
+    <!-- 設定パネル -->
     <div v-show="showSettings" class="lyrics-settings-panel" @mousedown.stop @touchstart.stop>
 
-      <!-- 字体大小调节 -->
+      <!-- フォントサイズ調整 -->
       <div class="setting-item">
-        <label>字体大小</label>
+        <label>フォントサイズ</label>
         <input type="range" v-model="fontSize" min="12" max="48" step="2" class="size-slider">
         <span>{{ fontSize }}px</span>
       </div>
 
-      <!-- 透明度调节 -->
+      <!-- 不透明度調整 -->
       <div class="setting-item">
-        <label>透明度</label>
+        <label>不透明度</label>
         <input type="range" v-model="opacity" min="0.3" max="1" step="0.1" class="opacity-slider">
         <span>{{ Math.round(opacity * 100) }}%</span>
       </div>
 
-      <!-- 背景开关 -->
+      <!-- 背景スイッチ -->
       <div class="setting-item">
         <label>背景</label>
         <button @click="showBackground = !showBackground" :class="['toggle-btn', { active: showBackground }]">
-          {{ showBackground ? '开启' : '关闭' }}
+          {{ showBackground ? 'オン' : 'オフ' }}
         </button>
       </div>
 
-      <!-- 关闭按钮 -->
+      <!-- 閉じるボタン -->
       <div class="setting-item">
         <button @click="$emit('close')" class="close-btn">
-          关闭歌词
+          歌詞を閉じる
         </button>
       </div>
     </div>
@@ -64,17 +64,17 @@ export default {
     return {
       // 位置
       position: {
-        x: 50,  // 百分比
-        y: 80   // 百分比
+        x: 50,  // パーセンテージ
+        y: 80   // パーセンテージ
       },
 
-      // 样式设置
+      // スタイル設定
       fontSize: 30,
       opacity: 0.9,
       showBackground: false,
       showSettings: false,
 
-      // 拖拽状态
+      // ドラッグ状態
       isDragging: false,
       dragStart: {
         x: 0,
@@ -107,17 +107,17 @@ export default {
     }
   },
   mounted() {
-    // 设置初始位置
+    // 初期位置設定
     this.setInitialPosition();
 
-    // 添加全局事件监听
+    // グローバルイベントリスナー追加
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
     document.addEventListener('touchmove', this.onTouchMove, { passive: false });
     document.addEventListener('touchend', this.onTouchEnd);
   },
   beforeUnmount() {
-    // 清理事件监听
+    // イベントリスナー削除
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
     document.removeEventListener('touchmove', this.onTouchMove);
@@ -133,9 +133,9 @@ export default {
       }
     },
 
-    // 开始拖拽
+    // ドラッグ開始
     startDrag(event) {
-      // 阻止双击时的拖拽
+      // ダブルクリック時のドラッグを防止
       if (event.detail === 2) return;
 
       this.isDragging = true;
@@ -158,14 +158,14 @@ export default {
       const deltaX = event.clientX - this.dragStart.x;
       const deltaY = event.clientY - this.dragStart.y;
 
-      // 转换为百分比
+      // パーセンテージに変換
       const deltaXPercent = (deltaX / window.innerWidth) * 100;
       const deltaYPercent = (deltaY / window.innerHeight) * 100;
 
       let newX = this.dragStart.startX + deltaXPercent;
       let newY = this.dragStart.startY + deltaYPercent;
 
-      // 边界检查
+      // 境界チェック
       newX = Math.max(5, Math.min(95, newX));
       newY = Math.max(5, Math.min(95, newY));
 
@@ -180,14 +180,14 @@ export default {
       const deltaX = touch.clientX - this.dragStart.x;
       const deltaY = touch.clientY - this.dragStart.y;
 
-      // 转换为百分比
+      // パーセンテージに変換
       const deltaXPercent = (deltaX / window.innerWidth) * 100;
       const deltaYPercent = (deltaY / window.innerHeight) * 100;
 
       let newX = this.dragStart.startX + deltaXPercent;
       let newY = this.dragStart.startY + deltaYPercent;
 
-      // 边界检查
+      // 境界チェック
       newX = Math.max(5, Math.min(95, newX));
       newY = Math.max(5, Math.min(95, newY));
 
@@ -205,7 +205,7 @@ export default {
       this.isDragging = false;
     },
 
-    // 切换设置面板
+    // 設定パネル切り替え
     toggleSettings() {
       this.showSettings = !this.showSettings;
     }

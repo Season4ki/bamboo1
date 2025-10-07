@@ -22,6 +22,6 @@ const vuetify = createVuetify({
     },
 })
 const app = createApp(App);
-app.config.warnHandler = () => {};
+app.config.warnHandler = () => { };
 app.use(vuetify).mount('#app')
 
