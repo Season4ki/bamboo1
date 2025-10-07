@@ -48,45 +48,68 @@
       </div>
     </v-card-text>
 
-    <!-- 現在の天気 - 詳細版 -->
-    <v-card-text v-if="weatherData.current && isExpanded" class="pb-2">
-      <v-row align="center" class="mb-3">
-        <v-col cols="auto">
-          <div class="weather-icon">
-            <v-img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`"
-              :alt="weatherData.current.weather[0].description" width="64" height="64"></v-img>
-          </div>
-        </v-col>
-        <v-col>
-          <div class="temperature">{{ Math.round(weatherData.current.main.temp) }}°C</div>
-          <div class="weather-description">{{ weatherData.current.weather[0].description }}</div>
-          <div class="feels-like">体感温度 {{ Math.round(weatherData.current.main.feels_like) }}°C</div>
-        </v-col>
-        <v-col cols="auto">
-          <div class="weather-details">
-            <div class="detail-item">
-              <v-icon size="small" class="mr-1">mdi-water-percent</v-icon>
-              {{ weatherData.current.main.humidity }}%
+    <!-- 現在の天気 - 詳細版 - 展開時はスクロール可能 -->
+    <div v-if="weatherData.current && isExpanded" class="expanded-weather-container">
+      <v-card-text class="pb-2">
+        <v-row align="center" class="mb-3">
+          <v-col cols="auto">
+            <div class="weather-icon">
+              <v-img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`"
+                :alt="weatherData.current.weather[0].description" width="64" height="64"></v-img>
             </div>
-            <div class="detail-item">
-              <v-icon size="small" class="mr-1">mdi-weather-windy</v-icon>
-              {{ weatherData.current.wind.speed }} m/s
+          </v-col>
+          <v-col>
+            <div class="temperature">{{ Math.round(weatherData.current.main.temp) }}°C</div>
+            <div class="weather-description">{{ weatherData.current.weather[0].description }}</div>
+            <div class="feels-like">体感温度 {{ Math.round(weatherData.current.main.feels_like) }}°C</div>
+          </v-col>
+          <v-col cols="auto">
+            <div class="weather-details">
+              <div class="detail-item">
+                <v-icon size="small" class="mr-1">mdi-water-percent</v-icon>
+                {{ weatherData.current.main.humidity }}%
+              </div>
+              <div class="detail-item">
+                <v-icon size="small" class="mr-1">mdi-weather-windy</v-icon>
+                {{ weatherData.current.wind.speed }} m/s
+              </div>
+              <div class="detail-item">
+                <v-icon size="small" class="mr-1">mdi-gauge</v-icon>
+                {{ weatherData.current.main.pressure }} hPa
+              </div>
             </div>
-            <div class="detail-item">
-              <v-icon size="small" class="mr-1">mdi-gauge</v-icon>
-              {{ weatherData.current.main.pressure }} hPa
-            </div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-card-text>
+          </v-col>
+        </v-row>
+      </v-card-text>
 
-    <!-- チャートコンテナ - 展開時のみ表示 -->
-    <v-card-text v-if="chartData && isExpanded">
-      <div class="chart-container">
-        <canvas ref="chartCanvas"></canvas>
-      </div>
-    </v-card-text>
+      <!-- チャートコンテナ - 展開時のみ表示 -->
+      <v-card-text v-if="chartData">
+        <div class="chart-container">
+          <canvas ref="chartCanvas"></canvas>
+        </div>
+      </v-card-text>
+
+      <!-- 5日間予報カード - 展開時のみ表示 -->
+      <v-card-text v-if="forecastData.length > 0">
+        <v-divider class="mb-3"></v-divider>
+        <div class="forecast-title mb-2">5日間予報</div>
+        <v-row class="forecast-cards">
+          <v-col v-for="forecast in forecastData" :key="forecast.dt" cols="auto">
+            <v-card class="forecast-card" variant="outlined" width="120">
+              <v-card-text class="text-center pa-2">
+                <div class="forecast-day">{{ forecast.day }}</div>
+                <v-img :src="`https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`"
+                  :alt="forecast.weather[0].description" width="40" height="40" class="mx-auto mb-1"></v-img>
+                <div class="forecast-temp">{{ Math.round(forecast.main.temp_max) }}°/{{
+                  Math.round(forecast.main.temp_min)
+                  }}°</div>
+                <div class="forecast-desc">{{ forecast.weather[0].main }}</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </div>
 
     <!-- 読み込み状態 -->
     <v-card-text v-if="loading" class="text-center loading-text">
@@ -100,7 +123,6 @@
       <div class="error-message">{{ error }}</div>
       <v-btn @click="fetchWeatherData" color="primary" class="mt-2">再試行</v-btn>
     </v-card-text>
-
   </v-card>
 </template>
 
@@ -121,6 +143,7 @@ export default {
       forecast: []
     })
     const chartData = ref(null)
+    const forecastData = ref([])
     const loading = ref(true)
     const error = ref(null)
     const refreshTimer = ref(null)
@@ -198,6 +221,9 @@ export default {
         // チャートデータを処理
         processChartData(weatherData.value.forecast)
 
+        // 5日間予報データを処理
+        processForecastData(weatherData.value.forecast)
+
         console.log('天気データ処理完了')
 
       } catch (err) {
@@ -256,29 +282,35 @@ export default {
         })
       }
 
-      // 5日間予報データを模擬
+      // 5日間予報データを模擬（3時間おきのデータを生成、OpenWeatherMap APIの形式に合わせる）
       const mockDaily = []
       for (let i = 0; i < 5; i++) {
-        const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000)
-        mockDaily.push({
-          dt: date.getTime() / 1000,
-          main: {
-            temp: 22 + Math.random() * 6,
-            temp_max: 25 + Math.random() * 5,
-            temp_min: 18 + Math.random() * 4
-          },
-          weather: [{
-            icon: ['01d', '02d', '03d', '04d', '09d'][Math.floor(Math.random() * 5)],
-            description: ['晴れ', '曇り', '雲', '曇り', '雨'][Math.floor(Math.random() * 5)],
-            main: ['Clear', 'Clouds', 'Clouds', 'Clouds', 'Rain'][Math.floor(Math.random() * 5)]
-          }]
-        })
+        // 各日について、3時間おきのデータを8回生成（24時間分）
+        for (let j = 0; j < 8; j++) {
+          const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000 + j * 3 * 60 * 60 * 1000)
+          mockDaily.push({
+            dt: date.getTime() / 1000,
+            main: {
+              temp: 22 + Math.random() * 6,
+              temp_max: 25 + Math.random() * 5,
+              temp_min: 18 + Math.random() * 4
+            },
+            weather: [{
+              icon: ['01d', '02d', '03d', '04d', '09d'][Math.floor(Math.random() * 5)],
+              description: ['晴れ', '曇り', '雲', '曇り', '雨'][Math.floor(Math.random() * 5)],
+              main: ['Clear', 'Clouds', 'Clouds', 'Clouds', 'Rain'][Math.floor(Math.random() * 5)]
+            }]
+          })
+        }
       }
 
       weatherData.value.forecast = [...mockForecast, ...mockDaily]
 
       // チャートデータを処理
       processChartData(mockForecast)
+
+      // 5日間予報データを処理（mockDaily を使用）
+      processForecastData(mockDaily)
 
       console.log('サンプルデータの読み込み完了')
     }
@@ -404,6 +436,52 @@ export default {
       nextTick(() => {
         createChart()
       })
+    }
+
+    // 5日間予報データを処理
+    const processForecastData = (forecastList) => {
+      console.log('5日間予報データ処理開始:', forecastList.length, '件のデータ')
+      const dailyData = {}
+
+      // 日別にデータをグループ化
+      forecastList.forEach(item => {
+        const date = new Date(item.dt * 1000)
+        const dateKey = date.toDateString()
+
+        if (!dailyData[dateKey]) {
+          dailyData[dateKey] = {
+            temps: [],
+            weather: item.weather[0],
+            dt: item.dt
+          }
+        }
+
+        dailyData[dateKey].temps.push(item.main.temp)
+      })
+
+      console.log('日別グループ化結果:', Object.keys(dailyData).length, '日分のデータ')
+
+      // 前5日間のデータを取得
+      const days = Object.keys(dailyData).slice(0, 5)
+      console.log('選択された日付:', days)
+
+      forecastData.value = days.map(dateKey => {
+        const data = dailyData[dateKey]
+        const date = new Date(data.dt * 1000)
+        const dayNames = ['日曜', '月曜', '火曜', '水曜', '木曜', '金曜', '土曜']
+
+        return {
+          dt: data.dt,
+          day: date.getDate() === new Date().getDate() ? '今日' : dayNames[date.getDay()],
+          weather: [data.weather],
+          main: {
+            temp_max: Math.max(...data.temps),
+            temp_min: Math.min(...data.temps)
+          }
+        }
+      })
+
+      console.log('最終的な予報データ:', forecastData.value.length, '日分')
     }
 
     // チャートを作成
@@ -548,6 +626,7 @@ export default {
       chartCanvas,
       weatherData,
       chartData,
+      forecastData,
       loading,
       error,
       isExpanded,
@@ -654,6 +733,66 @@ export default {
   position: relative;
 }
 
+/* 展開時のスクロール可能なコンテナ */
+.expanded-weather-container {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* カスタムスクロールバー */
+.expanded-weather-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.expanded-weather-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.expanded-weather-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.expanded-weather-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.forecast-title {
+  font-weight: bold;
+  color: white;
+}
+
+.forecast-cards {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.forecast-card {
+  min-width: 120px;
+  margin-right: 0.5rem;
+}
+
+.forecast-day {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+.forecast-temp {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+.forecast-desc {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 /* モバイル適応 */
 @media (max-width: 768px) {
   .temperature {
@@ -662,6 +801,18 @@ export default {
 
   .chart-container {
     height: 160px;
+  }
+
+  .expanded-weather-container {
+    max-height: 350px;
+  }
+
+  .forecast-cards {
+    padding: 0 0.5rem;
+  }
+
+  .forecast-card {
+    min-width: 100px;
   }
 }
 </style>
