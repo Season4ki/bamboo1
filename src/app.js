@@ -1,4 +1,4 @@
-import homeright from '../src/components/homeseting.vue';
+import homeleft from '../src/components/homeseting.vue';
 import typewriter from './components/typewriter.vue'
 import tab2 from './components/tabs/tab2.vue';
 import tab3 from './components/tabs/tab3.vue';
@@ -13,7 +13,7 @@ import { useDisplay } from 'vuetify'
 
 export default {
   components: {
-    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart
+    tab2, tab3, homeleft, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart
   },
   setup() {
     const { xs, sm, md } = useDisplay();

@@ -13,8 +13,13 @@
 
     <div v-show="!isloading && !isClearScreen"
       :style="xs || sm ? { 'overflow-y': 'auto', 'overflow-x': 'hidden' } : {}">
-      <v-row style="display: flex;flex-direction: row-reverse;">
-        <v-col cols="12" md="4" lg="3" class="bamboo1-left" align="center">
+      <v-row style="display: flex;">
+        <v-col cols="12" md="8" lg="9" style="height: 100vh;" :style="xs || sm ? {} : { 'overflow': 'auto' }">
+          <homeleft :configdata=configdata :formattedTime=formattedTime :formattedDate=formattedDate
+            :projectcards=projectcards></homeleft>
+        </v-col>
+
+        <v-col cols="12" md="4" lg="3" class="bamboo1-right" align="center">
           <div :style="xs || sm ? { 'font-size': '3.1rem' } : { 'display': 'none' }" class="welcome-title">{{
             configdata.welcometitle }}</div>
 
@@ -89,11 +94,6 @@
               </v-col>
             </v-row>
           </v-container>
-        </v-col>
-
-        <v-col cols="12" md="8" lg="9" style="height: 100vh;" :style="xs || sm ? {} : { 'overflow': 'auto' }">
-          <homeright :configdata=configdata :formattedTime=formattedTime :formattedDate=formattedDate
-            :projectcards=projectcards></homeright>
         </v-col>
       </v-row>
     </div>
