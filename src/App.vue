@@ -20,8 +20,8 @@
         <div class="mobile-welcome-title">{{ configdata.welcometitle }}</div>
 
         <!-- 2. 头像播放器 -->
-        <v-avatar class="mobile-avatar-player" :size="120" @mouseenter="musicplayershow(1)"
-          @mouseleave="musicplayershow(0)">
+        <v-avatar class="mobile-avatar-player" :size="120" @click="toggleMusicPlayer()" 
+          @mouseenter="musicplayershow(1)" @mouseleave="musicplayershow(0)">
           <v-img :class="{ 'bamboo1-spin': isPlaying }" alt="bamboo1" :src="configdata.avatar"></v-img>
 
           <!-- 头像播放器控制面板 -->
@@ -40,13 +40,13 @@
                 @waiting="onWaiting" @canplay="onCanPlay"></audio>
 
               <!-- 控制按钮 -->
-              <v-btn :size="22" color="#999999" icon @click="previousTrack()">
+              <v-btn :size="22" color="#999999" icon @click="previousTrack()" class="prev-btn">
                 <v-icon>mdi-skip-previous</v-icon>
               </v-btn>
-              <v-btn :size="35" color="#999999" icon @click="togglePlay()">
+              <v-btn :size="35" color="#999999" icon @click="togglePlay()" class="play-btn">
                 <v-icon>{{ isPlaying ? 'mdi-pause' : 'mdi-play' }}</v-icon>
               </v-btn>
-              <v-btn :size="22" color="#999999" icon @click="nextTrack()">
+              <v-btn :size="22" color="#999999" icon @click="nextTrack()" class="next-btn">
                 <v-icon>mdi-skip-next</v-icon>
               </v-btn>
             </v-card>

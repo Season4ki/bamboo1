@@ -297,6 +297,11 @@ export default {
       this.ismusicplayer = val;
     },
 
+    // 移动端点击切换音乐播放器显示状态
+    toggleMusicPlayer() {
+      this.ismusicplayer = !this.ismusicplayer;
+    },
+
     setupAudioListener() {
       if (this.$refs.audioPlayer) {
         this.$refs.audioPlayer.addEventListener('ended', this.nextTrack);

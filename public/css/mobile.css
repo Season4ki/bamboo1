@@ -29,6 +29,17 @@
     position: relative;
     margin: 0;
     transform: none !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    transition: transform 0.2s ease !important;
+  }
+
+  .mobile-avatar-player:hover {
+    transform: scale(1.05) !important;
+  }
+
+  .mobile-avatar-player:active {
+    transform: scale(0.95) !important;
   }
 
   .mobile-musicplayer {
@@ -45,7 +56,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.2rem;
+    pointer-events: auto !important;
+    z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
   }
 
   .mobile-musicplayer .musicplayer-text {
@@ -66,7 +79,43 @@
     min-width: unset !important;
     width: auto !important;
     backdrop-filter: blur(10px) !important;
-    margin: 0.1rem;
+    margin: 0 !important;
+    position: absolute !important;
+    pointer-events: auto !important;
+  }
+
+  /* 播放/暂停按钮 - 居中 */
+  .mobile-musicplayer .play-btn {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 12;
+  }
+
+  /* 上一首按钮 - 左侧 */
+  .mobile-musicplayer .prev-btn {
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    z-index: 12;
+  }
+
+  /* 下一首按钮 - 右侧 */
+  .mobile-musicplayer .next-btn {
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    z-index: 12;
+  }
+
+  /* 确保移动端音乐播放器按钮不会溢出容器 */
+  .mobile-musicplayer .v-btn .v-icon {
+    font-size: 18px !important;
+  }
+
+  /* 播放按钮稍大一些 */
+  .mobile-musicplayer .play-btn .v-icon {
+    font-size: 24px !important;
   }
 
   /* 3. 移动端雷达图 */
@@ -438,6 +487,15 @@
 
     .mobile-avatar-player {
       margin: 0.5rem 0;
+    }
+
+    /* 超小屏幕下音乐播放器按钮位置微调 */
+    .mobile-musicplayer .prev-btn {
+      left: 15px;
+    }
+
+    .mobile-musicplayer .next-btn {
+      right: 15px;
     }
 
     .mobile-radar-chart {
