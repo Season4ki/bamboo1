@@ -7,6 +7,7 @@ import LyricsBox from './components/LyricsBox.vue';
 import PageLoading from './components/PageLoading.vue';
 import WeatherChart from './components/WeatherChart.vue';
 import AlarmClock from './components/AlarmClock.vue';
+import WordLearning from './components/WordLearning.vue';
 import config from './config.js';
 import { getCookie } from './utils/cookieUtils.js';
 import { setMeta, getFormattedTime, getFormattedDate, } from './utils/common.js';
@@ -14,7 +15,7 @@ import { useDisplay } from 'vuetify'
 
 export default {
   components: {
-    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart, AlarmClock
+    tab2, tab3, homeright, typewriter, radarChart, LyricsBox, PageLoading, WeatherChart, AlarmClock, WordLearning
   },
   setup() {
     const { xs, sm, md } = useDisplay();
@@ -56,6 +57,26 @@ export default {
 
       // 新闻模式切换
       showNewsMode: false, // false: 显示项目卡片, true: 显示新闻组件
+
+      // 功能模块轮播
+      currentModeIndex: 0,
+      modes: [
+        {
+          name: '项目',
+          icon: 'mdi-alpha-w-box',
+          type: 'projects'
+        },
+        {
+          name: '単語',
+          icon: 'mdi-book-alphabet',
+          type: 'words'
+        },
+        {
+          name: 'ニュース',
+          icon: 'mdi-newspaper',
+          type: 'news'
+        }
+      ],
 
       projectcards: null,
       tab: null,
@@ -207,6 +228,9 @@ export default {
     },
     currentTime() {
       return this.currentPlayTime;
+    },
+    currentMode() {
+      return this.modes[this.currentModeIndex] || this.modes[0];
     }
   },
 
@@ -712,6 +736,19 @@ export default {
     onAlarmSet(alarm) {
       console.log('闹钟已设置:', alarm);
       // 可以在这里添加通知或其他逻辑
+    },
+
+    // 轮播导航方法
+    previousMode() {
+      this.currentModeIndex = this.currentModeIndex > 0
+        ? this.currentModeIndex - 1
+        : this.modes.length - 1;
+    },
+
+    nextMode() {
+      this.currentModeIndex = this.currentModeIndex < this.modes.length - 1
+        ? this.currentModeIndex + 1
+        : 0;
     },
   }
 };

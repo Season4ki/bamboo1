@@ -101,32 +101,85 @@
           </div>
         </div>
 
-        <!-- 8. 项目卡片 -->
+        <!-- 8. 功能模块轮播 -->
         <div class="mobile-projects">
-          <v-chip class="mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
-            size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
-            @click="toggleMode">
-            <transition name="fade" mode="out-in">
-              <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
-            </transition>
-            <v-tooltip activator="parent" location="bottom">
-              {{ showNewsMode ? 'プロジェクトに切り替え' : 'ニュースに切り替え' }}
-            </v-tooltip>
-          </v-chip>
+          <!-- 轮播指示器和控制 -->
+          <div class="carousel-controls mb-4">
+            <v-btn-toggle v-model="currentModeIndex" mandatory rounded="pill" color="primary" variant="outlined"
+              class="mode-carousel-toggle">
+              <v-btn v-for="(mode, index) in modes" :key="index" :value="index" :prepend-icon="mode.icon" size="small"
+                class="mode-btn">
+                {{ mode.name }}
+              </v-btn>
+            </v-btn-toggle>
 
-          <!-- 项目卡片内容将通过子组件处理 -->
-          <homeright :configdata="configdata" :formattedTime="formattedTime" :formattedDate="formattedDate"
-            :projectcards="projectcards" :mobileMode="true" :showNewsMode="showNewsMode"></homeright>
+            <!-- 轮播导航按钮 -->
+            <div class="carousel-nav mt-2">
+              <v-btn @click="previousMode" icon size="small" variant="outlined" color="primary" class="mr-2">
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-btn>
+
+              <v-btn @click="nextMode" icon size="small" variant="outlined" color="primary">
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
+            </div>
+          </div>
+
+          <!-- 内容区域 -->
+          <div class="mode-content">
+            <transition name="slide-fade" mode="out-in">
+              <div :key="currentModeIndex">
+                <!-- 项目模式 -->
+                <homeright v-if="currentMode.type === 'projects'" :configdata="configdata"
+                  :formattedTime="formattedTime" :formattedDate="formattedDate" :projectcards="projectcards"
+                  :mobileMode="true" :showNewsMode="false" />
+
+                <!-- 单词学习模式 -->
+                <WordLearning v-else-if="currentMode.type === 'words'" />
+
+                <!-- 新闻模式 -->
+                <homeright v-else-if="currentMode.type === 'news'" :configdata="configdata"
+                  :formattedTime="formattedTime" :formattedDate="formattedDate" :projectcards="projectcards"
+                  :mobileMode="true" :showNewsMode="true" />
+              </div>
+            </transition>
+          </div>
         </div>
       </div>
 
       <!-- 桌面端布局（保持现有） -->
       <v-row v-else style="display: flex;">
         <v-col cols="12" md="8" lg="9" style="height: 100vh;" :style="{ 'overflow': 'auto' }">
-          <homeright :configdata="configdata" :formattedTime="formattedTime" :formattedDate="formattedDate"
-            :projectcards="projectcards" :showNewsMode="showNewsMode" @toggleMode="toggleMode"
-            @openAlarm="openAlarmDialog">
-          </homeright>
+          <!-- 桌面端功能模块轮播 -->
+          <div class="desktop-mode-controls pa-4">
+            <v-btn-toggle v-model="currentModeIndex" mandatory rounded="pill" color="primary" variant="outlined"
+              class="mode-carousel-toggle mb-4">
+              <v-btn v-for="(mode, index) in modes" :key="index" :value="index" :prepend-icon="mode.icon"
+                class="mode-btn">
+                {{ mode.name }}
+              </v-btn>
+            </v-btn-toggle>
+          </div>
+
+          <!-- 桌面端内容区域 -->
+          <div class="desktop-mode-content">
+            <transition name="slide-fade" mode="out-in">
+              <div :key="currentModeIndex">
+                <!-- 项目模式 -->
+                <homeright v-if="currentMode.type === 'projects'" :configdata="configdata"
+                  :formattedTime="formattedTime" :formattedDate="formattedDate" :projectcards="projectcards"
+                  :showNewsMode="false" @openAlarm="openAlarmDialog" />
+
+                <!-- 单词学习模式 -->
+                <WordLearning v-else-if="currentMode.type === 'words'" />
+
+                <!-- 新闻模式 -->
+                <homeright v-else-if="currentMode.type === 'news'" :configdata="configdata"
+                  :formattedTime="formattedTime" :formattedDate="formattedDate" :projectcards="projectcards"
+                  :showNewsMode="true" @openAlarm="openAlarmDialog" />
+              </div>
+            </transition>
+          </div>
         </v-col>
 
         <v-col cols="12" md="4" lg="3" class="bamboo1-right" align="center">
@@ -247,4 +300,97 @@
 <style scoped>
 @import url(/css/app.css);
 @import url(/css/mobile.css);
+
+/* 轮播功能样式 */
+.carousel-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mode-carousel-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mode-btn {
+  color: #ffffff !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.mode-btn.v-btn--active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  transform: scale(1.05);
+}
+
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mode-content,
+.desktop-mode-content {
+  min-height: 400px;
+  padding: 16px;
+}
+
+/* 过渡动画 */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translate3d(30px, 0, 0);
+}
+
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translate3d(-30px, 0, 0);
+}
+
+/* 桌面端样式 */
+.desktop-mode-controls {
+  display: flex;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 移动端适配 */
+@media (max-width: 600px) {
+  .mode-carousel-toggle {
+    flex-wrap: wrap;
+  }
+
+  .mode-btn {
+    min-width: auto;
+    font-size: 0.75rem;
+    padding: 8px 12px;
+  }
+
+  .carousel-controls {
+    padding: 12px;
+  }
+
+  .mode-content {
+    min-height: 300px;
+    padding: 12px;
+  }
+}
 </style>

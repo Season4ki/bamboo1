@@ -60,9 +60,7 @@
           <transition name="fade" mode="out-in">
             <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
           </transition>
-          <v-tooltip activator="parent" location="bottom">
-            {{ showNewsMode ? 'プロジェクトに切り替え' : 'ニュースに切り替え' }}
-          </v-tooltip>
+
         </v-chip>
         <!-- 项目卡片区域 - 简化版设计 -->
         <transition name="slide-fade" mode="out-in">
