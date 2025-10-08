@@ -55,16 +55,15 @@ export default {
       syncTimer: null, // APlayer状态同步定时器
       currentPlayTime: 0, // 当前播放时间
 
-      // 新闻模式切换
-      showNewsMode: false, // false: 显示项目卡片, true: 显示新闻组件
+
 
       // 功能模块轮播
       currentModeIndex: 0,
       modes: [
         {
-          name: '项目',
-          icon: 'mdi-alpha-w-box',
-          type: 'projects'
+          name: 'ホーム',
+          icon: 'mdi-home',
+          type: 'home'
         },
         {
           name: '単語',
@@ -717,10 +716,7 @@ export default {
       }
     },
 
-    // 切换新闻/项目模式
-    toggleMode() {
-      this.showNewsMode = !this.showNewsMode;
-    },
+
 
     // 打开闹钟设置对话框
     openAlarmDialog() {

@@ -129,10 +129,10 @@
           <div class="mode-content">
             <transition name="slide-fade" mode="out-in">
               <div :key="currentModeIndex">
-                <!-- 项目模式 -->
-                <homeright v-if="currentMode.type === 'projects'" :configdata="configdata"
-                  :formattedTime="formattedTime" :formattedDate="formattedDate" :projectcards="projectcards"
-                  :mobileMode="true" :showNewsMode="false" />
+                <!-- 主页模式 -->
+                <homeright v-if="currentMode.type === 'home'" :configdata="configdata" :formattedTime="formattedTime"
+                  :formattedDate="formattedDate" :projectcards="projectcards" :mobileMode="true"
+                  :showNewsMode="false" />
 
                 <!-- 单词学习模式 -->
                 <WordLearning v-else-if="currentMode.type === 'words'" />
@@ -165,10 +165,10 @@
           <div class="desktop-mode-content">
             <transition name="slide-fade" mode="out-in">
               <div :key="currentModeIndex">
-                <!-- 项目模式 -->
-                <homeright v-if="currentMode.type === 'projects'" :configdata="configdata"
-                  :formattedTime="formattedTime" :formattedDate="formattedDate" :projectcards="projectcards"
-                  :showNewsMode="false" @openAlarm="openAlarmDialog" />
+                <!-- 主页模式 -->
+                <homeright v-if="currentMode.type === 'home'" :configdata="configdata" :formattedTime="formattedTime"
+                  :formattedDate="formattedDate" :projectcards="projectcards" :showNewsMode="false"
+                  @openAlarm="openAlarmDialog" />
 
                 <!-- 单词学习模式 -->
                 <WordLearning v-else-if="currentMode.type === 'words'" />

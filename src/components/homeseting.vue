@@ -5,6 +5,14 @@
       <!-- 项目卡片或新闻组件 - 移动端版本 -->
       <div v-if="!showNewsMode" key="projects">
         <v-container fluid class="pa-2">
+          <!-- 移动端项目标题按钮 -->
+          <div class="project-header mobile-project-header mb-3">
+            <v-chip class="project-title-chip mobile-project-chip" prepend-icon="mdi-alpha-w-box" size="small"
+              style="color: #FFFFFF; border-radius: 9999px; padding-left: 12px; padding-right: 12px;">
+              項目
+            </v-chip>
+          </div>
+
           <v-row justify="center" class="g-3">
             <v-col v-for="(item, key) in projectcards" :key="key" cols="6" class="d-flex align-stretch">
               <!-- 简化项目卡片 - 移动端 -->
@@ -31,12 +39,11 @@
       <div v-if="showNewsMode" key="news" class="pa-2">
         <NewsComponent />
       </div>
-    </div>
-
-    <!-- 桌面端布局保持原样 -->
+    </div> <!-- 桌面端布局 -->
     <div v-else>
-      <!-- 首页内容（在新闻模式下隐藏） -->
+      <!-- 项目模式内容 -->
       <div v-if="!showNewsMode">
+        <!-- 首页头部 -->
         <div>
           <div :style="xs || sm ? { 'display': 'none' } : { 'font-size': '4rem' }" class="welcome-title">{{
             configdata.welcometitle }}</div>
@@ -55,19 +62,18 @@
               </div>
             </v-col>
           </v-row>
-
-          <v-chip class="mt-12 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
-            size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
-            @click="$emit('toggleMode')">
-            <transition name="fade" mode="out-in">
-              <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
-            </transition>
-          </v-chip>
         </div>
-      </div>
-      <!-- 项目卡片区域 - 简化版设计 -->
-      <transition name="slide-fade" mode="out-in">
-        <v-container v-if="!showNewsMode" key="projects" fluid class="pa-4 mt-12">
+
+        <!-- 项目卡片区域 -->
+        <v-container fluid class="pa-4 mt-12">
+          <!-- 项目标题按钮 -->
+          <div class="project-header mb-4">
+            <v-chip class="project-title-chip" prepend-icon="mdi-alpha-w-box" size="large"
+              style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;">
+              項目
+            </v-chip>
+          </div>
+
           <v-row justify="center" class="g-4">
             <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3"
               class="d-flex align-stretch">
@@ -89,14 +95,14 @@
             </v-col>
           </v-row>
         </v-container>
-      </transition>
+      </div>
 
-      <!-- 新闻组件区域 -->
-      <transition name="slide-fade" mode="out-in">
-        <v-container v-if="showNewsMode" class="news-container-wrapper news-fullscreen" key="news" fluid>
+      <!-- 新闻模式内容 -->
+      <div v-else>
+        <v-container class="news-container-wrapper news-fullscreen" fluid>
           <NewsComponent />
         </v-container>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -137,31 +143,7 @@ export default {
 @import url(/css/app.css);
 @import url(/css/mobile.css);
 
-/* 按钮切换动画 */
-.mode-toggle-chip {
-  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-  transform-origin: center;
-}
 
-.mode-toggle-chip:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.mode-toggle-chip:active {
-  transform: scale(0.95);
-}
-
-/* 文字淡入淡出动画 */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 
 /* 内容滑动淡入动画 */
 .slide-fade-enter-active {
@@ -411,5 +393,37 @@ export default {
     line-height: 1.3;
     text-align: center;
   }
+}
+
+/* 项目标题按钮样式 */
+.project-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 12px;
+}
+
+.project-title-chip {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transform-origin: center;
+}
+
+.project-title-chip:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 移动端项目标题按钮样式 */
+.mobile-project-header {
+  margin-left: 8px;
+}
+
+.mobile-project-chip {
+  font-size: 0.85rem !important;
 }
 </style>
