@@ -89,7 +89,7 @@ const config = {
       { "title": "露西01", "preview": "/img/wallpaper/static/露西01/Lucy-01-pre.webp", "url": "/img/wallpaper/static/露西01/Lucy-01.jpg" },
       { "title": "腐草为萤", "preview": "/img/wallpaper/static/腐草为萤/image-pre.webp", "url": "/img/wallpaper/static/腐草为萤/image.png" },
       { "title": "腐草为萤", "preview": "/img/wallpaper/static/腐草为萤/image2-pre.webp", "url": "/img/wallpaper/static/腐草为萤/image2.jpeg" },
-      { "title": "蕾赛01", "preview": "/img/wallpaper/static/蕾赛01/Reze-01-pre.webp", "url": "/img/wallpaper/static/蕾赛01/Reze-01.jpg" },
+      { "title": "むりなことはむり", "preview": "/img/wallpaper/static/むりなことはむり/107876734_p0-pre.webp", "url": "/img/wallpaper/static/むりなことはむり/107876734_p0.png" },
       { "title": "守岸人01", "preview": "/img/wallpaper/static/守岸人01/shorekeeper-01-pre.webp", "url": "/img/wallpaper/static/守岸人01/shorekeeper-01.webp" },
       { "title": "今汐01", "preview": "/img/wallpaper/static/今汐01/jinxi-01-pre.webp", "url": "/img/wallpaper/static/今汐01/jinxi-01.webp" },
 
