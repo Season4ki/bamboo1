@@ -307,11 +307,7 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px;
 }
 
 .mode-carousel-toggle {
@@ -365,11 +361,8 @@
 .desktop-mode-controls {
   display: flex;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
   margin: 16px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px;
 }
 
 .desktop-mode-content {
@@ -389,7 +382,7 @@
   }
 
   .carousel-controls {
-    padding: 12px;
+    padding: 4px;
   }
 
   .mode-content {
