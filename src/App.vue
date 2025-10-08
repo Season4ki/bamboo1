@@ -372,6 +372,10 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.desktop-mode-content {
+  padding: 0 16px 16px 16px;
+}
+
 /* 移动端适配 */
 @media (max-width: 600px) {
   .mode-carousel-toggle {

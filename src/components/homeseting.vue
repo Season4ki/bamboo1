@@ -35,67 +35,68 @@
 
     <!-- 桌面端布局保持原样 -->
     <div v-else>
-      <div>
-        <div :style="xs || sm ? { 'display': 'none' } : { 'font-size': '4rem' }" class="welcome-title">{{
-          configdata.welcometitle }}</div>
+      <!-- 首页内容（在新闻模式下隐藏） -->
+      <div v-if="!showNewsMode">
+        <div>
+          <div :style="xs || sm ? { 'display': 'none' } : { 'font-size': '4rem' }" class="welcome-title">{{
+            configdata.welcometitle }}</div>
+        </div>
+        <div>
+          <v-row align="center">
+            <v-col cols="12" md="8">
+              <typewriter class="ma-3 d-flex align-center justify-center"
+                :style="xs || sm ? { 'min-height': '150px' } : { 'min-height': '200px' }"></typewriter>
+            </v-col>
+            <v-col cols="12" md="4" class="d-flex justify-center">
+              <div class="time-card" @click="$emit('openAlarm')">
+                <div class="time-display">{{ formattedTime }}</div>
+                <div class="date-display">{{ formattedDate }}</div>
+                <div class="alarm-hint">クリックしてアラーム設定</div>
+              </div>
+            </v-col>
+          </v-row>
+
+          <v-chip class="mt-12 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
+            size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
+            @click="$emit('toggleMode')">
+            <transition name="fade" mode="out-in">
+              <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
+            </transition>
+          </v-chip>
+        </div>
       </div>
-      <div>
-        <v-row align="center">
-          <v-col cols="12" md="8">
-            <typewriter class="ma-3 d-flex align-center justify-center"
-              :style="xs || sm ? { 'min-height': '150px' } : { 'min-height': '200px' }"></typewriter>
-          </v-col>
-          <v-col cols="12" md="4" class="d-flex justify-center">
-            <div class="time-card" @click="$emit('openAlarm')">
-              <div class="time-display">{{ formattedTime }}</div>
-              <div class="date-display">{{ formattedDate }}</div>
-              <div class="alarm-hint">クリックしてアラーム設定</div>
-            </div>
-          </v-col>
-        </v-row>
-
-        <v-chip class="mt-12 ml-3 mode-toggle-chip" :prepend-icon="showNewsMode ? 'mdi-newspaper' : 'mdi-alpha-w-box'"
-          size="large" style="color: #FFFFFF; border-radius: 9999px; padding-left: 16px; padding-right: 16px;"
-          @click="$emit('toggleMode')">
-          <transition name="fade" mode="out-in">
-            <span :key="showNewsMode">{{ showNewsMode ? 'ニュース' : '項目' }}</span>
-          </transition>
-
-        </v-chip>
-        <!-- 项目卡片区域 - 简化版设计 -->
-        <transition name="slide-fade" mode="out-in">
-          <v-container v-if="!showNewsMode" key="projects" fluid class="pa-4 mt-12">
-            <v-row justify="center" class="g-4">
-              <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3"
-                class="d-flex align-stretch">
-                <!-- 简化项目卡片 -->
-                <div class="simple-project-card" @click="handleCardClick(item)">
-                  <!-- 左侧图片 -->
-                  <div class="card-image-container">
-                    <v-img :src="item.img" height="100" width="100" cover class="card-image rounded"></v-img>
-                  </div>
-
-                  <!-- 右侧内容 -->
-                  <div class="card-content-container">
-                    <!-- 右上标题 -->
-                    <div class="card-title">{{ item.title }}</div>
-                    <!-- 右下副标题 -->
-                    <div class="card-subtitle">{{ item.subtitle }}</div>
-                  </div>
+      <!-- 项目卡片区域 - 简化版设计 -->
+      <transition name="slide-fade" mode="out-in">
+        <v-container v-if="!showNewsMode" key="projects" fluid class="pa-4 mt-12">
+          <v-row justify="center" class="g-4">
+            <v-col v-for="(item, key) in projectcards" :key="key" cols="12" sm="6" md="4" lg="3"
+              class="d-flex align-stretch">
+              <!-- 简化项目卡片 -->
+              <div class="simple-project-card" @click="handleCardClick(item)">
+                <!-- 左侧图片 -->
+                <div class="card-image-container">
+                  <v-img :src="item.img" height="100" width="100" cover class="card-image rounded"></v-img>
                 </div>
-              </v-col>
-            </v-row>
-          </v-container>
-        </transition>
 
-        <!-- 新闻组件区域 -->
-        <transition name="slide-fade" mode="out-in">
-          <v-container v-if="showNewsMode" class="mt-12 news-container-wrapper" key="news" fluid>
-            <NewsComponent />
-          </v-container>
-        </transition>
+                <!-- 右侧内容 -->
+                <div class="card-content-container">
+                  <!-- 右上标题 -->
+                  <div class="card-title">{{ item.title }}</div>
+                  <!-- 右下副标题 -->
+                  <div class="card-subtitle">{{ item.subtitle }}</div>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
+      </transition>
 
-      </div>
+      <!-- 新闻组件区域 -->
+      <transition name="slide-fade" mode="out-in">
+        <v-container v-if="showNewsMode" class="news-container-wrapper news-fullscreen" key="news" fluid>
+          <NewsComponent />
+        </v-container>
+      </transition>
     </div>
   </div>
 </template>
@@ -185,6 +186,13 @@ export default {
 .news-container-wrapper {
   padding: 0 !important;
   max-width: 100% !important;
+}
+
+/* 新闻全屏模式样式 */
+.news-fullscreen {
+  margin-top: 0 !important;
+  padding-top: 20px !important;
+  min-height: calc(100vh - 120px);
 }
 
 /* ======= 简洁透明时间卡片样式 ======= */
