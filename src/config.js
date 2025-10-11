@@ -37,15 +37,17 @@ const config = {
         "title": "流光萤火",
         "preview": "/img/wallpaper/dynamic/流光萤火/firefly-pre.mp4",
         "url": "https://t.mwm.moe/pc"
-        //"url": "/img/wallpaper/dynamic/流光萤火/firefly.mp4"    //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"
+        //"url": "/img/wallpaper/dynamic/流光萤火/firefly.mp4"
+
+        //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"  
       },
     },
     "mobile": {   //移动端
       "type": "pic",
       "datainfo": {
         "title": "0001",
-        "preview": "https://t.mwm.moe/mp",
-        "url": "https://t.mwm.moe/mp"  //同理，随机移动端壁纸："url":"https://t.mwm.moe/mp"
+        "preview": "/img/wallpaper/static-mobile/0001/image-pre.webp",
+        "url": "https://imgapi.lie.moe/random?sort=top"  //同理，随机移动端壁纸："url":"https://t.mwm.moe/mp" "https://imgapi.lie.moe/random?sort=top"
       }
     }
 
