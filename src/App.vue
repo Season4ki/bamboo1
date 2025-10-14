@@ -27,17 +27,10 @@
           <!-- 头像播放器控制面板 -->
           <transition name="fade">
             <v-card v-show="ismusicplayer" class="mobile-musicplayer" variant="tonal">
-              <div v-if="audioLoading && !useAPlayer" class="loading-spinner">
-                <v-progress-circular indeterminate></v-progress-circular>
-              </div>
               <span ref="audiotitle" class="musicplayer-text" style="top: 1.6rem;font-weight: bolder;">{{
                 currentSong?.title || musicinfo?.[0]?.title }}</span>
               <span ref="audioauthor" class="musicplayer-text" style="bottom: 1.4rem;">{{ currentSong?.author ||
                 musicinfo?.[0]?.author }}</span>
-
-              <!-- 原生音频元素 -->
-              <audio v-show="false" ref="audioPlayer" :src="currentSong?.url || musicinfo?.[0]?.url"
-                @waiting="onWaiting" @canplay="onCanPlay"></audio>
 
               <!-- 控制按钮 -->
               <v-btn :size="22" color="#999999" icon @click="previousTrack()" class="prev-btn">
@@ -193,17 +186,10 @@
             <!-- 头像播放器控制面板 -->
             <transition name="fade">
               <v-card v-show="ismusicplayer" class="musicplayer" :class="{ 'fade-in': ismusicplayer }" variant="tonal">
-                <div v-if="audioLoading && !useAPlayer" class="loading-spinner">
-                  <v-progress-circular indeterminate></v-progress-circular>
-                </div>
                 <span ref="audiotitle" class="musicplayer-text" style="top: 1.6rem;font-weight: bolder;">{{
                   currentSong?.title || musicinfo?.[0]?.title }}</span>
                 <span ref="audioauthor" class="musicplayer-text" style="bottom: 1.4rem;">{{ currentSong?.author ||
                   musicinfo?.[0]?.author }}</span>
-
-                <!-- 原生音频元素 -->
-                <audio v-show="false" ref="audioPlayer" :src="currentSong?.url || musicinfo?.[0]?.url"
-                  @waiting="onWaiting" @canplay="onCanPlay"></audio>
 
                 <!-- 控制按钮 -->
                 <v-btn :size="30" color="#999999" icon @click="previousTrack()">
@@ -264,28 +250,35 @@
 
           <template v-slot:item="{ item }">
             <v-tabs-window-item :value="item.value" class="pa-4">
-              <div v-if="item.value == 'tab-3' && musicinfoLoading" class="loading-spinner" align="center">
-                <v-progress-circular indeterminate></v-progress-circular>
-              </div>
+              <!-- tab-2: 背景预览 -->
+              <tab2 v-if="item.value == 'tab-2'" @cancel="handleCancel"></tab2>
 
-              <!-- 组件绑定 - 添加 APlayer 相关事件 -->
-              <component v-if="item.value != 'tab-3' || (item.value == 'tab-3' && !musicinfoLoading)" :is=item.component
-                @cancel="handleCancel" :musicinfo="item.value == 'tab-3' ? musicinfo : []"
-                :currentIndex="item.value == 'tab-3' ? playlistIndex : null"
-                :isPlaying="item.value == 'tab-3' ? isPlaying : null"
-                :currentTime="item.value == 'tab-3' ? currentTime : null"
-                :audioPlayer="item.value == 'tab-3' ? audioPlayer : null"
-                :fromLyrics="item.value == 'tab-3' ? lyrics : null" @update:current-index="updateCurrentIndex"
-                @update:is-playing="updateIsPlaying" @update:current-time="updateCurrentTime"
-                @update:current-lyrics="updateLyrics" @aplayer-ready="onAPlayerReady"
-                @aplayer-destroy="onAPlayerDestroy" @aplayer-play="onAPlayerPlay" @aplayer-pause="onAPlayerPause"
-                @toggle-lyrics-box="toggleLyricsBox" @update-lyrics="updateCurrentLyrics">
-              </component>
+              <!-- tab-3: 音乐播放器容器 -->
+              <div v-if="item.value == 'tab-3'">
+                <div v-if="musicinfoLoading" class="loading-spinner" align="center">
+                  <v-progress-circular indeterminate></v-progress-circular>
+                </div>
+                <!-- Teleport 目标容器 -->
+                <div v-else id="aplayer-teleport-target"></div>
+              </div>
             </v-tabs-window-item>
           </template>
         </v-tabs>
       </v-card>
     </v-dialog>
+
+    <!-- APlayer 容器 - 始终挂载一个实例，使用 Teleport 传送到对话框中 -->
+    <Teleport :to="(dialog1 && tab === 'tab-3') ? '#aplayer-teleport-target' : 'body'" :disabled="!(dialog1 && tab === 'tab-3')">
+      <div v-if="!musicinfoLoading" :style="{ display: (dialog1 && tab === 'tab-3') ? 'block' : 'none' }">
+        <tab3 ref="tab3Component" :musicinfo="musicinfo" :currentIndex="playlistIndex" :isPlaying="isPlaying"
+          :currentTime="currentTime" :fromLyrics="lyrics" @update:current-index="updateCurrentIndex"
+          @update:is-playing="updateIsPlaying" @update:current-time="updateCurrentTime"
+          @update:current-lyrics="updateLyrics" @aplayer-ready="onAPlayerReady" @aplayer-destroy="onAPlayerDestroy"
+          @aplayer-play="onAPlayerPlay" @aplayer-pause="onAPlayerPause" @toggle-lyrics-box="toggleLyricsBox"
+          @update-lyrics="updateCurrentLyrics">
+        </tab3>
+      </div>
+    </Teleport>
 
     <!-- 可拖拽的歌词盒子 -->
     <LyricsBox :visible="showLyricsBox" :lyrics="currentLyrics" :is-mobile="xs || sm" @close="closeLyricsBox" />

@@ -42,10 +42,6 @@ export default {
       type: Number,
       default: 0
     },
-    audioPlayer: {
-      type: HTMLAudioElement,
-      required: true
-    },
   },
 
   data() {
@@ -237,29 +233,39 @@ export default {
         this.aplayer.list.switch(this.currentIndex);
       }
 
-      // 同步初始播放状态 - 如果父组件已经在播放，启动APlayer播放
+      // 同步初始播放状态 - 但不要触发播放，只同步状态
       if (this.isPlaying) {
-        console.log('APlayer初始化完成，同步播放状态:', this.isPlaying);
+        console.log('APlayer初始化完成，检测到播放状态为 true');
         console.log('同步播放进度:', this.currentTime);
 
         // 设置标志，避免初始播放时的事件循环
         this.isInternalUpdate = true;
 
-        // 先通知父组件暂停原生播放器，然后再开始播放APlayer
-        this.$emit('aplayer-play');
-
         this.$nextTick(() => {
-          // 先同步播放进度，再开始播放
+          // 同步播放进度，但不自动播放
           if (this.currentTime > 0) {
+            console.log('同步播放进度到:', this.currentTime);
             this.aplayer.seek(this.currentTime);
           }
-          this.aplayer.play();
+
+          // 如果父组件显示正在播放，启动播放
+          // 但要确保不会重新开始播放
+          if (this.isPlaying && this.aplayer.audio.paused) {
+            console.log('父组件正在播放，启动 APlayer');
+            this.aplayer.play();
+          }
 
           // 播放开始后再允许事件传播
           setTimeout(() => {
             this.isInternalUpdate = false;
           }, 100);
         });
+      } else {
+        // 如果不是播放状态，确保 APlayer 也是暂停的
+        this.isInternalUpdate = true;
+        setTimeout(() => {
+          this.isInternalUpdate = false;
+        }, 100);
       }
 
       // 将 APlayer 的 audio 元素暴露给父组件，实现真正的共享

@@ -33,7 +33,6 @@ export default {
     const ismusicplayer = ref(false);
     const isPlaying = ref(false);
     const playlistIndex = ref(0);
-    const audioLoading = ref(false);
     const musicinfo = ref(null);
     const musicinfoLoading = ref(false);
     const lyrics = ref({});
@@ -43,7 +42,7 @@ export default {
     // 闹钟相关状态
     const showAlarmDialog = ref(false);
 
-    // APlayer 实例引用
+    // APlayer 实例引用 - 单一实例
     const aplayerInstance = ref(null);
     const useAPlayer = ref(false);
 
@@ -93,10 +92,8 @@ export default {
 
     // Refs
     const VdPlayer = ref(null);
-    const audioPlayer = ref(null);
     const audiotitle = ref(null);
     const audioauthor = ref(null);
-    const audioTimeUpdateHandler = ref(null);
 
     // 计算属性
     const currentSong = computed(() => {
@@ -200,18 +197,6 @@ export default {
       ismusicplayer.value = !ismusicplayer.value;
     };
 
-    const setupAudioListener = () => {
-      if (audioPlayer.value) {
-        audioPlayer.value.addEventListener('ended', nextTrack);
-        audioTimeUpdateHandler.value = () => {
-          if (!useAPlayer.value && isPlaying.value) {
-            currentPlayTime.value = audioPlayer.value.currentTime || 0;
-          }
-        };
-        audioPlayer.value.addEventListener('timeupdate', audioTimeUpdateHandler.value);
-      }
-    };
-
     const updateAvatarPlayerInfo = (index) => {
       if (musicinfo.value && musicinfo.value[index]) {
         nextTick(() => {
@@ -233,11 +218,6 @@ export default {
       });
 
       if (useAPlayer.value && aplayerInstance.value) {
-        if (audioPlayer.value && !audioPlayer.value.paused) {
-          console.log('暂停原生播放器');
-          audioPlayer.value.pause();
-        }
-
         const wasPlaying = !aplayerInstance.value.audio.paused;
         console.log('调用 APlayer toggle，操作前状态:', wasPlaying ? '播放' : '暂停');
 
@@ -253,15 +233,7 @@ export default {
           }
         });
       } else {
-        if (aplayerInstance.value && !aplayerInstance.value.audio.paused) {
-          aplayerInstance.value.pause();
-        }
-        if (!isPlaying.value) {
-          audioPlayer.value.play();
-        } else {
-          audioPlayer.value.pause();
-        }
-        isPlaying.value = !musicinfoLoading.value && !isPlaying.value;
+        console.log('APlayer 未初始化，等待初始化完成');
       }
     };
 
@@ -286,8 +258,7 @@ export default {
           }
         }, 200);
       } else {
-        playlistIndex.value = playlistIndex.value > 0 ? playlistIndex.value - 1 : musicinfo.value.length - 1;
-        updateAudio();
+        console.log('APlayer 未初始化，无法切换上一首');
       }
     };
 
@@ -312,17 +283,7 @@ export default {
           }
         }, 200);
       } else {
-        playlistIndex.value = playlistIndex.value < musicinfo.value.length - 1 ? playlistIndex.value + 1 : 0;
-        updateAudio();
-      }
-    };
-
-    const updateAudio = () => {
-      if (!useAPlayer.value && audioPlayer.value && currentSong.value) {
-        audioPlayer.value.src = currentSong.value.url;
-        updateAvatarPlayerInfo(playlistIndex.value);
-        isPlaying.value = true;
-        audioPlayer.value.play();
+        console.log('APlayer 未初始化，无法切换下一首');
       }
     };
 
@@ -355,11 +316,6 @@ export default {
       aplayerInstance.value = aplayer;
       useAPlayer.value = true;
 
-      if (audioPlayer.value && !audioPlayer.value.paused) {
-        console.log('APlayer准备就绪，暂停原生播放器避免冲突');
-        audioPlayer.value.pause();
-      }
-
       updateAvatarPlayerInfo(playlistIndex.value);
       startSyncTimer();
 
@@ -375,19 +331,8 @@ export default {
       stopSyncTimer();
       aplayerInstance.value = null;
       useAPlayer.value = false;
+      isPlaying.value = false;
       console.log('Switched back to native audio player');
-    };
-
-    const onWaiting = () => {
-      if (!useAPlayer.value) {
-        audioLoading.value = true;
-      }
-    };
-
-    const onCanPlay = () => {
-      if (!useAPlayer.value) {
-        audioLoading.value = false;
-      }
     };
 
     const expandSwitch = () => {
@@ -399,10 +344,7 @@ export default {
     };
 
     const onAPlayerPlay = () => {
-      console.log('APlayer 开始播放，暂停原生播放器');
-      if (audioPlayer.value && !audioPlayer.value.paused) {
-        audioPlayer.value.pause();
-      }
+      console.log('APlayer 开始播放');
       if (!isPlaying.value) {
         console.log('onAPlayerPlay 设置 isPlaying = true');
         isPlaying.value = true;
@@ -410,7 +352,7 @@ export default {
     };
 
     const onAPlayerPause = () => {
-      console.log('APlayer 暂停，确保状态同步');
+      console.log('APlayer 暂停');
       if (isPlaying.value) {
         console.log('onAPlayerPause 设置 isPlaying = false');
         isPlaying.value = false;
@@ -608,13 +550,6 @@ export default {
       }
     });
 
-    watch(audioLoading, (val) => {
-      if (!useAPlayer.value) {
-        isPlaying.value = !val;
-        console.log('audioLoading 改变了 isPlaying 状态为:', !val);
-      }
-    });
-
     watch(playlistIndex, (newIndex) => {
       updateAvatarPlayerInfo(newIndex);
     });
@@ -661,16 +596,9 @@ export default {
       }, 1000);
 
       await getMusicInfo();
-      setupAudioListener();
     });
 
     onBeforeUnmount(() => {
-      if (audioPlayer.value) {
-        audioPlayer.value.removeEventListener('ended', nextTrack);
-        if (audioTimeUpdateHandler.value) {
-          audioPlayer.value.removeEventListener('timeupdate', audioTimeUpdateHandler.value);
-        }
-      }
       stopLyricsMonitoring();
       stopSyncTimer();
     });
@@ -690,7 +618,6 @@ export default {
       ismusicplayer,
       isPlaying,
       playlistIndex,
-      audioLoading,
       musicinfo,
       musicinfoLoading,
       lyrics,
@@ -712,7 +639,6 @@ export default {
 
       // Template refs
       VdPlayer,
-      audioPlayer,
       audiotitle,
       audioauthor,
 
@@ -734,20 +660,16 @@ export default {
       getMusicInfo,
       musicplayershow,
       toggleMusicPlayer,
-      setupAudioListener,
       updateAvatarPlayerInfo,
       togglePlay,
       previousTrack,
       nextTrack,
-      updateAudio,
       updateCurrentIndex,
       updateIsPlaying,
       updateCurrentTime,
       updateLyrics,
       onAPlayerReady,
       onAPlayerDestroy,
-      onWaiting,
-      onCanPlay,
       expandSwitch,
       collapseSwitch,
       onAPlayerPlay,
