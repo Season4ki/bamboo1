@@ -6,15 +6,28 @@
       <v-card-title class="text-center pa-6">
         <div class="word-title">
           {{ currentWord.word }}
-          <v-btn icon size="small" variant="text" @click="playPronunciation"
-            :disabled="!currentWord.phonetics?.find(p => p.audio)" class="ml-2">
-            <v-icon>mdi-volume-high</v-icon>
-          </v-btn>
         </div>
 
         <!-- 発音記号 -->
         <div v-if="currentWord.phonetics?.length" class="phonetic-text mt-2">
-          {{currentWord.phonetics.find(p => p.text)?.text || currentWord.phonetics[0]?.text}}
+          {{currentWord.phonetics.find(p => p.text)?.text || currentWord.phonetics[0]?.text || ''}}
+        </div>
+
+        <!-- ソース情報 (Free Dictionary API) -->
+        <div v-if="currentWord.sourceUrls?.length" class="source-info mt-2">
+          <small>
+            <a :href="currentWord.sourceUrls[0]" target="_blank" rel="noopener" class="source-link">
+              <v-icon size="small" class="mr-1">mdi-open-in-new</v-icon>
+              Wiktionary で詳細を見る
+            </a>
+          </small>
+        </div>
+
+        <!-- API情報 -->
+        <div class="api-info mt-1">
+          <small style="color: #999; font-size: 0.75rem;">
+            Powered by FreeDictionaryAPI.com
+          </small>
         </div>
       </v-card-title>
 
@@ -120,13 +133,18 @@
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
-
-    <!-- 隐藏的音频元素 -->
-    <audio ref="audioPlayer" style="display: none;"></audio>
   </v-container>
 </template>
 
 <script>
+import { buildApiUrl, transformApiResponse, DICTIONARY_API_CONFIG } from '../utils/dictionaryApi.js'
+
+/**
+ * WordLearning Component
+ * 使用 Free Dictionary API (https://freedictionaryapi.com/)
+ * API エンドポイント: https://freedictionaryapi.com/api/v1/entries/{language}/{word}
+ * API 仕様: src/utils/dictionaryApi.js (OpenAPI 3.1.1 準拠)
+ */
 export default {
   name: 'WordLearning',
   data() {
@@ -168,14 +186,25 @@ export default {
       this.error = null
 
       try {
-        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.searchWord.trim()}`)
+        // Free Dictionary API を使用 (freedictionaryapi.com)
+        const apiUrl = buildApiUrl(
+          DICTIONARY_API_CONFIG.defaultLanguage,
+          this.searchWord.trim()
+        )
+
+        const response = await fetch(apiUrl)
 
         if (!response.ok) {
-          throw new Error('単語が見つかりません。スペルをご確認ください')
+          if (response.status === 404) {
+            throw new Error('単語が見つかりません。スペルをご確認ください')
+          }
+          throw new Error('単語情報の取得に失敗しました')
         }
 
         const data = await response.json()
-        this.currentWord = data[0]
+
+        // Free Dictionary API のレスポンスを変換
+        this.currentWord = transformApiResponse(data)
         this.searchWord = ''
 
       } catch (err) {
@@ -190,19 +219,6 @@ export default {
       const randomWord = this.randomWords[Math.floor(Math.random() * this.randomWords.length)]
       this.searchWord = randomWord
       await this.searchSpecificWord()
-    },
-
-    playPronunciation() {
-      if (!this.currentWord?.phonetics) return
-
-      const audioPhonetic = this.currentWord.phonetics.find(p => p.audio)
-      if (audioPhonetic?.audio) {
-        const audio = this.$refs.audioPlayer
-        audio.src = audioPhonetic.audio
-        audio.play().catch(err => {
-          console.error('発音の再生に失敗しました:', err)
-        })
-      }
     },
 
     addToFavorites() {
@@ -269,6 +285,28 @@ export default {
   color: #f0f0f0;
   font-style: italic;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.source-info {
+  margin-top: 8px;
+}
+
+.source-link {
+  color: #90caf9;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.source-link:hover {
+  color: #64b5f6;
+  text-decoration: underline;
+}
+
+.api-info {
+  text-align: center;
+  opacity: 0.7;
 }
 
 .meaning-section {
