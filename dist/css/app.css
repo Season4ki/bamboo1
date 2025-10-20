@@ -1,0 +1,430 @@
+.v-card {
+  backdrop-filter: blur(5px);
+  border-radius: 5%;
+  color: #FFFFFF;
+}
+
+.vapp-fullscreen-background {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.vapp-fullscreen-background .floating-switch-container {
+  position: fixed;
+  right: -28px;
+  top: 50%;
+  transform: translateY(-50%) scale(1.5);
+  z-index: 999;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0.9;
+}
+
+.vapp-fullscreen-background .floating-switch-container:hover {
+  right: 10px;
+  opacity: 1;
+}
+
+.vapp-fullscreen-background .floating-switch {
+  opacity: 0.9;
+}
+
+
+
+/* 调整视频元素的样式，使其全屏作为背景 */
+.vapp-fullscreen-background .video-bg {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: -100;
+  /* 居中 */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: auto;
+  background-clip: padding-box;
+  filter: brightness(85%);
+}
+
+.vapp-fullscreen-background .loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #282c34;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vapp-fullscreen-background .fade-enter-active,
+.vapp-fullscreen-background .fade-leave-active {
+  transition: opacity .8s
+}
+
+.vapp-fullscreen-background .fade-enter,
+.vapp-fullscreen-background .fade-leave-to {
+  opacity: 0
+}
+
+.vapp-fullscreen-background .bamboo1-right {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.vapp-fullscreen-background .welcome-title {
+  margin-top: 20px;
+  width: 100%;
+  color: #FFFFFF;
+  padding: 0 2rem;
+  font-family: "myfont";
+}
+
+/* ===== Vuetify风格头像播放器样式 ===== */
+
+/* 头像容器 - 添加玻璃态效果 */
+.vapp-fullscreen-background .Animated-Avatar-Player {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 8px 25px rgba(255, 255, 255, 0.15));
+}
+
+/* 头像图片 - 现代化边框和效果 */
+.vapp-fullscreen-background .Animated-Avatar-Player .v-img {
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player:hover .v-img {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 12px 48px rgba(255, 255, 255, 0.1);
+}
+
+/* 音乐播放器控制面板 - Vuetify玻璃态设计 */
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.02);
+}
+
+/* 歌曲信息文字 - 现代化排版 */
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer-text {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 80%;
+  transition: all 0.3s ease;
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .musicplayer-text:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* 播放按钮组 - Vuetify Material Design 3 风格 */
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 桌面端歌词按钮样式 */
+.vapp-fullscreen-background .Animated-Avatar-Player .lyrics-btn-desktop {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(15px) !important;
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .lyrics-btn-desktop:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15) !important;
+}
+
+.vapp-fullscreen-background .Animated-Avatar-Player .lyrics-btn-desktop:active {
+  transform: translateY(0) scale(0.95) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 播放按钮特殊样式 */
+.vapp-fullscreen-background .Animated-Avatar-Player .v-btn:nth-child(3) {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* 头像旋转动画 - 更流畅的效果 */
+.vapp-fullscreen-background .Animated-Avatar-Player .bamboo1-spin {
+  animation: modernSpin 8s linear infinite;
+}
+
+@keyframes modernSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 控制面板淡入动画 - 更现代的效果 */
+.vapp-fullscreen-background .Animated-Avatar-Player .fade-in {
+  animation: materialFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes materialFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 按钮发光动画 */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* 加载动画容器 */
+.vapp-fullscreen-background .Animated-Avatar-Player .loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
+  border-radius: 50%;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 添加一个::before伪元素降低背景图片的亮度，而不会影响background元素的其他内容 */
+.vapp-fullscreen-background::before {
+  content: "";
+  background-image: var(--bamboo1-background-image-url);
+  transition: background-image 0.8s ease;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  /* 调整亮度值  */
+  filter: brightness(85%);
+}
+
+/* ===== 时间卡片样式 ===== */
+.time-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.time-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+.time-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.time-card:hover::before {
+  left: 100%;
+}
+
+.time-card:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.time-display {
+  font-family: 'digitalfont', 'DS-Digital', 'Courier New', monospace;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+}
+
+.date-display {
+  font-family: 'digitalfont', 'DS-Digital', 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+.alarm-hint {
+  font-family: 'Microsoft YaHei', Arial, sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.time-card:hover .alarm-hint {
+  opacity: 1;
+}
+
+/* 在移动设备上隐藏闹钟提示 */
+@media (max-width: 960px) {
+  .alarm-hint {
+    display: none !important;
+  }
+
+  .time-card::after {
+    display: none !important;
+  }
+}
+
+/* 在移动设备和触摸设备上确保提示文字清晰显示（仅桌面端） */
+@media (hover: none) and (min-width: 961px),
+(pointer: coarse) and (min-width: 961px) {
+  .alarm-hint {
+    opacity: 0.8 !important;
+  }
+}
+
+/* 添加一个小图标提示 */
+.time-card::after {
+  content: '⏰';
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.time-card:hover::after {
+  opacity: 0.7;
+}
+
+/* 右上角浮动按钮样式 */
+.fab-top-right {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+@media (max-width: 600px) {
+  .fab-top-right {
+    top: 15px;
+    right: 15px;
+  }
+}

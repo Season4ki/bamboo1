@@ -1,0 +1,621 @@
+@media (max-width: 960px) {
+
+  /* 移动端专用布局 */
+  .mobile-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1.5rem;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: visible !important;
+    overflow-y: auto !important;
+  }
+
+  /* 1. 移动端欢迎标题 */
+  .mobile-welcome-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    margin-top: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: 'myfont', sans-serif;
+  }
+
+  /* 2. 移动端头像播放器 */
+  .mobile-avatar-player {
+    position: relative;
+    margin: 0;
+    transform: none !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    transition: transform 0.2s ease !important;
+  }
+
+  .mobile-avatar-player:hover {
+    transform: scale(1.05) !important;
+  }
+
+  .mobile-avatar-player:active {
+    transform: scale(0.95) !important;
+  }
+
+  .mobile-musicplayer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px) !important;
+    border-radius: 50% !important;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto !important;
+    z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+    overflow: visible !important;
+  }
+
+  .mobile-musicplayer .musicplayer-text {
+    font-size: 8px !important;
+    padding: 1px 4px !important;
+    border-radius: 4px !important;
+    max-width: 80% !important;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: absolute;
+  }
+
+  .mobile-musicplayer .v-btn {
+    min-width: unset !important;
+    width: auto !important;
+    backdrop-filter: blur(10px) !important;
+    margin: 0 !important;
+    position: absolute !important;
+    pointer-events: auto !important;
+  }
+
+  /* 播放/暂停按钮 - 居中 */
+  .mobile-musicplayer .play-btn {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 12;
+  }
+
+  /* 上一首按钮 - 左侧 */
+  .mobile-musicplayer .prev-btn {
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    z-index: 12;
+  }
+
+  /* 下一首按钮 - 右侧 */
+  .mobile-musicplayer .next-btn {
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    z-index: 12;
+  }
+
+  /* 歌词显示按钮 - 右上角 */
+  .mobile-musicplayer .lyrics-btn {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    transform: none !important;
+    z-index: 13;
+    pointer-events: auto !important;
+    display: flex !important;
+    visibility: visible !important;
+  }
+
+  /* 确保移动端音乐播放器按钮不会溢出容器 */
+  .mobile-musicplayer .v-btn .v-icon {
+    font-size: 18px !important;
+  }
+
+  /* 播放按钮稍大一些 */
+  .mobile-musicplayer .play-btn .v-icon {
+    font-size: 24px !important;
+  }
+
+  /* 3. 移动端雷达图 */
+  .mobile-radar-chart {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    justify-content: center;
+    padding: 0 10px !important;
+  }
+
+  /* 4. 移动端天气组件 */
+  .mobile-weather {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    justify-content: center;
+    overflow: visible !important;
+    position: relative !important;
+    z-index: 5 !important;
+    padding: 0 10px !important;
+  }
+
+  /* 移动端天气组件内部优化 */
+  .mobile-weather .weather-card {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  /* 移动端天气展开容器高度限制 */
+  .mobile-weather .expanded-weather-container {
+    max-height: 250px !important;
+    overflow-y: auto !important;
+    position: relative !important;
+  }
+
+  /* 移动端天气卡片标题优化 */
+  .mobile-weather .v-card-title {
+    padding: 4px 12px !important;
+    font-size: 0.8rem !important;
+    overflow: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
+    min-height: 36px !important;
+    line-height: 1.2 !important;
+    margin-right: 0 !important;
+  }
+
+  /* 移动端天气卡片内容优化 */
+  .mobile-weather .v-card-text {
+    padding: 8px 12px !important;
+  }
+
+  /* 移动端天气图表容器优化 */
+  .mobile-weather .chart-container {
+    height: 120px !important;
+    margin: 0.5rem 0 !important;
+  }
+
+  /* 移动端5日预报卡片优化 */
+  .mobile-weather .forecast-cards {
+    overflow-x: auto !important;
+    padding: 0 0.25rem !important;
+    gap: 0.5rem !important;
+    margin: 0 !important;
+  }
+
+  .mobile-weather .forecast-card {
+    min-width: 85px !important;
+    margin-right: 0.25rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .mobile-weather .forecast-card .v-card-text {
+    padding: 6px !important;
+  }
+
+  /* 移动端天气详情项目缩小 */
+  .mobile-weather .weather-details .detail-item {
+    font-size: 0.75rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* 移动端天气按钮组优化 */
+  .mobile-weather .v-card-title .v-btn {
+    min-width: 28px !important;
+    width: 28px !important;
+    height: 28px !important;
+    margin-left: 3px !important;
+    position: relative !important;
+    z-index: 20 !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* 确保移动端天气按钮可见 */
+  .mobile-weather .v-card-title .v-spacer {
+    flex-grow: 1 !important;
+  }
+
+  /* 移动端天气按钮悬停效果 */
+  .mobile-weather .v-card-title .v-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: scale(1.05) !important;
+  }
+
+  /* 移动端天气图标尺寸优化 */
+  .mobile-weather .v-card-title .v-icon {
+    font-size: 18px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  /* 移动端天气标题文字优化 */
+  .mobile-weather .v-card-title span {
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* 移动端天气温度显示优化 */
+  .mobile-weather .temperature {
+    font-size: 1.5rem !important;
+  }
+
+  .mobile-weather .temperature-compact {
+    font-size: 1.2rem !important;
+  }
+
+  /* 移动端天气描述优化 */
+  .mobile-weather .weather-description,
+  .mobile-weather .weather-description-compact {
+    font-size: 0.8rem !important;
+  }
+
+  /* 移动端天气展开提示优化 */
+  .mobile-weather .expand-hint {
+    margin-top: 0.5rem !important;
+  }
+
+  .mobile-weather .expand-hint .v-chip {
+    font-size: 0.65rem !important;
+    height: 20px !important;
+  }
+
+  /* 5. 移动端社交图标 */
+  .mobile-social-icons {
+    width: 100%;
+    max-width: 320px;
+    padding: 0;
+  }
+
+  .mobile-social-icons .v-row {
+    margin: 0;
+  }
+
+  .mobile-social-icons .v-col {
+    padding: 0.2rem;
+  }
+
+  .mobile-social-icons .bamboo1-social-bticon {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  /* 6. 移动端打字机 */
+  .mobile-typewriter {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 7. 移动端时间卡片 */
+  .mobile-time-card {
+    width: 100%;
+    max-width: 280px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .mobile-time-card .time-card {
+    background: transparent;
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    /* 移动端时间卡片 - 移除闹钟交互 */
+    cursor: default !important;
+    pointer-events: none !important;
+  }
+
+  /* 移动端时间卡片 - 确保没有闹钟提示和图标 */
+  .mobile-time-card .time-card::after {
+    display: none !important;
+  }
+
+  .mobile-time-card .alarm-hint {
+    display: none !important;
+  }
+
+  .mobile-time-card .time-display {
+    font-family: 'digitalfont', 'DS-Digital', 'Courier New', monospace;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.3rem;
+  }
+
+  .mobile-time-card .date-display {
+    font-family: 'digitalfont', 'DS-Digital', 'Courier New', monospace;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  }
+
+  /* 8. 移动端项目卡片 */
+  .mobile-projects {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .mobile-projects .mode-toggle-chip {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* 优化原有样式 */
+  .vapp-fullscreen-background .Animated-Avatar-Player {
+    transform: none !important;
+  }
+
+  .vapp-fullscreen-background .Animated-Avatar-Player .musicplayer-text {
+    font-size: 10px !important;
+    padding: 2px 8px !important;
+    border-radius: 8px !important;
+    max-width: 70% !important;
+  }
+
+  .vapp-fullscreen-background .Animated-Avatar-Player .v-btn {
+    min-width: unset !important;
+    width: auto !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  .vapp-fullscreen-background .Animated-Avatar-Player .musicplayer {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px) !important;
+  }
+
+  .socialIconsContainer .setting {
+    transform: scale(0.8);
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    z-index: 99999;
+  }
+
+  /* 确保时间卡片在移动端有合适的边距 */
+  .v-card {
+    margin-bottom: 1rem !important;
+  }
+
+  /* 隐藏桌面端的设置按钮，避免与移动端冲突 */
+  .bamboo1-right .setting {
+    display: none !important;
+  }
+
+  /* 移动端专用的项目卡片优化 */
+  .mobile-projects .project-card-new {
+    margin-bottom: 1rem;
+    border-radius: 12px !important;
+  }
+
+  .mobile-projects .card-header {
+    height: 120px !important;
+  }
+
+  .mobile-projects .card-image {
+    height: 120px !important;
+  }
+
+  .mobile-projects .project-title {
+    font-size: 0.95rem !important;
+  }
+
+  .mobile-projects .project-subtitle {
+    font-size: 0.75rem !important;
+  }
+
+  .mobile-projects .card-content {
+    padding: 10px !important;
+  }
+
+  .mobile-projects .card-actions {
+    padding: 8px 10px !important;
+  }
+
+  /* 确保移动端切换芯片有合适的间距 */
+  .mobile-projects .mode-toggle-chip {
+    margin-bottom: 0.5rem;
+  }
+
+  /* 移动端头像播放器旋转动画优化 */
+  .mobile-avatar-player .bamboo1-spin {
+    animation: spin 4s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* 移动端雷达图尺寸优化 */
+  .mobile-radar-chart canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    min-width: 280px !important;
+    min-height: 220px !important;
+  }
+
+  /* 超小屏幕下雷达图canvas尺寸优化 */
+  .mobile-radar-chart canvas {
+    min-width: 260px !important;
+    min-height: 200px !important;
+  }
+
+  /* 移动端天气组件尺寸优化 */
+  .mobile-weather .v-card {
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* 移动端社交按钮组间距优化 */
+  .mobile-social-icons .v-container {
+    padding: 0 !important;
+  }
+
+  .mobile-social-icons .v-row {
+    margin: 0 !important;
+    row-gap: 0.5rem;
+  }
+
+  /* 移动端打字机组件优化 */
+  .mobile-typewriter .typewriter {
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+  }
+
+  /* 超小屏幕下的进一步优化 */
+  @media (max-width: 480px) {
+    .mobile-layout {
+      padding: 0.5rem;
+      gap: 1rem;
+    }
+
+    .mobile-welcome-title {
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+      font-family: 'myfont', sans-serif;
+    }
+
+    .mobile-avatar-player {
+      margin: 0.5rem 0;
+    }
+
+    /* 超小屏幕下音乐播放器按钮位置微调 */
+    .mobile-musicplayer .prev-btn {
+      left: 15px;
+    }
+
+    .mobile-musicplayer .next-btn {
+      right: 15px;
+    }
+
+    .mobile-radar-chart {
+      max-width: 290px;
+      padding: 0 5px !important;
+    }
+
+    .mobile-weather {
+      max-width: 290px;
+      padding: 0 5px !important;
+    }
+
+    /* 超小屏幕下天气组件进一步优化 */
+    .mobile-weather .expanded-weather-container {
+      max-height: 200px !important;
+    }
+
+    .mobile-weather .chart-container {
+      height: 100px !important;
+    }
+
+    .mobile-weather .forecast-card {
+      min-width: 75px !important;
+      margin-right: 0.2rem !important;
+    }
+
+    .mobile-weather .forecast-card .v-card-text {
+      padding: 4px !important;
+    }
+
+    .mobile-weather .forecast-day {
+      font-size: 0.65rem !important;
+    }
+
+    .mobile-weather .forecast-temp {
+      font-size: 0.7rem !important;
+    }
+
+    .mobile-weather .forecast-desc {
+      font-size: 0.6rem !important;
+    }
+
+    .mobile-weather .weather-details .detail-item {
+      font-size: 0.7rem !important;
+    }
+
+    /* 超小屏幕下确保天气按钮可见 */
+    .mobile-weather .v-card-title .v-btn {
+      min-width: 26px !important;
+      width: 26px !important;
+      height: 26px !important;
+      margin-left: 2px !important;
+    }
+
+    .mobile-weather .v-card-title {
+      padding: 4px 10px !important;
+      font-size: 0.75rem !important;
+      min-height: 32px !important;
+    }
+
+    .mobile-weather .v-card-title .v-icon {
+      font-size: 16px !important;
+    }
+
+    .mobile-time-card .time-card {
+      padding: 0.8rem;
+      max-width: 200px;
+    }
+
+    /* 移动端时间卡片 - 移除所有闹钟相关样式 */
+    .mobile-time-card .mobile-time-only {
+      cursor: default !important;
+      pointer-events: none !important;
+    }
+
+    .mobile-time-card .mobile-time-only::after {
+      display: none !important;
+    }
+
+    .mobile-time-card .time-display {
+      font-size: 1.4rem;
+      font-family: 'digitalfont', 'DS-Digital', 'Courier New', monospace;
+    }
+
+    .mobile-time-card .date-display {
+      font-size: 0.7rem;
+      font-family: 'digitalfont', 'DS-Digital', 'Courier New', monospace;
+    }
+
+    .mobile-projects {
+      max-width: 300px;
+    }
+
+    .mobile-projects .project-card-new {
+      margin-bottom: 0.8rem;
+    }
+  }
+}

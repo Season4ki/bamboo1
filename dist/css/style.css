@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "myfont";
+    src: url("../fonts/Blacknorthdemo.otf");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "digitalfont";
+    src: url("../fonts/DS-DIGI.TTF");
+    font-display: swap;
+}
+
+/* CSS变量：只保留背景图片URL动态设置
+   --bamboo1-background-image-url
+*/
+
+/* 设置滚动条样式 */
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--main_text_color, #000000);
+    border-radius: 8px;
+    height: 20%;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--main_bg_color, linear-gradient(50deg, #a2d0ff, #ffffff));
+}
+
+.v-selection-control-group {
+    justify-content: center;
+}
+
+.v-snackbar__content {
+    text-align: center !important;
+}
+
+.v-card-item {
+    padding: 0.2rem 1rem !important;
+}

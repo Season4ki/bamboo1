@@ -42,6 +42,12 @@
               <v-btn :size="22" color="#999999" icon @click="nextTrack()" class="next-btn">
                 <v-icon>mdi-skip-next</v-icon>
               </v-btn>
+
+              <!-- 歌词显示按钮 -->
+              <v-btn :size="22" color="#999999" icon @click="toggleLyricsBoxFromPlayer()" class="lyrics-btn"
+                style="position: absolute; top: 8px; right: 8px;">
+                <v-icon>{{ showLyricsBox ? 'mdi-script-text' : 'mdi-script-text-outline' }}</v-icon>
+              </v-btn>
             </v-card>
           </transition>
         </v-avatar>
@@ -201,6 +207,12 @@
                 <v-btn :size="30" color="#999999" icon @click="nextTrack()">
                   <v-icon>mdi-skip-next</v-icon>
                 </v-btn>
+
+                <!-- 歌词显示按钮 - 桌面版（右上角） -->
+                <v-btn :size="28" color="#999999" icon @click="toggleLyricsBoxFromPlayer()" class="lyrics-btn-desktop"
+                  style="position: absolute; top: 10px; right: 10px;">
+                  <v-icon>{{ showLyricsBox ? 'mdi-script-text' : 'mdi-script-text-outline' }}</v-icon>
+                </v-btn>
               </v-card>
             </transition>
           </v-avatar>
@@ -268,7 +280,8 @@
     </v-dialog>
 
     <!-- APlayer 容器 - 始终挂载一个实例，使用 Teleport 传送到对话框中 -->
-    <Teleport :to="(dialog1 && tab === 'tab-3') ? '#aplayer-teleport-target' : 'body'" :disabled="!(dialog1 && tab === 'tab-3')">
+    <Teleport :to="(dialog1 && tab === 'tab-3') ? '#aplayer-teleport-target' : 'body'"
+      :disabled="!(dialog1 && tab === 'tab-3')">
       <div v-if="!musicinfoLoading" :style="{ display: (dialog1 && tab === 'tab-3') ? 'block' : 'none' }">
         <tab3 ref="tab3Component" :musicinfo="musicinfo" :currentIndex="playlistIndex" :isPlaying="isPlaying"
           :currentTime="currentTime" :fromLyrics="lyrics" @update:current-index="updateCurrentIndex"

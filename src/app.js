@@ -441,6 +441,16 @@ export default {
       stopLyricsMonitoring();
     };
 
+    // 从头像播放器切换歌词显示
+    const toggleLyricsBoxFromPlayer = () => {
+      showLyricsBox.value = !showLyricsBox.value;
+      if (showLyricsBox.value) {
+        startLyricsMonitoring();
+      } else {
+        stopLyricsMonitoring();
+      }
+    };
+
     const startSyncTimer = () => {
       if (aplayerInstance.value && useAPlayer.value) {
         stopSyncTimer();
@@ -680,6 +690,7 @@ export default {
       stopLyricsMonitoring,
       updateLyricsFromAPlayer,
       closeLyricsBox,
+      toggleLyricsBoxFromPlayer,
       startSyncTimer,
       stopSyncTimer,
       openAlarmDialog,

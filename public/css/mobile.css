@@ -59,6 +59,7 @@
     pointer-events: auto !important;
     z-index: 10;
     transition: opacity 0.3s ease, transform 0.3s ease !important;
+    overflow: visible !important;
   }
 
   .mobile-musicplayer .musicplayer-text {
@@ -106,6 +107,18 @@
     right: 18px;
     transform: translateY(-50%);
     z-index: 12;
+  }
+
+  /* 歌词显示按钮 - 右上角 */
+  .mobile-musicplayer .lyrics-btn {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    transform: none !important;
+    z-index: 13;
+    pointer-events: auto !important;
+    display: flex !important;
+    visibility: visible !important;
   }
 
   /* 确保移动端音乐播放器按钮不会溢出容器 */

@@ -12,12 +12,12 @@
           <h3 class="section-title">時間設定</h3>
           <v-row align="center" justify="center" class="time-picker-row">
             <v-col cols="5">
-              <v-select v-model="selectedHour" :items="hours" label="時" variant="outlined" dense
+              <v-select v-model="selectedHour" :items="hours" label="時" variant="outlined" density="compact"
                 class="time-select"></v-select>
             </v-col>
             <v-col cols="1" class="time-separator">:</v-col>
             <v-col cols="5">
-              <v-select v-model="selectedMinute" :items="minutes" label="分" variant="outlined" dense
+              <v-select v-model="selectedMinute" :items="minutes" label="分" variant="outlined" density="compact"
                 class="time-select"></v-select>
             </v-col>
           </v-row>
@@ -67,14 +67,12 @@
                   hide-details></v-switch>
               </template>
 
-              <v-list-item-content>
-                <v-list-item-title class="alarm-time">
-                  {{ formatTime(alarm.hour, alarm.minute) }}
-                </v-list-item-title>
-                <v-list-item-subtitle class="alarm-details">
-                  {{ alarm.label || 'ラベルなし' }} | {{ formatDays(alarm.days) }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
+              <v-list-item-title class="alarm-time">
+                {{ formatTime(alarm.hour, alarm.minute) }}
+              </v-list-item-title>
+              <v-list-item-subtitle class="alarm-details">
+                {{ alarm.label || 'ラベルなし' }} | {{ formatDays(alarm.days) }}
+              </v-list-item-subtitle>
 
               <template v-slot:append>
                 <v-btn icon size="small" color="error" variant="text" @click="deleteAlarm(index)">

@@ -56,6 +56,12 @@ THIRD PARTY SERVICES AND APIS:
 
 This project may include or reference external APIs and services:
 
+- FreeDictionaryAPI.com: Used for dictionary and word lookup services
+  License: CC BY-SA 4.0
+  Data Source: Wiktionary
+  API Documentation: https://freedictionaryapi.com
+  Terms of Service: https://freedictionaryapi.com
+
 - OpenWeatherMap API: Used for weather data services
   Terms of Service: https://openweathermap.org/terms
 
