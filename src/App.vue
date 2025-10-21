@@ -82,6 +82,8 @@
               </template>
               <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
                 size="31" color="#FFFFFF"></v-btn>
+              <v-btn variant="tonal" class="setbtn" key="2" icon="mdi-information-outline"
+                @click="showDisclaimerDialog = true" size="31" color="#FFFFFF"></v-btn>
               <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
             </v-speed-dial>
           </div>
@@ -237,14 +239,15 @@
             </v-row>
 
             <!-- 设置按钮 - 移动到右上角 -->
-            <div class="fab-top-right">
-              <v-speed-dial location="bottom center" transition="slide-y-transition">
+            <div class="fab-top-right"> <v-speed-dial location="bottom center" transition="slide-y-transition">
                 <template v-slot:activator="{ props: activatorProps }">
                   <v-fab style="width: 2.5rem;height: 2.5rem;" color="#FFFFFF" variant="tonal" v-bind="activatorProps"
                     rounded="0" icon="mdi-wrench-cog"></v-fab>
                 </template>
                 <v-btn variant="tonal" class="setbtn" key="1" icon="mdi-content-save-all" @click="dialog1 = true"
                   size="31" color="#FFFFFF"></v-btn>
+                <v-btn variant="tonal" class="setbtn" key="2" icon="mdi-information-outline"
+                  @click="showDisclaimerDialog = true" size="31" color="#FFFFFF"></v-btn>
                 <v-btn variant="tonal" class="setbtn" key="3" icon="$error" size="31" color="#FFFFFF"></v-btn>
               </v-speed-dial>
             </div>
@@ -298,6 +301,34 @@
 
     <!-- 闹钟组件 - 仅桌面端 -->
     <AlarmClock v-if="!(xs || sm)" v-model="showAlarmDialog" :config="configdata" @alarm-set="onAlarmSet" />
+
+    <!-- 声明信息对话框 -->
+    <v-dialog v-model="showDisclaimerDialog" max-width="600px">
+      <v-card elevation="3" style="backdrop-filter: blur(10px);">
+        <v-card-title class="d-flex align-center gap-2">
+          <v-icon>mdi-information-outline</v-icon>
+          <span>About</span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-6">
+          <div class="disclaimer-content">
+            <p class="disclaimer-text">
+              当サイトに掲載している画像は、Pixivやその他の無料公開されている作品を利用し、個人ホームページでの展示のみに使用しております。
+            </p>
+            <p class="disclaimer-text">
+              万が一、著作権や利用に関して問題がございましたら、ご連絡いただければ、速やかに削除いたします。
+            </p>
+          </div>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions class="pa-4">
+          <v-spacer></v-spacer>
+          <v-btn variant="tonal" color="primary" @click="showDisclaimerDialog = false">
+            確認
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
   </v-app>
 </template>
@@ -395,5 +426,22 @@
     min-height: 300px;
     padding: 12px;
   }
+}
+
+/* 声明对话框样式 */
+.disclaimer-content {
+  line-height: 1.8;
+}
+
+.disclaimer-text {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  text-align: left;
+  letter-spacing: 0.3px;
+}
+
+.disclaimer-text:last-child {
+  margin-bottom: 0;
 }
 </style>

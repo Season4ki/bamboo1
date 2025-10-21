@@ -29,6 +29,7 @@ export default {
     const formattedDate = ref("");
     const configdata = ref(config);
     const dialog1 = ref(false);
+    const showDisclaimerDialog = ref(false);
     const videosrc = ref('');
     const ismusicplayer = ref(false);
     const isPlaying = ref(false);
@@ -624,6 +625,7 @@ export default {
       formattedDate,
       configdata,
       dialog1,
+      showDisclaimerDialog,
       videosrc,
       ismusicplayer,
       isPlaying,

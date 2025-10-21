@@ -34,20 +34,17 @@ const config = {
       //"type": "video",   //"pic":静态壁纸;"video":动态壁纸
       "type": "pic",
       "datainfo": {
-        "title": "流光萤火",
-        "preview": "/img/wallpaper/dynamic/流光萤火/firefly-pre.mp4",
-        "url": "https://t.mwm.moe/pc"
-        //"url": "/img/wallpaper/dynamic/流光萤火/firefly.mp4"
-
-        //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"  
+        "title": "晓美焰01",
+        "preview": "/img/wallpaper/static/晓美焰01/homura-01-pre.webp",
+        "url": "/img/wallpaper/static/晓美焰01/homura-01.jpg"
       },
     },
     "mobile": {   //移动端
       "type": "pic",
       "datainfo": {
-        "title": "0001",
-        "preview": "/img/wallpaper/static-mobile/0001/image-pre.webp",
-        "url": "https://imgapi.lie.moe/random?sort=top"  //同理，随机移动端壁纸："url":"https://t.mwm.moe/mp" "https://imgapi.lie.moe/random?sort=top"
+        "title": "散华01",
+        "preview": "/img/wallpaper/static-mobile/散华01/Sanhua-01-pre.webp",
+        "url": "/img/wallpaper/static-mobile/散华01/Sanhua-01.jpg"
       }
     }
 
@@ -74,7 +71,7 @@ const config = {
 
     "If you’re reading this, then I have successfully drawn you in.",
     "セネカ曰く「生は適切に活用すれば十分に長い」",
-    "生命有限，不必为遗憾停步；若非终点，请带着微笑，继续前行。",
+    "希望心中常怀宁静，去接受我无法改变的事；希望胸中燃着勇气，去改变我能改变的事；希望灵魂具备智慧，分辨这两者的不同。",
     "見る夢は叶わず、追う夢は叶う。",
   ],
 
@@ -87,21 +84,28 @@ const config = {
 
   wallpaper: {
     pic: [
-      { "title": "明日香01", "preview": "/img/wallpaper/static/明日香01/asuka-01-pre.webp", "url": "/img/wallpaper/static/明日香01/asuka-01.jpg" },
-      { "title": "露西01", "preview": "/img/wallpaper/static/露西01/Lucy-01-pre.webp", "url": "/img/wallpaper/static/露西01/Lucy-01.jpg" },
-      { "title": "腐草为萤", "preview": "/img/wallpaper/static/腐草为萤/image-pre.webp", "url": "/img/wallpaper/static/腐草为萤/image.png" },
-      { "title": "腐草为萤", "preview": "/img/wallpaper/static/腐草为萤/image2-pre.webp", "url": "/img/wallpaper/static/腐草为萤/image2.jpeg" },
-      { "title": "むりなことはむり", "preview": "/img/wallpaper/static/むりなことはむり/107876734_p0-pre.webp", "url": "/img/wallpaper/static/むりなことはむり/107876734_p0.png" },
-      { "title": "守岸人01", "preview": "/img/wallpaper/static/守岸人01/shorekeeper-01-pre.webp", "url": "/img/wallpaper/static/守岸人01/shorekeeper-01.webp" },
-      { "title": "今汐01", "preview": "/img/wallpaper/static/今汐01/jinxi-01-pre.webp", "url": "/img/wallpaper/static/今汐01/jinxi-01.webp" },
 
-      // { "title": "jswcMaMj", "preview": "https://file.uhsea.com/2503/76a4f03e8654d6e66bbbc7e8149c2fe33M.png", "url": "https://file.uhsea.com/2503/5b8a20a5f2b269659911c9485d0d0c3f0F.png" },
+      { "title": "むりなことはむり", "preview": "/img/wallpaper/static/むりなことはむり/107876734_p0-pre.webp", "url": "/img/wallpaper/static/むりなことはむり/107876734_p0.png" },
+      { "title": "今汐01", "preview": "/img/wallpaper/static/今汐01/jinxi-01-pre.webp", "url": "/img/wallpaper/static/今汐01/jinxi-01.jpg" },
+      { "title": "晓美焰01", "preview": "/img/wallpaper/static/晓美焰01/homura-01-pre.webp", "url": "/img/wallpaper/static/晓美焰01/homura-01.jpg" },
+      { "title": "晓美焰02", "preview": "/img/wallpaper/static/晓美焰02/homura-02-pre.webp", "url": "/img/wallpaper/static/晓美焰02/homura-02.jpg" },
+      { "title": "艾莲01", "preview": "/img/wallpaper/static/艾莲01/Ellen-01-pre.webp", "url": "/img/wallpaper/static/艾莲01/Ellen-01.jpg" },
+      { "title": "卡提西亚01", "preview": "/img/wallpaper/static/卡提西亚01/Cartethyia-01-pre.webp", "url": "/img/wallpaper/static/卡提西亚01/Cartethyia-01.jpg" },
+      { "title": "东京夜景", "preview": "/img/wallpaper/static/东京夜景/tokyo-night-pre.webp", "url": "/img/wallpaper/static/东京夜景/tokyo-night.jpg" },
+      { "title": "助手01", "preview": "/img/wallpaper/static/助手01/kurisu-01-pre.webp", "url": "/img/wallpaper/static/助手01/kurisu-01.jpg" },
+      { "title": "尼尔01", "preview": "/img/wallpaper/static/尼尔01/NieR-01-pre.webp", "url": "/img/wallpaper/static/尼尔01/NieR-01.jpg" },
+
+
 
 
 
     ],
     picMobile: [
-      { "title": "0001", "preview": "/img/wallpaper/static-mobile/0001/image-pre.webp", "url": "/img/wallpaper/static-mobile/0001/image.png" },
+      { "title": "散华01", "preview": "/img/wallpaper/static-mobile/散华01/Sanhua-01-pre.webp", "url": "/img/wallpaper/static-mobile/散华01/Sanhua-01.jpg" },
+      { "title": "菲比01", "preview": "/img/wallpaper/static-mobile/菲比01/Feibi-01-pre.webp", "url": "/img/wallpaper/static-mobile/菲比01/Feibi-01.jpg" },
+      { "title": "鸣潮01", "preview": "/img/wallpaper/static-mobile/鸣潮01/WA-01-pre.webp", "url": "/img/wallpaper/static-mobile/鸣潮01/WA-01.jpg" },
+      { "title": "星见雅01", "preview": "/img/wallpaper/static-mobile/星见雅01/miyabi-01-pre.webp", "url": "/img/wallpaper/static-mobile/星见雅01/miyabi-01.jpg" },
+      { "title": "秋叶原01", "preview": "/img/wallpaper/static-mobile/秋叶原/Akiba-01-pre.webp", "url": "/img/wallpaper/static-mobile/秋叶原/Akiba-01.jpg" },
 
     ],
     video: [
@@ -111,29 +115,9 @@ const config = {
         "url": "/img/wallpaper/dynamic/星见雅01/hoshimi-01.mp4"
       },
       {
-        "title": "卡提西娅01",
-        "preview": "/img/wallpaper/dynamic/卡提西娅01/Cartethyia-01-pre.mp4",
-        "url": "/img/wallpaper/dynamic/卡提西娅01/Cartethyia-01.mp4"
-      },
-      {
-        "title": "碎光4K",
-        "preview": "/img/wallpaper/dynamic/碎光4K/suiguang-pre.mp4",
-        "url": "/img/wallpaper/dynamic/碎光4K/suiguang.mp4"
-      },
-      {
         "title": "流光萤火",
         "preview": "/img/wallpaper/dynamic/流光萤火/firefly-pre.mp4",
         "url": "/img/wallpaper/dynamic/流光萤火/firefly.mp4"
-      },
-      {
-        "title": "女神异闻录3",
-        "preview": "/img/wallpaper/dynamic/P3R/p3r-pre.mp4",
-        "url": "/img/wallpaper/dynamic/P3R/p3r.mp4"
-      },
-      {
-        "title": "赛琳娜：夏光",
-        "preview": "/img/wallpaper/dynamic/赛琳娜：夏光/Selena-summer-pre.mp4",
-        "url": "/img/wallpaper/dynamic/赛琳娜：夏光/Selena-summer.mp4"
       },
       {
         "title": "芙宁娜01",

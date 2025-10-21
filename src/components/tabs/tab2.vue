@@ -151,28 +151,49 @@ export default {
                 },
             ],
             staticType: [
-                { type: 'pc', name: 'PC' },
-                { type: 'mobile', name: 'mobile' },
+                { type: 'pc', name: 'パソコン壁紙' },
+                { type: 'mobile', name: 'スマホ壁紙' },
             ],
-            type: 'pc'
+            type: this.smAndDown ? 'mobile' : 'pc'
         }
     },
     mounted() {
         if (import.meta.env.VITE_CONFIG) {
             this.configdata = JSON.parse(import.meta.env.VITE_CONFIG);
         }
-        this.wallpaperPIC = this.configdata.wallpaper.pic;
-        this.wallpaperVD = this.configdata.wallpaper.video;
+        // 根据屏幕大小初始化壁纸和分页
+        if (this.smAndDown && this.type === 'mobile') {
+            this.wallpaperPIC = this.configdata.wallpaper.picMobile;
+            this.wallpaperVD = this.configdata.wallpaper.videoMobile;
+            this.itemsPerPage = 8;
+        } else {
+            this.wallpaperPIC = this.configdata.wallpaper.pic;
+            this.wallpaperVD = this.configdata.wallpaper.video;
+            this.itemsPerPage = 6;
+        }
         this.radios.title = "壁紙を選んでください";
     },
     watch: {
         tab(val) {
-            this.type = 'pc';
-            this.itemsPerPage = 6;
-            if (val == 'tab-1') {
-                this.wallpaperPIC = this.configdata.wallpaper.pic;
+            // 在移动端时默认选择 mobile，桌面端选择 pc
+            this.type = this.smAndDown ? 'mobile' : 'pc';
+            if (this.smAndDown && this.type === 'mobile') {
+                this.itemsPerPage = 8;
             } else {
-                this.wallpaperVD = this.configdata.wallpaper.video;
+                this.itemsPerPage = 6;
+            }
+            if (val == 'tab-1') {
+                if (this.smAndDown && this.type === 'mobile') {
+                    this.wallpaperPIC = this.configdata.wallpaper.picMobile;
+                } else {
+                    this.wallpaperPIC = this.configdata.wallpaper.pic;
+                }
+            } else {
+                if (this.smAndDown && this.type === 'mobile') {
+                    this.wallpaperVD = this.configdata.wallpaper.videoMobile;
+                } else {
+                    this.wallpaperVD = this.configdata.wallpaper.video;
+                }
             }
         }
     },
