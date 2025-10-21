@@ -34,9 +34,9 @@ const config = {
       //"type": "video",   //"pic":静态壁纸;"video":动态壁纸
       "type": "pic",
       "datainfo": {
-        "title": "晓美焰01",
-        "preview": "/img/wallpaper/static/晓美焰01/homura-01-pre.webp",
-        "url": "/img/wallpaper/static/晓美焰01/homura-01.jpg"
+        "title": "むりなことはむり",
+        "preview": "/img/wallpaper/static/むりなことはむり/107876734_p0-pre.webp",
+        "url": "/img/wallpaper/static/むりなことはむり/107876734_p0.png"
       },
     },
     "mobile": {   //移动端
@@ -52,8 +52,8 @@ const config = {
 
   //雷达图数据
   radarChart: {
-    skills: ['Vue.js', 'React', 'JavaScript', 'Node', 'Java', 'Python', 'linux', 'Html', 'MySQL', 'CSS', 'AWS'],
-    skillPoints: [85, 78, 88, 90, 80, 78, 85, 65, 82, 78, 70],
+    skills: ['Vue.js', 'React', 'JavaScript', 'Node', 'Java', 'Python', 'linux', 'Html', 'Vuetify', 'CSS', 'AWS'],
+    skillPoints: [85, 78, 88, 90, 80, 78, 65, 65, 82, 78, 70],
   },
 
   //社交按钮
@@ -90,7 +90,7 @@ const config = {
       { "title": "晓美焰01", "preview": "/img/wallpaper/static/晓美焰01/homura-01-pre.webp", "url": "/img/wallpaper/static/晓美焰01/homura-01.jpg" },
       { "title": "晓美焰02", "preview": "/img/wallpaper/static/晓美焰02/homura-02-pre.webp", "url": "/img/wallpaper/static/晓美焰02/homura-02.jpg" },
       { "title": "艾莲01", "preview": "/img/wallpaper/static/艾莲01/Ellen-01-pre.webp", "url": "/img/wallpaper/static/艾莲01/Ellen-01.jpg" },
-      { "title": "卡提西亚01", "preview": "/img/wallpaper/static/卡提西亚01/Cartethyia-01-pre.webp", "url": "/img/wallpaper/static/卡提西亚01/Cartethyia-01.jpg" },
+      { "title": "凌波丽01", "preview": "/img/wallpaper/static/凌波丽01/Aya-01-pre.webp", "url": "/img/wallpaper/static/凌波丽01/Aya-01.png" },
       { "title": "东京夜景", "preview": "/img/wallpaper/static/东京夜景/tokyo-night-pre.webp", "url": "/img/wallpaper/static/东京夜景/tokyo-night.jpg" },
       { "title": "助手01", "preview": "/img/wallpaper/static/助手01/kurisu-01-pre.webp", "url": "/img/wallpaper/static/助手01/kurisu-01.jpg" },
       { "title": "尼尔01", "preview": "/img/wallpaper/static/尼尔01/NieR-01-pre.webp", "url": "/img/wallpaper/static/尼尔01/NieR-01.jpg" },
