@@ -626,7 +626,45 @@ video {
         transform: translateY(-1px) scale(1.03);
     }
 }
+/* 小屏幕高度优化 - 防止按钮被遮挡 */
+@media (max-height: 660px) {
+    .scroll-container {
+        max-height: 180px !important;
+    }
+    
+    .tab2 {
+        padding: 8px !important;
+    }
+    
+    .tab2 .v-tabs {
+        margin-bottom: 12px !important;
+    }
+    
+    .tab2 .v-pagination {
+        margin-top: 8px !important;
+    }
+    
+    /* 让底部按钮更紧凑 */
+    .tab2 ~ .d-flex {
+        margin-top: 8px !important;
+    }
+    
+    .tab2 ~ .d-flex .v-btn {
+        min-width: 60px !important;
+        padding: 6px 12px !important;
+    }
+}
 
+/* 极小屏幕优化 */
+@media (max-height: 600px) {
+    .scroll-container {
+        max-height: 140px !important;
+    }
+    
+    .tab2+div {
+        display: none; /* 隐藏提示文字节省空间 */
+    }
+}
 /* 进入动画 */
 .tab2 .v-tabs-window-item {
     animation: fadeInUp 0.6s ease-out;
