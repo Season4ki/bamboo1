@@ -146,7 +146,7 @@ const config = {
 
   //项目卡片 其中 字段"show"控制初始卡片的text是否展开
   projectcards: [
-   { go: "ジャンプ!", img: "/img/OIP.webp", title: "Cloud storage", subtitle: "私のクラウド", text: "If you see this line, I've managed to get your attention.", url: "http://16.209.23.157/index.php/s/A3bnHZA3fRzCKRr", show: false },
+    { go: "ジャンプ!", img: "/img/astro.png", title: "My blog", subtitle: "私のブログ", text: "If you see this line, I've managed to get your attention.", url: "http://16.209.23.157/index.php/s/A3bnHZA3fRzCKRr", show: false },
     { go: "ジャンプ!", img: "/img/nightcity.jpg", title: "Project 2", subtitle: "2,000 miles of drifting shadows", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
     { go: "ジャンプ!", img: "/img/nightcity.jpg", title: "Project 3", subtitle: "3,000 miles of forgotten dreams", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
     { go: "ジャンプ!", img: "/img/nightcity.jpg", title: "Project 4", subtitle: "4,000 miles of fading light", text: "If you see this line, I've managed to get your attention.", url: "https://www.baidu.com", show: false },
