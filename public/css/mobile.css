@@ -112,8 +112,8 @@
   /* 歌词显示按钮 - 右上角 */
   .mobile-musicplayer .lyrics-btn {
     position: absolute !important;
-    top: 8px !important;
-    right: 8px !important;
+    top: 16px !important;
+    right: 16px !important;
     transform: none !important;
     z-index: 13;
     pointer-events: auto !important;

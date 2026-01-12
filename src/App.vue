@@ -187,7 +187,7 @@
           <div :style="{ 'display': 'none' }" class="welcome-title">{{ configdata.welcometitle }}</div>
 
           <!-- 头像播放器 - 桌面版 -->
-          <v-avatar class="Animated-Avatar-Player" :size="140" :style="{ 'margin-top': '2rem' }"
+          <v-avatar class="Animated-Avatar-Player" :size="160" :style="{ 'margin-top': '2rem' }"
             @mouseenter="musicplayershow(1)" @mouseleave="musicplayershow(0)">
             <v-img :class="{ 'bamboo1-spin': isPlaying }" alt="bamboo1" :src="configdata.avatar"></v-img>
 
@@ -211,8 +211,7 @@
                 </v-btn>
 
                 <!-- 歌词显示按钮 - 桌面版（右上角） -->
-                <v-btn :size="28" color="#999999" icon @click="toggleLyricsBoxFromPlayer()" class="lyrics-btn-desktop"
-                  style="position: absolute; top: 10px; right: 10px;">
+                <v-btn :size="28" color="#999999" icon @click="toggleLyricsBoxFromPlayer()" class="lyrics-btn-desktop">
                   <v-icon>{{ showLyricsBox ? 'mdi-script-text' : 'mdi-script-text-outline' }}</v-icon>
                 </v-btn>
               </v-card>
