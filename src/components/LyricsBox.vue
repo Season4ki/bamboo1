@@ -69,7 +69,7 @@ export default {
       },
 
       // スタイル設定
-      fontSize: 36,
+      fontSize: 32,
       opacity: 0.9,
       showBackground: false,
       showSettings: false,
