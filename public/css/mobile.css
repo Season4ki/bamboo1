@@ -22,6 +22,7 @@
     margin-top: 1rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     font-family: 'myfont', sans-serif;
+    /* white-space: nowrap; 移除，允许换行 */
   }
 
   /* 2. 移动端头像播放器 */
